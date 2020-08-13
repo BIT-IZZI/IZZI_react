@@ -23,10 +23,10 @@ const Login = () => {
 		axios
 			.post(`http://localhost:8080/users/login/`, userJson)
 			.then(response => {
-				console.log(response);
 				alert('로그인하였습니다.');
 				sessionStorage.setItem('userData', JSON.stringify(response.data));
 				if (response.status === 200) history.push('/');
+				console.log(sessionStorage.userData);
 				window.location.reload();
 			})
 			.catch(error => {

@@ -7,7 +7,7 @@ import {
 	MDBInput,
 	MDBModalFooter,
 } from 'mdbreact';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {Postcode} from './';
 import axios from 'axios';
 
@@ -21,7 +21,7 @@ const Signup = () => {
 	const [email, setEmail] = useState('');
 	const [birthDate, setBirthDate] = useState('');
 	const [gender, setGender] = useState('');
-
+	const history = useHistory();
 	const handleIdCheck = e => {
 		e.preventDefault();
 		axios
@@ -54,6 +54,7 @@ const Signup = () => {
 			.post(`http://localhost:8080/users/signUp`, userJson)
 			.then(response => {
 				alert('성공');
+				history.push('/login');
 			})
 			.catch(error => {
 				alert('실패');
@@ -178,17 +179,15 @@ const Signup = () => {
 									/>
 
 									<div className='text-center mb-3'>
-										<Link to='/login'>
-											<MDBBtn
-												type='submit'
-												gradient='blue'
-												rounded
-												className='btn-block z-depth-1a'
-												onClick={handleSubmit}
-											>
-												회원가입 하기
-											</MDBBtn>
-										</Link>
+										<MDBBtn
+											type='submit'
+											gradient='blue'
+											rounded
+											className='btn-block z-depth-1a'
+											onClick={handleSubmit}
+										>
+											회원가입 하기
+										</MDBBtn>
 									</div>
 
 									<div className='row my-3 d-flex justify-content-center'></div>

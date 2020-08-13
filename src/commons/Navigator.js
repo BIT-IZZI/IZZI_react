@@ -56,11 +56,21 @@ export const Navigator = () => {
 							<Navbar.Brand>회원가입</Navbar.Brand>
 						</Link>
 					)}
-					{sessionStorage.userData && (
-						<Link to='/userMyPage'>
-							<Navbar.Brand>마이페이지</Navbar.Brand>
+					{sessionStorage.userData &&
+						(JSON.parse(sessionStorage.userData).userId === 'slimshady20' ? (
+							<Link to='/mypage'>
+								<Navbar.Brand>관리자 MyPage</Navbar.Brand>
+							</Link>
+						) : (
+							<Link to='/userMyPage'>
+								<Navbar.Brand>Mypage</Navbar.Brand>
+							</Link>
+						))}
+					{/*{JSON.parse(sessionStorage.userData).userId === 'slimshady20' && (
+						<Link to='/mypage'>
+							<Navbar.Brand>마이페이지2</Navbar.Brand>
 						</Link>
-					)}
+					)}*/}
 				</Form>
 			</Navbar>
 		</div>
