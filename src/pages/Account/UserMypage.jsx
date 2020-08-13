@@ -11,7 +11,7 @@ import axios from 'axios';
 import {Link, useHistory} from 'react-router-dom';
 
 const UserMypage = () => {
-	const [Id, setId] = useState('');
+	const [id, setId] = useState('');
 	const [userId, setUserId] = useState(
 		JSON.parse(sessionStorage.userData).userId,
 	);
@@ -29,11 +29,11 @@ const UserMypage = () => {
 	);
 	const history = useHistory();
 	useEffect(() => {
-		setId(userData.Id);
+		setId(userData.id);
 		setBirthDate(userData.birthDate);
 		setGender(userData.gender);
 		setAddr(userData.address);
-	});
+	}, [userData]);
 
 	const handleSubmit = e => {
 		e.preventDefault();
@@ -54,6 +54,20 @@ const UserMypage = () => {
 			})
 			.catch(error => {
 				alert('회원 정보 변경 실패');
+				throw error;
+			});
+	};
+	const handleDelete = e => {
+		e.preventDefault();
+		axios
+			.delete(`http://localhost:8080/users/delete/${id}`)
+			.then(() => {
+				sessionStorage.clear();
+				alert('회원 탈퇴 완료');
+				history.push('/');
+				window.location.reload();
+			})
+			.catch(error => {
 				throw error;
 			});
 	};

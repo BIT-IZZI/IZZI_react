@@ -178,15 +178,17 @@ const Signup = () => {
 									/>
 
 									<div className='text-center mb-3'>
-										<MDBBtn
-											type='submit'
-											gradient='blue'
-											rounded
-											className='btn-block z-depth-1a'
-											onClick={handleSubmit}
-										>
-											회원가입 하기
-										</MDBBtn>
+										<Link to='/login'>
+											<MDBBtn
+												type='submit'
+												gradient='blue'
+												rounded
+												className='btn-block z-depth-1a'
+												onClick={handleSubmit}
+											>
+												회원가입 하기
+											</MDBBtn>
+										</Link>
 									</div>
 
 									<div className='row my-3 d-flex justify-content-center'></div>
