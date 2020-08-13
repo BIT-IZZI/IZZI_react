@@ -120,7 +120,7 @@ const ModalTest = ({ modalPage, show, handleClose, handlePage }) => {
                     }
                     {(modalPage === 2) &&
                     <div> <Modal.Header closeButton>
-                        <Modal.Title>이사 날짜</Modal.Title>
+                        <Modal.Title>이사날짜</Modal.Title>
                     </Modal.Header>
                         <Modal.Body>
                             <ThemeProvider theme={theme} >
@@ -143,23 +143,42 @@ const ModalTest = ({ modalPage, show, handleClose, handlePage }) => {
                         </Modal.Body>
 
                         <Modal.Footer>
-                            <Button onClick={ handlePage} variant="secondary" >다음</Button>
+                            <Link to={"/estimate"}>  <Button variant="secondary" >다음</Button></Link>
                         </Modal.Footer></div>
                     }
-                    {(modalPage === 3) &&
+                    {/*{(modalPage === 3) &&
                     <div onClick={onClickShow}>
                         <Modal.Header closeButton>
-                            <Modal.Title id="example-custom-modal-styling-title">물량계산기</Modal.Title>
+                            <Modal.Title id="example-custom-modal-styling-title">출발지역</Modal.Title>
                         </Modal.Header>
+
                         <Modal.Body>
-                          <h1>안녕</h1>
+                            <a className="list">
+                                <Link to='/moving/seoul' component={MovingSeoul} >서울</Link>
+                                <Link to={"/moving/gyeonggi"} component={MovingGyeonggi}>경기</Link>
+                                <Link to={"/moving/incheon"} component={MovingIncheon}>인천</Link>
+                                <Link to={"/moving/daejeon"} component={MovingDaejeon}>대전</Link>
+                                <Link to={"/moving/gwangju"} component={MovingGwangju}>광주</Link>
+                                <Link to={"/moving/daegu"} component={MovingDaegu}>대구</Link>
+                                <Link to={"/moving/busan"} component={MovingBusan}>부산</Link>
+                                <Link to={"/moving/ulsan"} component={MovingUlsan}>울산</Link>
+                                <Link to={"/moving/chungbuk"} component={MovingChungbuk}>충북</Link>
+                                <Link to={"/moving/chungnam"} component={MovingChungnam}>충남</Link>
+                                <Link to={"/moving/jeonbuk"} component={MovingJeonbuk}>전북</Link>
+                                <Link to={"/moving/jeonnam"} component={MovingJeonnam}>전남</Link>
+                                <Link to={"/moving/gyeongbuk"} component={MovingGyeongbuk}>경북</Link>
+                                <Link to={"/moving/gyeongnam"} component={MovingGyeongnam}>경남</Link>
+                                <Link to={"/moving/gangwon"} component={MovingGangwon}>강원</Link>
+                                <Link to={"/moving/jeju"} component={MovingJeju}>제주</Link>
+                                <Link to={"/moving/sejong"} component={MovingSejong}>세종</Link>
+                            </a>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary">Close</Button>
                         </Modal.Footer>
                        </div>
                     }
-                    {/*(modalPage === 4) &&
+                    {(modalPage === 4) &&
                     <h1>dkdk</h1>
                     }*/}
 

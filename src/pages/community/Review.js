@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Pagination, SideBar} from "../../commons/index";
+import {SideBar} from "../../commons/index";
 
 import '../../assets/css/sb-admin-2.css'
 import {MDBBtn} from "mdbreact";
@@ -73,7 +73,6 @@ const Review = () => {
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <Pagination/>
                                     <Link to="/write"><MDBBtn className="btn blue-gradient">글쓰기</MDBBtn></Link>
                                 </div>
                                 {/* /.panel-body */}

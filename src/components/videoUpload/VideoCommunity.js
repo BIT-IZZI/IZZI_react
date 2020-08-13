@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Pagination, SideBar} from "../../commons/index";
+import {SideBar} from "../../commons/index";
 
 import '../../assets/css/sb-admin-2.css'
 import {Link} from "react-router-dom";
@@ -36,7 +36,7 @@ const VideoCommunity = () => {
                                         </thead>
                                         <tbody>
                                         <tr className="odd gradeX">
-                                            <td><Link to={"/myinfo"}>견적 신청합니다.</Link></td>
+                                            <td><Link to={"/info"}>견적 신청합니다.</Link></td>
                                             <td>김강문</td>
                                             <td>2020/08/02</td>
                                             <td className="center">4</td>
@@ -73,7 +73,6 @@ const VideoCommunity = () => {
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <Pagination/>
                                     <Link to="/estimate"><MDBBtn className="btn blue-gradient">글쓰기</MDBBtn></Link>
                                 </div>
                                 {/* /.panel-body */}

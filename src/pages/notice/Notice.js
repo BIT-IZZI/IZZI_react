@@ -1,10 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-import {Pagination, SideBar} from "../../commons";
+import {SideBar} from "../../commons";
 
 import '../../assets/css/sb-admin-2.css'
 
-const Notice = () => {
+const Market = () => {
     return (
         <>
             <SideBar/>
@@ -69,7 +69,6 @@ const Notice = () => {
                     </tr>
                     </tbody>
                     </table>
-                <Pagination/>
                     </div>
                 {/* /.panel-body */}
                    </div>
@@ -84,4 +83,4 @@ const Notice = () => {
 );
 };
 
-export default Notice;
+export default Market;

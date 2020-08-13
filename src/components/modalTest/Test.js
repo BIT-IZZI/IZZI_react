@@ -8,7 +8,7 @@ const Test = () => {
     const handleShow = () => setShow(true);
     const handlePage = e => {
         e.preventDefault();
-        if (modalPage === 5) {
+        if (modalPage === 3) {
             setModalPage(1);
         } else {
             setModalPage(modalPage + 1);

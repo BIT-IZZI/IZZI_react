@@ -19,10 +19,10 @@ import {
     ComboboxOption,
 } from "@reach/combobox";
 
-import '../CompanyPage/MapApi/Search.css'
+import '../CompanyPage/Map/Search.css'
 import "@reach/combobox/styles.css";
 
-import mapStyles from "../CompanyPage/MapApi/mapStyles";
+import mapStyles from "../CompanyPage/Map/mapStyles";
 Geocode.setApiKey("AIzaSyCrQuKKwt0DtPF8vxKPx6dRq3us6me2LO8");
 Geocode.setLanguage('ko')
 const libraries = ["places"];
@@ -110,187 +110,187 @@ const CustomerInfoMarket=()=> {
                     noValidate
                     style={{padding:'4rem', margin:'0 auto', maxWidth:800}}
                 >
-                    <MDBCol md="8" className="mb-3">
-                        <h2> 중고 나라 </h2>
+                        <MDBCol md="8" className="mb-3">
+                            <h2> 문강태님 회원정보</h2>
 
-                        <label
-                            htmlFor="defaultFormRegisterNameEx"
-                        >
-                            이름
-                        </label>
-                        <input
-                            name="fname"
-                            type="text"
-                            id="defaultFormRegisterNameEx"
-                            className="form-control"
-                            required
-                            value="문강태"
-                        />
+                            <label
+                                htmlFor="defaultFormRegisterNameEx"
+                            >
+                                이름
+                            </label>
+                            <input
+                                name="fname"
+                                type="text"
+                                id="defaultFormRegisterNameEx"
+                                className="form-control"
+                                required
+                                value="문강태"
+                            />
 
-                        <label
-                            htmlFor="defaultFormRegisterNameEx"
-                        >
-                            아이디
-                        </label>
-                        <input
-                            name="fname"
-                            type="text"
-                            id="defaultFormRegisterNameEx"
-                            className="form-control"
-                            required
-                            value="Izzy2020"
-                        />
-                        <label
-                            htmlFor="defaultFormRegisterNameEx"
-                        >
-                            연락처
-                        </label>
-                        <input
-                            name="fname"
-                            type="text"
-                            id="defaultFormRegisterNameEx"
-                            className="form-control"
-                            required
-                            value="010-0000-0000"
-                        />
-                        <label
-                            htmlFor="defaultFormRegisterNameEx"
-                        >
-                            희망 거래 물품
-                        </label>
-                        <textarea
-                            name="fname"
-                            type="text"
-                            id="defaultFormRegisterNameEx"
-                            className="form-control"
-                            required
-                            value="이사를 가게 되어 원형식탁을 급 처분합니다.
+                            <label
+                                htmlFor="defaultFormRegisterNameEx"
+                            >
+                                아이디
+                            </label>
+                            <input
+                                name="fname"
+                                type="text"
+                                id="defaultFormRegisterNameEx"
+                                className="form-control"
+                                required
+                                value="Izzy2020"
+                            />
+                            <label
+                                htmlFor="defaultFormRegisterNameEx"
+                            >
+                                연락처
+                            </label>
+                            <input
+                                name="fname"
+                                type="text"
+                                id="defaultFormRegisterNameEx"
+                                className="form-control"
+                                required
+                                value="010-0000-0000"
+                            />
+                            <label
+                                htmlFor="defaultFormRegisterNameEx"
+                            >
+                                희망 거래 물품
+                            </label>
+                            <textarea
+                                name="fname"
+                                type="text"
+                                id="defaultFormRegisterNameEx"
+                                className="form-control"
+                                required
+                                value="이사를 가게 되어 원형식탁을 급 처분합니다.
                                 거래 위치는 지도에 표시했습니다.연락주세요 "
-                        />
+                            />
 
-                        <label
-                            htmlFor="defaultFormRegisterNameEx"
-                        >거주지
-                        </label>
+                            <label
+                                htmlFor="defaultFormRegisterNameEx"
+                            >거주지
+                            </label>
 
-                        <input
-                            name="fname"
-                            type="text"
-                            id="defaultFormRegisterNameEx"
-                            className="form-control"
-                            required
-                            value="인천광역시 옥련2동 럭키아파트"
-                        />
-                        <br/><br/>
+                            <input
+                                name="fname"
+                                type="text"
+                                id="defaultFormRegisterNameEx"
+                                className="form-control"
+                                required
+                                value="인천광역시 옥련2동 럭키아파트"
+                            />
+                            <br/><br/>
 
-                        <Locate panTo={panTo} />
-                        <Search panTo={panTo} setPosition={setSearchSelected} setMarkerShow={setSearchMarker}/>
+                            <Locate panTo={panTo} />
+                            <Search panTo={panTo} setPosition={setSearchSelected} setMarkerShow={setSearchMarker}/>
 
-                        <GoogleMap
-                            id="map"
-                            mapContainerStyle={mapContainerStyle}
-                            zoom={14}
-                            center={center}
-                            options={options}
-                            onClick={onMapClick}
-                            onLoad={onMapLoad}
-                        >
-                            {
-                                searchMarker &&
-                                <Marker position={searchSelected}
+                            <GoogleMap
+                                id="map"
+                                mapContainerStyle={mapContainerStyle}
+                                zoom={14}
+                                center={center}
+                                options={options}
+                                onClick={onMapClick}
+                                onLoad={onMapLoad}
+                            >
+                                {
+                                    searchMarker &&
+                                    <Marker position={searchSelected}
+                                            icon={{
+                                                url: `/movingCar.png`,
+                                                origin: new window.google.maps.Point(0, 0),
+                                                anchor: new window.google.maps.Point(15, 15),
+                                                scaledSize: new window.google.maps.Size(30, 30),
+                                            }}>
+                                    </Marker>
+
+                                }
+                                <Marker position={center}
+                                        icon={{
+                                            url: `/home.svg`,
+                                            origin: new window.google.maps.Point(0, 0),
+                                            anchor: new window.google.maps.Point(15, 15),
+                                            scaledSize: new window.google.maps.Size(45, 45),
+                                        }}/>
+                                {
+                                    locations.map(item => {
+                                        return (
+                                            <Marker key={item.name} position={item.location}
+                                                    onClick={()=>onSelect(item)}
+                                                    icon={{
+                                                        url: `/movingCar.png`,
+                                                        origin: new window.google.maps.Point(0, 0),
+                                                        anchor: new window.google.maps.Point(15, 15),
+                                                        scaledSize: new window.google.maps.Size(30, 30),
+                                                    }}>
+                                                <p >{selectedAddr} </p> </Marker>
+                                        )
+                                    })
+                                }
+                                {
+                                    initialSelected.location &&
+                                    (
+                                        <InfoWindow
+                                            position={initialSelected.location}
+                                            clickable={true}
+                                            onCloseClick={()=>setInitialSelected({})}
+                                        >
+                                            <h5>{initialSelected.name}</h5>
+
+                                        </InfoWindow>
+                                    )
+                                }
+
+                                {markers.map((marker) => (
+                                    <Marker
+                                        key={`${marker.lat}-${marker.lng}`}
+                                        position={{ lat: marker.lat, lng: marker.lng }}
+                                        onClick={() => {
+                                            setSelected(marker);
+                                            setInfoShow(true)
+                                        }}
                                         icon={{
                                             url: `/movingCar.png`,
                                             origin: new window.google.maps.Point(0, 0),
                                             anchor: new window.google.maps.Point(15, 15),
                                             scaledSize: new window.google.maps.Size(30, 30),
-                                        }}>
-                                </Marker>
-
-                            }
-                            <Marker position={center}
-                                    icon={{
-                                        url: `/home.svg`,
-                                        origin: new window.google.maps.Point(0, 0),
-                                        anchor: new window.google.maps.Point(15, 15),
-                                        scaledSize: new window.google.maps.Size(45, 45),
-                                    }}/>
-                            {
-                                locations.map(item => {
-                                    return (
-                                        <Marker key={item.name} position={item.location}
-                                                onClick={()=>onSelect(item)}
-                                                icon={{
-                                                    url: `/movingCar.png`,
-                                                    origin: new window.google.maps.Point(0, 0),
-                                                    anchor: new window.google.maps.Point(15, 15),
-                                                    scaledSize: new window.google.maps.Size(30, 30),
-                                                }}>
-                                            <p >{selectedAddr} </p> </Marker>
-                                    )
-                                })
-                            }
-                            {
-                                initialSelected.location &&
-                                (
+                                        }}
+                                    />
+                                ))}
+                                {infoShow ? (
                                     <InfoWindow
-                                        position={initialSelected.location}
-                                        clickable={true}
-                                        onCloseClick={()=>setInitialSelected({})}
+                                        position={{ lat: selected.lat, lng: selected.lng }}
+                                        onCloseClick={() => {
+                                            setInfoShow(false);
+                                        }}
                                     >
-                                        <h5>{initialSelected.name}</h5>
-
-                                    </InfoWindow>
-                                )
-                            }
-
-                            {markers.map((marker) => (
-                                <Marker
-                                    key={`${marker.lat}-${marker.lng}`}
-                                    position={{ lat: marker.lat, lng: marker.lng }}
-                                    onClick={() => {
-                                        setSelected(marker);
-                                        setInfoShow(true)
-                                    }}
-                                    icon={{
-                                        url: `/movingCar.png`,
-                                        origin: new window.google.maps.Point(0, 0),
-                                        anchor: new window.google.maps.Point(15, 15),
-                                        scaledSize: new window.google.maps.Size(30, 30),
-                                    }}
-                                />
-                            ))}
-                            {infoShow ? (
-                                <InfoWindow
-                                    position={{ lat: selected.lat, lng: selected.lng }}
-                                    onCloseClick={() => {
-                                        setInfoShow(false);
-                                    }}
-                                >
-                                    <div>
-                                        <h4>
+                                        <div>
+                                            <h4>
                                                    <span role="img" aria-label="bear">
                                                     주소
                                                    </span>
 
-                                        </h4>
-                                        <p >{selectedAddr} </p>
-                                    </div>
-                                </InfoWindow>
-                            ) : null}
-                        </GoogleMap>
-                        <MDBCol>
-                            <MDBCard style={{ width: "22rem" }}>
-                                <MDBCardImage className="img-fluid" src="https://cdn.ownerclan.com/kJb7r6jmdr3QmT7iBK4aoZ5_Lrm1FtqyFXOsgFzVwVM/marketize/640/as/v1.jpg" waves />
-                                <MDBCardBody>
-                                    <MDBCardTitle> 원형탁자 입니다.</MDBCardTitle>
-                                    <MDBCardText>
-                                        거의 새거나 다름없습니다
-                                    </MDBCardText>
-                                </MDBCardBody>
-                            </MDBCard>
-                        </MDBCol>
+                                            </h4>
+                                            <p >{selectedAddr} </p>
+                                        </div>
+                                    </InfoWindow>
+                                ) : null}
+                            </GoogleMap>
+                            <MDBCol>
+                                <MDBCard style={{ width: "22rem" }}>
+                                    <MDBCardImage className="img-fluid" src="https://cdn.ownerclan.com/kJb7r6jmdr3QmT7iBK4aoZ5_Lrm1FtqyFXOsgFzVwVM/marketize/640/as/v1.jpg" waves />
+                                    <MDBCardBody>
+                                        <MDBCardTitle> 원형탁자 입니다.</MDBCardTitle>
+                                        <MDBCardText>
+                                            거의 새거나 다름없습니다
+                                        </MDBCardText>
+                                    </MDBCardBody>
+                                </MDBCard>
+                            </MDBCol>
 
-                    </MDBCol>
+                        </MDBCol>
                 </form>
             </div>
         </>
