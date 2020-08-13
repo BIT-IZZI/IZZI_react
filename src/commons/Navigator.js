@@ -58,7 +58,7 @@ export const Navigator = () => {
 					)}
 					{sessionStorage.userData &&
 						(JSON.parse(sessionStorage.userData).userId === 'slimshady20' ? (
-							<Link to='/mypage'>
+							<Link to='/adminMyPage'>
 								<Navbar.Brand>관리자 MyPage</Navbar.Brand>
 							</Link>
 						) : (

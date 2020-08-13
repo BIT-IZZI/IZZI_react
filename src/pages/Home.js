@@ -22,8 +22,15 @@ import {VideoUploadPage} from '../components';
 import MovingType from '../components/move/component/MovingType';
 import {MovingEstimateForm} from '../components/move/component';
 import {MovingStartPoint} from '../components/move/component/movingPoint/index';
-import {CustomerInfo, Mypage, Order, Statistics} from './CompanyPage';
-import {Signup, Login, FindId, FindPassword, UserMyPage} from './account';
+import {CustomerInfo, Order, Statistics} from './CompanyPage';
+import {
+	Signup,
+	Login,
+	FindId,
+	FindPassword,
+	UserMyPage,
+	AdminMyPage,
+} from './account';
 import ModalTest from '../components/modalTest/ModalTest';
 import VideoTest from '../components/videoUpload/VideoTest';
 import Weather from '../components/weather/Weather';
@@ -58,7 +65,7 @@ const Home = () => {
 				<Route path='/findPassword' component={FindPassword} />
 				<Route path='/signup' component={Signup} />
 				<Route path='/userMyPage' component={UserMyPage} />
-				<Route path='/mypage' component={Mypage} />
+				<Route path='/adminMyPage' component={AdminMyPage} />
 				<Route path='/order' component={Order} />
 				<Route path='/statistics' component={Statistics} />
 				<Route path='/customerinfo' component={CustomerInfo} />

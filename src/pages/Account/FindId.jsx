@@ -34,7 +34,7 @@ const FindId = () => {
 				setShow(!show);
 			})
 			.catch(error => {
-				alert('아이디나 이메일을 다시 입력해주세요');
+				alert('이름이나 이메일을 다시 입력해주세요');
 				throw error;
 			});
 	};

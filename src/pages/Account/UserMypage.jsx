@@ -168,14 +168,6 @@ const UserMypage = () => {
 
 										<div className='row my-3 d-flex justify-content-center'></div>
 									</MDBCardBody>
-									<MDBModalFooter className='mx-5 pt-3 mb-1'>
-										<p className='font-small grey-text d-flex justify-content-end'>
-											이미 회원이세요?
-											<Link to='/login' className='blue-text ml-1'>
-												로그인 하기
-											</Link>
-										</p>
-									</MDBModalFooter>
 								</MDBCard>
 							</MDBCol>
 						</div>

@@ -29,6 +29,7 @@ const FindPassword = () => {
 				setShow(true);
 			})
 			.catch(error => {
+				alert('틀렸습니다. ㅍ다시 입력해주세요');
 				throw error;
 			});
 	};
@@ -122,16 +123,16 @@ const FindPassword = () => {
 				<Modal.Body>
 					<div>
 						<div>
-							<p className='change-password-modal-p'>새 비밀번호</p>
-							<input
+							<MDBInput
+								label='새 비밀번호를 입력해주세요'
 								type='password'
 								value={newPassword}
 								onChange={e => setNewPassword(e.target.value)}
 							/>
 						</div>
 						<div>
-							<p className='change-password-modal-p'>새 비밀번호 확인</p>
-							<input
+							<MDBInput
+								label='새 비밀번호를 한번 더 입력해주세요'
 								type='password'
 								value={confirmNewPassword}
 								onChange={e => setConfirmNewPassword(e.target.value)}
