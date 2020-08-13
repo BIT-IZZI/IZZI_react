@@ -7,12 +7,19 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 
+// Redux 관련 불러오기
+import { createStore } from 'redux'
+import reducers from './components/move/component/game/reducers';
+import { Provider } from 'react-redux';
+
+// 스토어 생성
+const store = createStore(reducers);
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
 
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
