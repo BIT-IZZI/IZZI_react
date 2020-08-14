@@ -130,17 +130,25 @@ const CustomerInfo = () => {
 								required
 								value='Izzy2020'
 							/>
-							<label htmlFor='defaultFormRegisterNameEx'>이메일</label>
+							<label htmlFor='defaultFormRegisterNameEx'>전화번호</label>
 							<input
 								name='fname'
 								type='text'
 								id='defaultFormRegisterNameEx'
 								className='form-control'
-								placeholder='홍두깨'
 								required
-								value='izzy2020@gmail.com'
+								value='010-1234-5678'
 							/>
-							<label htmlFor='defaultFormRegisterNameEx'>거주지</label>
+							<label htmlFor='defaultFormRegisterNameEx'>출발지</label>
+							<input
+								name='fname'
+								type='text'
+								id='defaultFormRegisterNameEx'
+								className='form-control'
+								required
+								value={searchedAddr}
+							/>
+							<label htmlFor='defaultFormRegisterNameEx'>도착지</label>
 							<input
 								name='fname'
 								type='text'

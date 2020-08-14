@@ -66,11 +66,6 @@ export const Navigator = () => {
 								<Navbar.Brand>Mypage</Navbar.Brand>
 							</Link>
 						))}
-					{/*{JSON.parse(sessionStorage.userData).userId === 'slimshady20' && (
-						<Link to='/mypage'>
-							<Navbar.Brand>마이페이지2</Navbar.Brand>
-						</Link>
-					)}*/}
 				</Form>
 			</Navbar>
 		</div>

@@ -6,7 +6,7 @@ import axios from 'axios';
 export default function SelectSearchTopReverse() {
 	const fetchData = e => {
 		e.preventDefault();
-		axios.get(``)
+		axios.get(``);
 	};
 	const [datatable, setDatatable] = React.useState({
 		columns: [
@@ -20,12 +20,12 @@ export default function SelectSearchTopReverse() {
 				},
 			},
 			{
-				label: '거주지',
-				field: 'position',
+				label: '출발지',
+				field: 'movingFrom',
 				width: 270,
 			},
 			{
-				label: '희망이사지역',
+				label: '도착지',
 				field: 'movingTo',
 				sort: 'asc',
 				width: 100,
@@ -43,22 +43,18 @@ export default function SelectSearchTopReverse() {
 			},
 
 			{
-				label: '접수 날짜',
+				label: '이사 희망일',
 				field: 'date',
 				sort: 'disabled',
 				width: 150,
-			},
-			{
-				label: 'Salary',
-				field: 'salary',
-				sort: 'disabled',
-				width: 100,
 			},
 		],
 		rows: [
 			{
 				name: <Link to='/customerinfo'>홍두깨</Link>,
-				position: <Link to='/customerinfo'> '서울특별시 서대문구 연희동'</Link>,
+				movingFrom: (
+					<Link to='/customerinfo'> '서울특별시 서대문구 연희동'</Link>
+				),
 				office: '우리집 이사',
 				movingTo: <Link to='/customerinfo'>'경기도 고양시 덕양구 화정동'</Link>,
 				age: '35',
@@ -67,7 +63,7 @@ export default function SelectSearchTopReverse() {
 			},
 			{
 				name: 'Garrett Winters',
-				position: 'Accountant',
+				movingFrom: 'Accountant',
 				office: 'Tokyo',
 				age: '63',
 				date: '2011/07/25',
@@ -75,7 +71,7 @@ export default function SelectSearchTopReverse() {
 			},
 			{
 				name: 'Ashton Cox',
-				position: 'Junior Technical Author',
+				movingFrom: 'Junior Technical Author',
 				office: 'San Francisco',
 				age: '66',
 				date: '2009/01/12',

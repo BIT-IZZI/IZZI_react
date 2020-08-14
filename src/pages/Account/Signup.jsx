@@ -22,6 +22,7 @@ const Signup = () => {
 	const [birthDate, setBirthDate] = useState('');
 	const [gender, setGender] = useState('');
 	const history = useHistory();
+
 	const handleIdCheck = e => {
 		e.preventDefault();
 		axios
