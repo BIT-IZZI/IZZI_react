@@ -1,12 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-	MDBBtn,
-	MDBCard,
-	MDBCardBody,
-	MDBCol,
-	MDBInput,
-	MDBModalFooter,
-} from 'mdbreact';
+import {MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBInput} from 'mdbreact';
 import axios from 'axios';
 import {Link, useHistory} from 'react-router-dom';
 
