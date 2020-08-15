@@ -54,7 +54,6 @@ const CustomerInfo = () => {
 	const [infoShow, setInfoShow] = useState(false);
 	const [selectedAddr, setSelectedAddr] = useState('');
 	const [selected, setSelected] = useState({lat: '', lng: ''});
-
 	Geocode.fromLatLng(selected.lat, selected.lng).then(
 		response => {
 			const address = response.results[0].formatted_address;
@@ -120,15 +119,6 @@ const CustomerInfo = () => {
 								className='form-control'
 								required
 								value='홍두깨'
-							/>
-							<label htmlFor='defaultFormRegisterNameEx'>아이디</label>
-							<input
-								name='fname'
-								type='text'
-								id='defaultFormRegisterNameEx'
-								className='form-control'
-								required
-								value='Izzy2020'
 							/>
 							<label htmlFor='defaultFormRegisterNameEx'>전화번호</label>
 							<input
