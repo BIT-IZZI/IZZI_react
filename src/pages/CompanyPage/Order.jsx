@@ -1,4 +1,3 @@
-/*
 import React, {useState, useEffect} from 'react';
 import {MDBDataTableV5} from 'mdbreact';
 import {Button, Table, Container, Row, Col} from 'react-bootstrap';
@@ -11,6 +10,12 @@ const Order = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [postsPerPage] = useState(10);
 
+	function handleFindUserId(name) {
+		axios
+			.get(`http://localhost:8080/estimates/findUser/${name}`)
+			.then()
+			.catch();
+	}
 	useEffect(() => {
 		axios
 			.get(`http://localhost:8080/estimates/list`)
@@ -29,7 +34,7 @@ const Order = () => {
 	const currentPosts = estimateList.slice(indexOfFirstPost, indexOfLastPost);
 
 	// Change page
-	const paginate = pageNumber => setCurrentPage(pageNumber);
+	const paginatex = pageNumber => setCurrentPage(pageNumber);
 	return (
 		<div style={{padding: '4rem', margin: '0 auto', maxWidth: 1000}}>
 			<form className='needs-validation' noValidate>
@@ -52,9 +57,7 @@ const Order = () => {
 							{estimateList.map((item, i) => (
 								<tr>
 									<td>{i + 1}</td>
-									<Link to='/customerInfo'>
-										<td>{item.name}</td>
-									</Link>
+									<td onClick={handleFindUserId(item.name)}>{item.name}</td>
 									<td> {item.movingFrom}</td>
 									<td>{item.movingTo} </td>
 									<td>{item.movingType} </td>
@@ -82,4 +85,3 @@ const Order = () => {
 	);
 };
 export default Order;
-*/
