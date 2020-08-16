@@ -37,6 +37,7 @@ import Weather from '../components/weather/Weather';
 import CustomerInfoMarket from './community/CustomerInfoMarket';
 import VideoCommunity from '../components/videoUpload/VideoCommunity';
 import MyInfo from './myPage/MyInfo';
+import UploadPage from "../components/videoUpload/UploadPage";
 
 const Home = () => {
 	return (
@@ -80,6 +81,8 @@ const Home = () => {
 				<Route path={'/info'} component={CustomerInfoMarket} />
 				<Route path={'/videocommunity'} component={VideoCommunity} />
 				<Route path={'/myinfo'} component={MyInfo} />
+				<Route path={'/filepage'} component={UploadPage} />
+
 			</Switch>
 			<Footer />
 		</>
