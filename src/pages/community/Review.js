@@ -1,12 +1,46 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
-import {Pagination, SideBar} from "../../commons/index";
+import {SideBar} from "../../commons/index";
 
 import '../../assets/css/sb-admin-2.css'
-import {MDBBtn} from "mdbreact";
-import {Link} from "react-router-dom";
+import {MDBBtn, MDBContainer, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBPopover, MDBPopoverBody,
+    MDBPopoverHeader, MDBTooltip} from "mdbreact";
+import {Link, useHistory} from "react-router-dom";
+import axios from 'axios'
 
 const Review = () => {
+
+
+
+    /*const [title, setTitle] = useState(
+        JSON.parse(sessionStorage.ArticleData).title,
+    )
+    const [contents, setContents] = useState(
+        JSON.parse(sessionStorage.ArticleData).contents,
+    )
+    const [writer, setWriter] = useState(
+        JSON.parse(sessionStorage.ArticleData).writer,
+    )
+    const [regDate, setRegDate] = useState(
+        JSON.parse(sessionStorage.ArticleData).regDate,
+    )
+    const history = useHistory();*/
+
+
+
+   /* axios
+        .get(`http://localhost:8080/articles/markets`,
+            {params: {
+
+                }
+            })
+        .then(response => {
+
+            console.log(response)
+        })
+        .catch(error => {
+            alert(error);
+        });*/
     return (
         <>
             <SideBar/>
@@ -36,7 +70,7 @@ const Review = () => {
                                         </thead>
                                         <tbody>
                                         <tr className="odd gradeX">
-                                            <td>한달만에 남기는 이사 후기 입니다.</td>
+                                            <td>{}</td>
                                             <td>송영달</td>
                                             <td>2020/07/31</td>
                                             <td className="center">4</td>
@@ -73,7 +107,6 @@ const Review = () => {
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <Pagination/>
                                     <Link to="/write"><MDBBtn className="btn blue-gradient">글쓰기</MDBBtn></Link>
                                 </div>
                                 {/* /.panel-body */}

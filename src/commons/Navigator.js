@@ -29,7 +29,8 @@ export const Navigator = () => (
             <Form inline className="ml-auto">
                 <Link to="/login"><Navbar.Brand>로그인</Navbar.Brand></Link>
                 <Link to="/signup"><Navbar.Brand>회원가입</Navbar.Brand></Link>
-                <Link to="/mypage"><Navbar.Brand>마이페이지</Navbar.Brand></Link>
+                <Link to="/mypage"><Navbar.Brand>사업자 페이지</Navbar.Brand></Link>
+                <Link to="/ordermain"><Navbar.Brand>회원 페이지</Navbar.Brand></Link>
             </Form>
 
         </Navbar>

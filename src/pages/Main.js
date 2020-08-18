@@ -29,7 +29,7 @@ const Main = () => {
             <main className="masthead">
                 <div className="intro-text">
                     <div className="intro-heading text-uppercase">방문 없이 견적짜는</div><br/>
-                    <MDBBtn color="amber" className="btn btn-primary btn-xl text-uppercase js-scroll-trigger" ><Link to={"/type"}>이사하러 가기</Link>
+                    <MDBBtn color="amber" className="btn btn-primary btn-xl text-uppercase js-scroll-trigger" ><Link to={"/calcula"}>이사하러 가기</Link>
                     </MDBBtn>
                 </div>
             </main>

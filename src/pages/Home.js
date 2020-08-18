@@ -13,7 +13,12 @@ import {
     NoticeDetail,
     Admin,
     Charts,
-    Application, Reports
+    Application,
+    Reports,
+    OrderMain,
+    OrderDetail,
+    Calcula,
+    MCalendar
 } from './index'
 import MovingDate from "../components/move/component/MovingDate";
 import {Navigator, Footer} from "../commons/index";
@@ -30,6 +35,7 @@ import CustomerInfoMarket from "./community/CustomerInfoMarket";
 import VideoCommunity from "../components/videoUpload/VideoCommunity";
 import MyInfo from "./myPage/MyInfo";
 import Counter from '../components/move/component/game/Counter'
+
 
 const Home = () => {
     return (
@@ -72,8 +78,10 @@ const Home = () => {
                 <Route path={"/videocommunity"} component={VideoCommunity}/>
                 <Route path={"/myinfo"} component={MyInfo}/>
                 <Route path={"/game"} component={Counter}/>
-
-
+                <Route path={"/ordermain"} component={OrderMain}/>
+                <Route path={"/orderdetail"} component={OrderDetail}/>
+                <Route path={"/calcula"} component={Calcula}/>
+                <Route path={"/mcalendar"} component={MCalendar}/>
             </Switch>
             <Footer/>
         </>
