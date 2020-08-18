@@ -8,19 +8,6 @@ import http from "../../src/http-common";
 import SquareLg from "./move/component/dragdrop/SquareLg";
 
 
-const PrivateOptions=[
-    {value:0,label:"Private"},
-    {value:1,label:"Public"},
-]
-const CategoryOptions=[
-    {value:0,label:"안방"},
-    {value:1,label:"작은 방"},
-    {value:2,label:"기타 방"},
-    {value:3,label:"거실"},
-    {value:4,label:"부엌"},
-    {value:5,label:"화장실"},
-]
-
 
 const VideoUploadPage = () => {
     const [description,setDescription]=useState("")
@@ -32,6 +19,19 @@ const VideoUploadPage = () => {
     const [selectedFiles, setSelectedFiles] = useState(undefined);
     const [currentFile, setCurrentFile] = useState(undefined);
     const [message, setMessage] = useState("");
+    const PrivateOptions=[
+        {value:0,label:"Private"},
+        {value:1,label:"Public"},
+    ]
+    const CategoryOptions=[
+        {value:0,label:"안방"},
+        {value:1,label:"작은 방"},
+        {value:2,label:"기타 방"},
+        {value:3,label:"거실"},
+        {value:4,label:"부엌"},
+        {value:5,label:"화장실"},
+    ]
+
     const onClickShow=()=>{
         setShow(!show)
     }
