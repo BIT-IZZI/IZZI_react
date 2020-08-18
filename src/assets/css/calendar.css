@@ -42,15 +42,39 @@
 
 .Calendar,
 .Calendar * {
-    margin: 0;
-    padding: 0;
+    padding: 1px;
     box-sizing: border-box;
     direction: ltr;
+    height: 40%;
+
+}
+.select{
+    position: relative;
+    left: 300px;
+    width: 33%;
+    height: 80%;
+}
+.card-body{
+    position: absolute;
+    bottom: 50px;
+    right: 100px;
+    width: 30%;
+    height: 50%;
 }
 
 .Calendar,
 .Calendar.-rtl * {
     direction: rtl;
+}
+
+.color-a{
+    color: rgba(171, 242, 0, 0.7);
+}
+.color-b{
+    color: red;
+}
+.color-c{
+    color: #2176C1;
 }
 
 .DatePicker__calendarArrow {
@@ -585,6 +609,8 @@
 
 .Calendar__day.-weekend:not(.-selected):not(.-blank):not(.-selectedStart):not(.-selectedEnd):not(.-selectedBetween) {
     color: var(--cl-color-error);
+    /*border: 2px solid red !important;*/
+    text-emphasis: filled circle;
 }
 
 .Calendar__day.-weekend.-today:not(.-selectedStart):not(.-selectedEnd):not(.-selectedBetween)::after {
@@ -650,7 +676,21 @@
     border: 2px solid rgba(52, 73, 94, 0.7) !important;
 }
 .greenDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
-    border: 2px solid rgba(171, 242, 0, 0.7) !important;
+    /*border: 2px solid rgba(171, 242, 0, 0.7) !important;*/
+    text-emphasis: filled circle;
+    color:rgba(171, 242, 0, 0.7);
+}
+.redDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+    /*border: 2px solid red !important;*/
+    text-emphasis: filled circle;
+    color: red;
+}
+.primaryDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+    /*border: 2px solid #2176C1 !important;*/
+    text-emphasis: filled circle;
+    color: #2176C1;
+
+
 }
 
 @keyframes fadeCalendar {

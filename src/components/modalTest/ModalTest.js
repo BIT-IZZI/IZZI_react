@@ -144,7 +144,8 @@ const ModalTest = ({ modalPage, show, handleClose, handlePage }) => {
 
                         <Modal.Footer>
                             <Button onClick={ handlePage} variant="secondary" >다음</Button>
-                        </Modal.Footer></div>
+                        </Modal.Footer>
+                    </div>
                     }
                     {(modalPage === 3) &&
                     <div onClick={onClickShow}>

@@ -18,51 +18,48 @@ import '../assets/css/sb-admin-2.css'
 
 const Calcula = () => {
 
-   /* const modals = {
-        modal15: false
-    }
-
-    const toggle = nr => () => {
-        let modalNumber = 'modal' + nr
-        this.setState({
-            [modalNumber]: !this.state[modalNumber]
-        });
-    }
-
-
-    return (
-        <MDBContainer>
-            <MDBBtn outline color="primary" onClick={this.toggle(15)}>MDBModal</MDBBtn>
-            <MDBModal isOpen={this.state.modal15} toggle={this.toggle(15)}>
-                <MDBModalHeader toggle={this.toggle(15)}>MDBModal title</MDBModalHeader>
-                <MDBModalBody>
-                    This
-                    <MDBPopover component="button" placement="right" popoverBody="button" tag="span" className="btn btn-secondary">
-                        <MDBPopoverHeader>MDBPopover title</MDBPopoverHeader>
-                        <MDBPopoverBody>MDBPopover body content is set in this attribute.</MDBPopoverBody>
-                    </MDBPopover>
-                    triggers a popover on click.
-                    <hr />
-                    <MDBTooltip placement="top" tag="a" component="span" tooltipContent="MDBTooltip">
-                        This link
-                    </MDBTooltip>
-                    and
-                    <MDBTooltip placement="top" tag="a" component="span" tooltipContent="MDBTooltip">
-                        that link
-                    </MDBTooltip>
-                    have tooltips on hover.
-                </MDBModalBody>
-                <MDBModalFooter>
-                        <MDBBtn outline color="danger"
-                                onClick={ () => dispatch({type: 'initialize'})}>
-                            초기화</MDBBtn>
-                        <MDBBtn outline color="primary"
-                                onClick={e => setMovingPrice(state.number*50)}
-                                onClick={handleSubmit}>제출하기</MDBBtn>
-                </MDBModalFooter>
-            </MDBModal>
-        </MDBContainer>
-    );*/
+    /* const modals = {
+         modal15: false
+     }
+     const toggle = nr => () => {
+         let modalNumber = 'modal' + nr
+         this.setState({
+             [modalNumber]: !this.state[modalNumber]
+         });
+     }
+     return (
+         <MDBContainer>
+             <MDBBtn outline color="primary" onClick={this.toggle(15)}>MDBModal</MDBBtn>
+             <MDBModal isOpen={this.state.modal15} toggle={this.toggle(15)}>
+                 <MDBModalHeader toggle={this.toggle(15)}>MDBModal title</MDBModalHeader>
+                 <MDBModalBody>
+                     This
+                     <MDBPopover component="button" placement="right" popoverBody="button" tag="span" className="btn btn-secondary">
+                         <MDBPopoverHeader>MDBPopover title</MDBPopoverHeader>
+                         <MDBPopoverBody>MDBPopover body content is set in this attribute.</MDBPopoverBody>
+                     </MDBPopover>
+                     triggers a popover on click.
+                     <hr />
+                     <MDBTooltip placement="top" tag="a" component="span" tooltipContent="MDBTooltip">
+                         This link
+                     </MDBTooltip>
+                     and
+                     <MDBTooltip placement="top" tag="a" component="span" tooltipContent="MDBTooltip">
+                         that link
+                     </MDBTooltip>
+                     have tooltips on hover.
+                 </MDBModalBody>
+                 <MDBModalFooter>
+                         <MDBBtn outline color="danger"
+                                 onClick={ () => dispatch({type: 'initialize'})}>
+                             초기화</MDBBtn>
+                         <MDBBtn outline color="primary"
+                                 onClick={e => setMovingPrice(state.number*50)}
+                                 onClick={handleSubmit}>제출하기</MDBBtn>
+                 </MDBModalFooter>
+             </MDBModal>
+         </MDBContainer>
+     );*/
 
     const initialState = {
         number : 0,
@@ -118,52 +115,52 @@ const Calcula = () => {
                                                 <tr>
                                                     <th>가구</th>
                                                     <th>
-                                                    <MDBBtn rounded outline color="warning"
-                                                            onClick={ () => dispatch({type: 'increment'})}>
-                                                        장농</MDBBtn>
-                                                    <MDBBtn rounded outline color="warning"
-                                                            onClick={ () => dispatch({type: 'increment'})}>
-                                                        침대</MDBBtn>
-                                                    <MDBBtn rounded outline color="warning"
-                                                            onClick={ () => dispatch({type: 'increment'})}>
-                                                        쇼파</MDBBtn>
-                                                    <MDBBtn rounded outline color="warning"
-                                                            onClick={ () => dispatch({type: 'increment'})}>
-                                                        서랍장</MDBBtn>
+                                                        <MDBBtn rounded outline color="warning"
+                                                                onClick={ () => dispatch({type: 'increment'})}>
+                                                            장농</MDBBtn>
+                                                        <MDBBtn rounded outline color="warning"
+                                                                onClick={ () => dispatch({type: 'increment'})}>
+                                                            침대</MDBBtn>
+                                                        <MDBBtn rounded outline color="warning"
+                                                                onClick={ () => dispatch({type: 'increment'})}>
+                                                            쇼파</MDBBtn>
+                                                        <MDBBtn rounded outline color="warning"
+                                                                onClick={ () => dispatch({type: 'increment'})}>
+                                                            서랍장</MDBBtn>
                                                     </th>
                                                 </tr>
                                                 <tr>
                                                     <th>전자 제품</th>
                                                     <th>
-                                                    <MDBBtn rounded outline color="success"
-                                                            onClick={ () => dispatch({type: 'increment'})}>
-                                                        냉장고</MDBBtn>
-                                                    <MDBBtn rounded outline color="success"
-                                                            onClick={ () => dispatch({type: 'increment'})}>
-                                                        TV</MDBBtn>
-                                                    <MDBBtn rounded outline color="success"
-                                                            onClick={ () => dispatch({type: 'increment'})}>
-                                                        에어컨</MDBBtn>
-                                                    <MDBBtn rounded outline color="success"
-                                                            onClick={ () => dispatch({type: 'increment'})}>
-                                                        세탁기</MDBBtn>
+                                                        <MDBBtn rounded outline color="success"
+                                                                onClick={ () => dispatch({type: 'increment'})}>
+                                                            냉장고</MDBBtn>
+                                                        <MDBBtn rounded outline color="success"
+                                                                onClick={ () => dispatch({type: 'increment'})}>
+                                                            TV</MDBBtn>
+                                                        <MDBBtn rounded outline color="success"
+                                                                onClick={ () => dispatch({type: 'increment'})}>
+                                                            에어컨</MDBBtn>
+                                                        <MDBBtn rounded outline color="success"
+                                                                onClick={ () => dispatch({type: 'increment'})}>
+                                                            세탁기</MDBBtn>
                                                     </th>
                                                 </tr>
                                                 <tr>
                                                     <th>기타 용품</th>
                                                     <th>
-                                                    <MDBBtn rounded outline color="danger"
-                                                            onClick={ () => dispatch({type: 'increment'})}>
-                                                        가스레인지</MDBBtn>
-                                                    <MDBBtn rounded outline color="danger"
-                                                            onClick={ () => dispatch({type: 'increment'})}>
-                                                        식기세척기</MDBBtn>
-                                                    <MDBBtn rounded outline color="danger"
-                                                            onClick={ () => dispatch({type: 'increment'})}>
-                                                        헬스기구</MDBBtn>
-                                                    <MDBBtn rounded outline color="danger"
-                                                            onClick={ () => dispatch({type: 'increment'})}>
-                                                        난방기</MDBBtn>
+                                                        <MDBBtn rounded outline color="danger"
+                                                                onClick={ () => dispatch({type: 'increment'})}>
+                                                            가스레인지</MDBBtn>
+                                                        <MDBBtn rounded outline color="danger"
+                                                                onClick={ () => dispatch({type: 'increment'})}>
+                                                            식기세척기</MDBBtn>
+                                                        <MDBBtn rounded outline color="danger"
+                                                                onClick={ () => dispatch({type: 'increment'})}>
+                                                            헬스기구</MDBBtn>
+                                                        <MDBBtn rounded outline color="danger"
+                                                                onClick={ () => dispatch({type: 'increment'})}>
+                                                            난방기</MDBBtn>
                                                     </th>
                                                 </tr>
                                                 <tr>
@@ -181,8 +178,8 @@ const Calcula = () => {
                                                 </th>
                                                 <th>
                                                     <MDBBtn outline color="primary"
-                                                    onClick={e => setMovingPrice(state.number*50)}
-                                                    onClick={handleSubmit}>제출하기</MDBBtn>
+                                                            onClick={e => setMovingPrice(state.number*50)}
+                                                            onClick={handleSubmit}>제출하기</MDBBtn>
                                                 </th>
                                                 </tbody>
                                             </Table>
