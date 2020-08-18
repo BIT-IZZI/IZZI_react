@@ -34,10 +34,9 @@ import {
 import ModalTest from '../components/modalTest/ModalTest';
 import VideoTest from '../components/videoUpload/VideoTest';
 import Weather from '../components/weather/Weather';
-import CustomerInfoMarket from './community/CustomerInfoMarket';
+import UserInfo from './community/UserInfo';
 import VideoCommunity from '../components/videoUpload/VideoCommunity';
 import MyInfo from './myPage/MyInfo';
-import Calcula from "../components/Calcula";
 
 const Home = () => {
 	const [id, setId] = useState('');
@@ -82,11 +81,10 @@ const Home = () => {
 				<Route path={'/wh'} component={Weather} />
 				<Route path={'/application'} component={Application} />
 				<Route path={'/reports'} component={Reports} />
-				<Route path={'/info'} component={CustomerInfoMarket} />
+				<Route path={'/userInfo/:articleId'}
+					   render={props=> <UserInfo {...props} />} />
 				<Route path={'/videocommunity'} component={VideoCommunity} />
 				<Route path={'/myinfo'} component={MyInfo} />
-				<Route path={'/calcula'} component={Calcula} />
-
 			</Switch>
 			<Footer />
 		</>

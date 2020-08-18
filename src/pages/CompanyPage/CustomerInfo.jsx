@@ -48,7 +48,7 @@ const CustomerInfo = ({match}) => {
 	useEffect(() => {
 		console.log(`${match.params.id}`);
 		axios
-			.get(`http://localhost:8080/estimates/findUser/${match.params.id}`)
+			.get(`http://localhost:8080/orders/findUser/${match.params.id}`)
 			.then(res => {
 				console.log(`axios`);
 				console.log(res.data);

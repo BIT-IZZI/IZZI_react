@@ -21,7 +21,7 @@ const Order = () => {
 
 	useEffect(() => {
 		axios
-			.get(`http://localhost:8080/estimates/list`)
+			.get(`http://localhost:8080/orders/list`)
 			.then(({data}) => {
 				setEstimateList(data.list);
 				console.log(data.list);
