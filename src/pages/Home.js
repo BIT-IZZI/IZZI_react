@@ -15,6 +15,10 @@ import {
 	Charts,
 	Application,
 	Reports,
+	OrderMain,
+	OrderDetail,
+	Calcula,
+	MCalendar
 } from './index';
 import MovingDate from '../components/move/component/MovingDate';
 import {Navigator, Footer} from '../commons/index';
@@ -82,6 +86,10 @@ const Home = () => {
 				<Route path={'/videocommunity'} component={VideoCommunity} />
 				<Route path={'/myinfo'} component={MyInfo} />
 				<Route path={'/filepage'} component={UploadPage} />
+				<Route path={"/calcula"} component={Calcula}/>
+				<Route path={"/mcalendar"} component={MCalendar}/>
+				<Route path={"/ordermain"} component={OrderMain}/>
+				<Route path={"/orderdetail"} component={OrderDetail}/>
 
 			</Switch>
 			<Footer />

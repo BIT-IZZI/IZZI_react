@@ -1,31 +1,54 @@
 import React,{useState} from 'react';
 import {Card,Form,Button,Col,FormControl} from 'react-bootstrap'
-import {Link} from 'react-router-dom'
-import {SideBar} from "../../../commons";
-
+import {Link, useHistory} from 'react-router-dom'
+import {MCalendar} from "../../../pages";
+import {Postcode} from "../../../pages/account";
+import axios from 'axios'
 function MovingEstimateForm() {
     const [validated, setValidated] = useState(false);
-
+   const [movingName,setMovingName]=useState('');
+   const [movingPhone,setMovingPhone]=useState('');
+    const [movingFrom, setMovingFrom] = useState('');
+    const [movingTo,setMovingTo] = useState('');
+    const [optionalAddrFrom,setOptionalAddrFrom]=useState('')
+    const [optionalAddrTo,setOptionalAddrTo]=useState('')
+   const [movingDate,setMovingDate]=useState('')
+    const history = useHistory();
     const handleSubmit = (event) => {
+        event.preventDefault()
+        const estiJsnon={
+            movingName:movingName,
+            movingPhone:movingPhone,
+            movingFrom:movingFrom,
+            movingTo:movingTo,
+            optionalAddrFrom:optionalAddrFrom,
+            optionalAddrTo:optionalAddrTo,
+            movingDate:movingDate,
+        };
+        axios
+            .post(`http://localhost:8080/orderlist/esitmateform`,estiJsnon)
+            .then(response => {
+                alert('성공');
+                history.push('/videoform');
+            })
+            .catch(error => {
+                alert('실패');
+                throw error;
+            });
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         }
-
         setValidated(true);
     };
-
     return (
         <>
         <div>
-
             <Card border="success" style={{ width: '110rem' }}>
-
                 <Card.Header> <Card.Title>1단계. 이사견적 신청서</Card.Title></Card.Header>
                 <Card.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-
             <Form>
                 <Form.Group as={Col} md="4" controlId="validationCustom01">
                     <Form.Label>신청인 성함</Form.Label>
@@ -33,6 +56,8 @@ function MovingEstimateForm() {
                         required
                         type="text"
                         placeholder="name"
+                        value={movingName}
+                        onChange={e => setMovingName(e.target.value)}
                     />
                     <Form.Control.Feedback type="invalid">
                        입력란이 비었습니다!
@@ -44,37 +69,63 @@ function MovingEstimateForm() {
                         required
                         type="text"
                         placeholder="Phone Number"
+                        value={movingPhone}
+                        onChange={e => setMovingPhone(e.target.value)}
                     />
                     <Form.Control.Feedback type="invalid">
                         입력란이 비었습니다!
                     </Form.Control.Feedback>
                 </Form.Group>
-
-
                 <Form.Group as={Col} md="6" controlId="validationCustom03">
                     <Form.Label>출발지 정보</Form.Label>
-                    <Form.Control type="text" placeholder="인천 연수구" required />
+                    <Form.Control
+                        type="text"
+                        placeholder="주소를 입력해 주세요"
+                        required
+                        value={movingFrom}
+                        onChange={e => setMovingFrom(e.target.value)}/>
+                    <div className='input-group-append'>
+                        <Postcode onSelectedAddr={setMovingFrom} />
+                    </div>
                     <Form.Control.Feedback type="invalid">
                         입력란이 비었습니다!
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group as={Col} md="3" controlId="validationCustom04">
                     <Form.Label>상세주소</Form.Label>
-                    <Form.Control type="text" placeholder="상세주소" required />
+                    <Form.Control
+                        type="text"
+                        placeholder="상세주소"
+                        required
+                    value={optionalAddrFrom}
+                        onChange={e => setOptionalAddrFrom(e.target.value)}/>
                     <Form.Control.Feedback type="invalid">
                         입력란이 비었습니다!
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group as={Col} md="6" controlId="validationCustom03">
                     <Form.Label>도착지 정보</Form.Label>
-                    <Form.Control type="text" placeholder="서울 영등포" required />
+                    <Form.Control
+                        type="text"
+                        placeholder="주소를 입력해 주세요."
+                        required
+                        value={movingTo}
+                        onChange={e => setMovingTo(e.target.value)} />
+                    <div className='input-group-append'>
+                        <Postcode onSelectedAddr={setMovingTo} />
+                    </div>
                     <Form.Control.Feedback type="invalid">
                         입력란이 비었습니다!
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group as={Col} md="3" controlId="validationCustom04">
                     <Form.Label>상세주소</Form.Label>
-                    <Form.Control type="text" placeholder="상세주소" required />
+                    <Form.Control
+                        type="text"
+                        placeholder="상세주소"
+                        required
+                    value={optionalAddrTo}
+                    onChange={e => setOptionalAddrTo(e.target.value)}/>
                     <Form.Control.Feedback type="invalid">
                         입력란이 비었습니다!
                     </Form.Control.Feedback>
@@ -82,26 +133,9 @@ function MovingEstimateForm() {
             </Form>
             <Form>
                 <Card border="light" style={{ width: '70rem' }}>
-                <Card.Header><Card.Title>이사일은 정하셨나요?</Card.Title></Card.Header>
-                {['movingDate'].map((type) => (
-                    <div key={`custom-${type}`} className="mb-3">
-                        <Form.Check
-                            custom
-                            type={type}
-                            id={`custom-${type}`}
-                            label={`아니요,아직 안정했어요`}
-                        />
-
-                            <Form.Check
-                                custom
-                                type={type}
-                                id={`custom-${type}`}
-                                label={`네 정했습니다.`}
-                            />
-                            <FormControl type={"date"}placeholder="Phone Number" aria-label="네정했습니다" />
-
-                    </div>
-                ))}
+                <Card.Header><Card.Title>이사일을 정해주세요</Card.Title></Card.Header>
+                <MCalendar value={movingDate}
+                           onChange={e => setMovingDate(e.target.value)}/>
                 </Card>
                 <Card border="light" style={{ width: '70rem' }}>
                     <Card.Header><Card.Title>이사 유형</Card.Title></Card.Header>
@@ -126,9 +160,9 @@ function MovingEstimateForm() {
                     feedback="You must agree before submitting."
                 />
             </Form.Group>
-            <Link to={"/video"}>  <Button type="submit">Submit form</Button></Link>
+            <Link to={"/video"}>  <Button type="submit" onClick={handleSubmit}>Submit form</Button></Link>
         </Form>
-                </Card.Body>
+      </Card.Body>
             </Card>
         </div>
             </>

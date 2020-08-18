@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import {MDBCol, MDBMask, MDBRow, MDBView} from "mdbreact";
+import {MDBBtn, MDBCol, MDBMask, MDBRow, MDBView} from "mdbreact";
 import {ThemeProvider} from "styled-components";
 import {DatePicker, theme} from "react-trip-date";
 import {Link, Route, Switch} from "react-router-dom";
@@ -14,46 +14,20 @@ import {
     MovingSeoul, MovingUlsan
 } from "../move/component/movingPoint/movingLocal";
 import {MovingEndPoint, MovingStartPoint} from "../move/component/movingPoint";
+import {MCalendar} from "../../pages";
+import MovingFloor from "../move/component/movingPoint/MovingFloor";
 
-
-const handleResponsive = setNumberOfMonth => {
-    let width = document.querySelector('.tp-calendar').clientWidth;
-    if (width > 900) {
-        setNumberOfMonth(3);
-    } else if (width < 900 && width > 580) {
-        setNumberOfMonth(2);
-    } else if (width < 580) {
-        setNumberOfMonth(1);
-    }
-};
-const Day = ({day}) => {
-    return (
-        <>
-            <p className="date">{day.format('DD')}</p>
-        </>
-    );
-};
 
 const ModalTest = ({ modalPage, show, handleClose, handlePage }) => {
     const [showw, setShow] = useState(false);
     const onClickShow=e=>{
         setShow(!showw)
     }
-    const [pickDate, setPickDate] = useState('')
-    const onChangeDate = date => {
-        console.log(date)
-    }
-    const onClickPickDate = e => {
-        setPickDate(e.target.value)
-
-    }
-    const [Title, setTitle] = useState("")
 
     return (
         <div>
             <Modal  size={"lg"} show={show} onHide={handleClose}>
 
-                <Modal.Body>
                     {(modalPage === 1) &&
                     <div >
                         <Modal.Header closeButton>
@@ -123,66 +97,99 @@ const ModalTest = ({ modalPage, show, handleClose, handlePage }) => {
                         <Modal.Title>이사날짜</Modal.Title>
                     </Modal.Header>
                         <Modal.Body>
-                            <ThemeProvider theme={theme} >
-                                <DatePicker
-                                    pickDate={pickDate}
-                                    onClick={onClickPickDate}
-                                    handleChange={onChangeDate}
-                                    selectedDays={""} //initial selected days
-                                    numberOfMonths={1}
-                                    numberOfSelectableDays={1} // number of days you need
-                                    disabledDays={""} //disabeld days
-                                    responsive={handleResponsive} // custom responsive, when using it, `numberOfMonths` props not working
-                                    disabledBeforToday={true}
-                                    disabled={false} // disable calendar
-                                    dayComponent={Day} //custom day component
-                                    titleComponent={Title} // custom title of days
-                                />
-                            </ThemeProvider>
-
+                            <MCalendar/>
                         </Modal.Body>
 
                         <Modal.Footer>
-                            <Link to={"/estimate"}>  <Button variant="secondary" >다음</Button></Link>
+                        <Button variant="secondary" onClick={handlePage} >다음</Button>
                         </Modal.Footer></div>
                     }
-                    {/*{(modalPage === 3) &&
+                    {(modalPage === 3) &&
                     <div onClick={onClickShow}>
-                        <Modal.Header closeButton>
-                            <Modal.Title id="example-custom-modal-styling-title">출발지역</Modal.Title>
-                        </Modal.Header>
+                            <Modal.Header closeButton>
+                                <Modal.Title id="example-custom-modal-styling-title">
+                                    출발지( 서울 )
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body >
 
-                        <Modal.Body>
-                            <a className="list">
-                                <Link to='/moving/seoul' component={MovingSeoul} >서울</Link>
-                                <Link to={"/moving/gyeonggi"} component={MovingGyeonggi}>경기</Link>
-                                <Link to={"/moving/incheon"} component={MovingIncheon}>인천</Link>
-                                <Link to={"/moving/daejeon"} component={MovingDaejeon}>대전</Link>
-                                <Link to={"/moving/gwangju"} component={MovingGwangju}>광주</Link>
-                                <Link to={"/moving/daegu"} component={MovingDaegu}>대구</Link>
-                                <Link to={"/moving/busan"} component={MovingBusan}>부산</Link>
-                                <Link to={"/moving/ulsan"} component={MovingUlsan}>울산</Link>
-                                <Link to={"/moving/chungbuk"} component={MovingChungbuk}>충북</Link>
-                                <Link to={"/moving/chungnam"} component={MovingChungnam}>충남</Link>
-                                <Link to={"/moving/jeonbuk"} component={MovingJeonbuk}>전북</Link>
-                                <Link to={"/moving/jeonnam"} component={MovingJeonnam}>전남</Link>
-                                <Link to={"/moving/gyeongbuk"} component={MovingGyeongbuk}>경북</Link>
-                                <Link to={"/moving/gyeongnam"} component={MovingGyeongnam}>경남</Link>
-                                <Link to={"/moving/gangwon"} component={MovingGangwon}>강원</Link>
-                                <Link to={"/moving/jeju"} component={MovingJeju}>제주</Link>
-                                <Link to={"/moving/sejong"} component={MovingSejong}>세종</Link>
-                            </a>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="secondary">Close</Button>
-                        </Modal.Footer>
+                                <Switch>
+                                    <a className="list" onClick={handlePage}>
+                                        <MDBBtn component={MovingFloor} onClick={()=>setShow(false)}> 강남구</MDBBtn>
+                                        <MDBBtn onClick={()=>setShow(false)}>강동구</MDBBtn>
+                                        <MDBBtn onClick={()=>setShow(false)}>강북구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울강서구')">강서구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울관악구')">관악구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울광진구')">광진구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울구로구')">구로구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울금천구')">금천구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울노원구')">노원구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울도봉구')">도봉구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울동대문구')">동대문구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울동작구')">동작구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울마포구')">마포구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울서대문구')">서대문구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울서초구')">서초구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울성동구')">성동구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울성북구')">성북구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울송파구')">송파구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울양천구')">양천구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울영등포구')">영등포구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울용산구')">용산구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울은평구')">은평구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울종로구')">종로구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울중구')">중구</MDBBtn>
+                                        <MDBBtn onClick="str_zipcode_gubun('서울중랑구')">중랑구</MDBBtn>
+                                    </a>
+                                </Switch>
+                            </Modal.Body>
                        </div>
                     }
                     {(modalPage === 4) &&
-                    <h1>dkdk</h1>
-                    }*/}
+                    <div onClick={onClickShow}>
+                        <Modal.Header closeButton>
+                            <Modal.Title id="example-custom-modal-styling-title">
+                                도착지( 서울 )
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body >
 
-                </Modal.Body>
+                            <Switch>
+                                <a className="list" onClick={handlePage}>
+                                    <MDBBtn component={MovingFloor} onClick={()=>setShow(false)}> 강남구</MDBBtn>
+                                    <MDBBtn onClick={()=>setShow(false)}>강동구</MDBBtn>
+                                    <MDBBtn onClick={()=>setShow(false)}>강북구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울강서구')">강서구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울관악구')">관악구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울광진구')">광진구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울구로구')">구로구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울금천구')">금천구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울노원구')">노원구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울도봉구')">도봉구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울동대문구')">동대문구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울동작구')">동작구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울마포구')">마포구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울서대문구')">서대문구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울서초구')">서초구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울성동구')">성동구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울성북구')">성북구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울송파구')">송파구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울양천구')">양천구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울영등포구')">영등포구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울용산구')">용산구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울은평구')">은평구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울종로구')">종로구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울중구')">중구</MDBBtn>
+                                    <MDBBtn onClick="str_zipcode_gubun('서울중랑구')">중랑구</MDBBtn>
+                                </a>
+                            </Switch>
+
+                        </Modal.Body>
+
+                    </div>
+                    }
+
+
             </Modal>
         </div>
     );
