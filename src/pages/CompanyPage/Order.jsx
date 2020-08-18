@@ -1,21 +1,24 @@
 import React, {useState, useEffect} from 'react';
 import {MDBDataTableV5} from 'mdbreact';
 import {Button, Table, Container, Row, Col} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import axios from 'axios';
-import Pagination from '../../commons/Paginations';
 
 const Order = () => {
 	const [estimateList, setEstimateList] = useState([]);
-	const [currentPage, setCurrentPage] = useState(1);
-	const [postsPerPage] = useState(10);
+	const histroy = useHistory();
 
-	function handleFindUserId(name) {
+	/*function handleFindUserId(id) {
 		axios
-			.get(`http://localhost:8080/estimates/findUser/${name}`)
-			.then()
-			.catch();
-	}
+			.get(`http://localhost:8080/estimates/findUser/${id}`)
+			.then(({data}) => {
+				console.log(data);
+			})
+			.catch(error => {
+				throw error;
+			});
+	}*/
+
 	useEffect(() => {
 		axios
 			.get(`http://localhost:8080/estimates/list`)
@@ -28,13 +31,6 @@ const Order = () => {
 			});
 	}, []);
 
-	// Get current posts
-	const indexOfLastPost = currentPage * postsPerPage;
-	const indexOfFirstPost = indexOfLastPost - postsPerPage;
-	const currentPosts = estimateList.slice(indexOfFirstPost, indexOfLastPost);
-
-	// Change page
-	const paginatex = pageNumber => setCurrentPage(pageNumber);
 	return (
 		<div style={{padding: '4rem', margin: '0 auto', maxWidth: 1000}}>
 			<form className='needs-validation' noValidate>
@@ -57,7 +53,9 @@ const Order = () => {
 							{estimateList.map((item, i) => (
 								<tr>
 									<td>{i + 1}</td>
-									<td onClick={handleFindUserId(item.name)}>{item.name}</td>
+									<td>
+										<Link to={`/customerInfo/${item.id}`}>{item.name}</Link>
+									</td>
 									<td> {item.movingFrom}</td>
 									<td>{item.movingTo} </td>
 									<td>{item.movingType} </td>
@@ -67,18 +65,6 @@ const Order = () => {
 							))}
 						</tbody>
 					</Table>
-					<Container fluid>
-						<Row noGutters>
-							<Col sm={11}>
-								{' '}
-								<Pagination
-									postsPerPage={postsPerPage}
-									totalPosts={estimateList.length}
-									paginate={paginate}
-								/>
-							</Col>
-						</Row>
-					</Container>
 				</div>
 			</form>
 		</div>

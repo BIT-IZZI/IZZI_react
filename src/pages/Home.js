@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Route, Switch} from 'react-router-dom';
 import '../assets/css/main.css';
 
@@ -37,8 +37,10 @@ import Weather from '../components/weather/Weather';
 import CustomerInfoMarket from './community/CustomerInfoMarket';
 import VideoCommunity from '../components/videoUpload/VideoCommunity';
 import MyInfo from './myPage/MyInfo';
+import Calcula from "../components/Calcula";
 
 const Home = () => {
+	const [id, setId] = useState('');
 	return (
 		<>
 			<Navigator />
@@ -66,9 +68,12 @@ const Home = () => {
 				<Route path='/signup' component={Signup} />
 				<Route path='/userMyPage' component={UserMyPage} />
 				<Route path='/adminMyPage' component={AdminMyPage} />
-				<Route path='/order' component={Order} />
+				<Route path='/order' component={Order} setUserInfo />
+				<Route
+					path={`/customerInfo/:id`}
+					render={props => <CustomerInfo {...props} />}
+				/>
 				<Route path='/statistics' component={Statistics} />
-				<Route path='/customerinfo' component={CustomerInfo} />
 				<Route path={'/notice'} component={Notice} />
 				<Route path={'/community'} component={Community} />
 				<Route path={'/contacts'} component={Contacts} />
@@ -80,6 +85,8 @@ const Home = () => {
 				<Route path={'/info'} component={CustomerInfoMarket} />
 				<Route path={'/videocommunity'} component={VideoCommunity} />
 				<Route path={'/myinfo'} component={MyInfo} />
+				<Route path={'/calcula'} component={Calcula} />
+
 			</Switch>
 			<Footer />
 		</>
