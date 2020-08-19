@@ -7,7 +7,9 @@ import {useHistory} from 'react-router-dom';
 
 const Write = () => {
 	const [title, setTitle] = useState('');
-	const [writer, setWriter] = useState('');
+	const [writer, setWriter] = useState(
+		JSON.parse(sessionStorage.userData).userId,
+	);
 	const [address, setAddress] = useState('');
 	const [contents, setContents] = useState('');
 	const history = useHistory();
@@ -20,7 +22,7 @@ const Write = () => {
 			address: address,
 			contents: contents,
 		};
-		if (title === '' || writer === '' || address === '' || contents === '') {
+		if (title === '' || address === '' || contents === '') {
 			alert('입력창을 다채워주세요');
 		} else {
 			axios
@@ -73,7 +75,6 @@ const Write = () => {
 											className='form-control'
 											placeholder='이름을 적어주세요.'
 											value={writer}
-											onChange={e => setWriter(e.target.value)}
 										/>
 									</div>
 									<div className='form-group'>

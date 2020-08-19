@@ -70,7 +70,6 @@ const Market = () => {
 													<td>{item.contents}</td>
 													<td>{item.address} </td>
 													<td>날짜 </td>
-													<td>View </td>
 												</tr>
 											))}
 										</tbody>

@@ -5,6 +5,7 @@ import '../assets/css/main.css';
 import logo from '../assets/img/logo2.png';
 
 export const Navigator = () => {
+	console.log(sessionStorage.userData);
 	const history = useHistory();
 	const handleLogout = () => {
 		sessionStorage.clear();

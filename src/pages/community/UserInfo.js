@@ -58,21 +58,69 @@ const locations = [
 const UserInfo = ({match}) => {
 	const [searchMarker, setSearchMarker] = useState(false);
 	const [searchSelected, setSearchSelected] = useState({lat: '', lng: ''});
-
 	const [infoShow, setInfoShow] = useState(false);
 	const [selectedAddr, setSelectedAddr] = useState('');
 	const [selected, setSelected] = useState({lat: '', lng: ''});
+	const [userInfo, setUserInfo] = useState({});
+	const [title, setTitle] = useState('');
+	const [writer, setWriter] = useState('');
+	const [address, setAddress] = useState('');
+	const [contents, setContents] = useState('');
+	const [isOpen, setOpen] = useState(false);
+	const ReactQuill =
+		isOpen && typeof window === 'object' ? require('react-quill') : () => false;
+
+	const handleDelete = e => {
+		e.preventDefault();
+		axios
+			.delete(`http://localhost:8080/articles/delete/${match.params.articleId}`)
+			.then(res => {
+				window.location.href = '/market';
+			})
+			.catch(error => {
+				throw error;
+			});
+	};
+	const handleModify = e => {
+		e.preventDefault();
+		const userJson = {
+			title: title,
+			writer: writer,
+			address: address,
+			contents: contents,
+		};
+		axios
+			.patch(
+				`http://localhost:8080/articles/update/${match.params.articleId}`,
+				userJson,
+			)
+			.then(response => {
+				console.log(response.data);
+				alert('수정 완료');
+				window.location.href = `/userInfo/${match.params.articleId}`;
+			})
+			.catch(error => {
+				throw error;
+			});
+	};
 	useEffect(() => {
 		console.log(`${match.params.articleId}`);
 		axios
 			.get(`http://localhost:8080/articles/findUser/${match.params.articleId}`)
 			.then(res => {
 				console.log(res.data);
+				sessionStorage.setItem('ArticleData', JSON.stringify(res.data));
+				setTitle(res.data.title);
+				setWriter(res.data.writer);
+				setAddress(res.data.address);
+				setContents(res.data.contents);
+				setUserInfo(res.data);
 			})
 			.catch(error => {
 				throw error;
 			});
 	}, []);
+
 	Geocode.fromLatLng(selected.lat, selected.lng).then(
 		response => {
 			const address = response.results[0].formatted_address;
@@ -118,7 +166,8 @@ const UserInfo = ({match}) => {
 
 	if (loadError) return 'Error';
 	if (!isLoaded) return 'Loading...';
-
+	console.log(typeof JSON.parse(sessionStorage.userData).userId);
+	console.log(JSON.stringify(writer));
 	return (
 		<>
 			<div>
@@ -128,56 +177,52 @@ const UserInfo = ({match}) => {
 					style={{padding: '4rem', margin: '0 auto', maxWidth: 800}}
 				>
 					<MDBCol md='8' className='mb-3'>
-						<h2> 문강태님 회원정보</h2>
+						<h2> {title}</h2>
 
-						<label htmlFor='defaultFormRegisterNameEx'>이름</label>
-						<input
-							name='fname'
-							type='text'
-							id='defaultFormRegisterNameEx'
-							className='form-control'
-							required
-							value='문강태'
-						/>
+						<label htmlFor='defaultFormRegisterNameEx'>글 제목</label>
+						<input type='text' className='form-control' value={title} />
 
-						<label htmlFor='defaultFormRegisterNameEx'>아이디</label>
-						<input
-							name='fname'
-							type='text'
-							id='defaultFormRegisterNameEx'
-							className='form-control'
-							required
-							value='Izzy2020'
-						/>
-						<label htmlFor='defaultFormRegisterNameEx'>연락처</label>
-						<input
-							name='fname'
-							type='text'
-							id='defaultFormRegisterNameEx'
-							className='form-control'
-							required
-							value='010-0000-0000'
-						/>
+						<label htmlFor='defaultFormRegisterNameEx'>작성자</label>
+						{JSON.parse(sessionStorage.userData).userId === {writer} ? (
+							<input
+								name='fname'
+								type='text'
+								id='defaultFormRegisterNameEx'
+								className='form-control'
+								required
+								value={writer}
+								onChange={e => setContents(e.target.value)}
+							/>
+						) : (
+							<input
+								name='fname'
+								type='text'
+								id='defaultFormRegisterNameEx'
+								className='form-control'
+								required
+								value={writer}
+							/>
+						)}
+
 						<label htmlFor='defaultFormRegisterNameEx'>희망 거래 물품</label>
 						<textarea
-							name='fname'
 							type='text'
 							id='defaultFormRegisterNameEx'
 							className='form-control'
 							required
-							value='이사를 가게 되어 원형식탁을 급 처분합니다.
-                                거래 위치는 지도에 표시했습니다.연락주세요 '
+							value={contents}
+							onChange={e => setContents(e.target.value)}
 						/>
 
-						<label htmlFor='defaultFormRegisterNameEx'>거주지</label>
-
+						<label htmlFor='defaultFormRegisterNameEx'>거래 희망 장소</label>
 						<input
 							name='fname'
 							type='text'
 							id='defaultFormRegisterNameEx'
 							className='form-control'
 							required
-							value='인천광역시 옥련2동 럭키아파트'
+							value={address}
+							onChange={e => setAddress(e.target.value)}
 						/>
 						<br />
 						<br />
@@ -207,7 +252,7 @@ const UserInfo = ({match}) => {
 										anchor: new window.google.maps.Point(15, 15),
 										scaledSize: new window.google.maps.Size(30, 30),
 									}}
-								></Marker>
+								/>
 							)}
 							<Marker
 								position={center}
@@ -279,6 +324,28 @@ const UserInfo = ({match}) => {
 								</InfoWindow>
 							) : null}
 						</GoogleMap>
+						{sessionStorage.userData &&
+							(JSON.parse(sessionStorage.userData).userId === writer ? (
+								<div>
+									<button
+										type='submit'
+										className='btn btn-info'
+										onClick={handleModify}
+									>
+										수정하기
+									</button>
+									<button
+										type='submit'
+										className='btn btn-info'
+										onClick={handleDelete}
+									>
+										삭제하기
+									</button>
+								</div>
+							) : (
+								<div>댓글달기</div>
+							))}
+
 						<MDBCol>
 							<MDBCard style={{width: '22rem'}}>
 								<MDBCardImage
