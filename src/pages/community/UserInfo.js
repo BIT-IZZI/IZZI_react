@@ -45,15 +45,6 @@ const center = {
 	lat: 37.42466,
 	lng: 126.64249,
 };
-const locations = [
-	{
-		name: '문강태님 중고거래 희망위치',
-		location: {
-			lat: 37.42506,
-			lng: 126.66403,
-		},
-	},
-];
 
 const UserInfo = ({match}) => {
 	const [searchMarker, setSearchMarker] = useState(false);
@@ -66,10 +57,8 @@ const UserInfo = ({match}) => {
 	const [writer, setWriter] = useState('');
 	const [address, setAddress] = useState('');
 	const [contents, setContents] = useState('');
-	const [isOpen, setOpen] = useState(false);
-	const ReactQuill =
-		isOpen && typeof window === 'object' ? require('react-quill') : () => false;
-
+	const [userLocation, setUserLocation] = useState({lat: '', lng: ''});
+	const [searchedAddr, setSearchedAddr] = useState('');
 	const handleDelete = e => {
 		e.preventDefault();
 		axios
@@ -113,6 +102,15 @@ const UserInfo = ({match}) => {
 				setTitle(res.data.title);
 				setWriter(res.data.writer);
 				setAddress(res.data.address);
+				Geocode.fromAddress(res.data.address)
+					.then(response => {
+						const userAddress = response.results[0].geometry.location;
+						console.log(userAddress);
+						setUserLocation(userAddress);
+					})
+					.catch(error => {
+						throw error;
+					});
 				setContents(res.data.contents);
 				setUserInfo(res.data);
 			})
@@ -120,6 +118,15 @@ const UserInfo = ({match}) => {
 				throw error;
 			});
 	}, []);
+	const locations = [
+		{
+			name: `${writer}님 중고거래 희망위치`,
+			location: {
+				lat: userLocation.lat,
+				lng: userLocation.lng,
+			},
+		},
+	];
 
 	Geocode.fromLatLng(selected.lat, selected.lng).then(
 		response => {
@@ -166,8 +173,6 @@ const UserInfo = ({match}) => {
 
 	if (loadError) return 'Error';
 	if (!isLoaded) return 'Loading...';
-	console.log(typeof JSON.parse(sessionStorage.userData).userId);
-	console.log(JSON.stringify(writer));
 	return (
 		<>
 			<div>
@@ -232,13 +237,14 @@ const UserInfo = ({match}) => {
 							panTo={panTo}
 							setPosition={setSearchSelected}
 							setMarkerShow={setSearchMarker}
+							setSearchedAddr={setSearchedAddr}
 						/>
 
 						<GoogleMap
 							id='map'
 							mapContainerStyle={mapContainerStyle}
-							zoom={14}
-							center={center}
+							zoom={16}
+							center={userLocation}
 							options={options}
 							onClick={onMapClick}
 							onLoad={onMapLoad}
@@ -246,23 +252,20 @@ const UserInfo = ({match}) => {
 							{searchMarker && (
 								<Marker
 									position={searchSelected}
+									onClick={() => searchSelected}
 									icon={{
 										url: `/movingCar.png`,
 										origin: new window.google.maps.Point(0, 0),
 										anchor: new window.google.maps.Point(15, 15),
 										scaledSize: new window.google.maps.Size(30, 30),
 									}}
-								/>
+								>
+									<InfoWindow>
+										<h5>{searchedAddr}</h5>
+									</InfoWindow>
+								</Marker>
 							)}
-							<Marker
-								position={center}
-								icon={{
-									url: `/home.svg`,
-									origin: new window.google.maps.Point(0, 0),
-									anchor: new window.google.maps.Point(15, 15),
-									scaledSize: new window.google.maps.Size(45, 45),
-								}}
-							/>
+
 							{locations.map(item => {
 								return (
 									<Marker
@@ -270,23 +273,23 @@ const UserInfo = ({match}) => {
 										position={item.location}
 										onClick={() => onSelect(item)}
 										icon={{
-											url: `/movingCar.png`,
+											url: `/home.svg`,
 											origin: new window.google.maps.Point(0, 0),
-											anchor: new window.google.maps.Point(15, 15),
-											scaledSize: new window.google.maps.Size(30, 30),
+											anchor: new window.google.maps.Point(20, 20),
+											scaledSize: new window.google.maps.Size(40, 40),
 										}}
-									>
-										<p>{selectedAddr} </p>{' '}
-									</Marker>
+									/>
 								);
 							})}
 							{initialSelected.location && (
 								<InfoWindow
 									position={initialSelected.location}
-									clickable={true}
 									onCloseClick={() => setInitialSelected({})}
 								>
-									<h5>{initialSelected.name}</h5>
+									<div>
+										<h5>{initialSelected.name}</h5>
+										<p> {address}</p>
+									</div>
 								</InfoWindow>
 							)}
 
@@ -386,7 +389,7 @@ function Locate({panTo}) {
 		</button>
 	);
 }
-function Search({panTo, setPosition, setMarkerShow}) {
+function Search({panTo, setPosition, setMarkerShow, setSearchedAddr}) {
 	const {
 		ready,
 		value,
@@ -421,6 +424,7 @@ function Search({panTo, setPosition, setMarkerShow}) {
 			panTo({lat, lng});
 			setPosition({lat, lng});
 			setMarkerShow(true);
+			setSearchedAddr(address);
 		} catch (error) {
 			console.log('😱 Error: ', error);
 		}
