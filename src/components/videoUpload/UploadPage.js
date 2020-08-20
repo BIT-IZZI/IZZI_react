@@ -1,51 +1,57 @@
 import React, { useState} from 'react';
-import {MDBBtn, MDBCol, MDBCard, MDBCardBody, MDBInput,MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem} from 'mdbreact'
+import {MDBBtn, MDBCol, MDBCard, MDBCardBody, MDBInput} from 'mdbreact'
 import {Button } from 'antd';
 import QRcode from '../../assets/img/QRcode.png'
-import {Modal} from "react-bootstrap";
+import {Col, Form, Modal} from "react-bootstrap";
 import {SideBar} from "../../commons";
 import SquareLg from "../move/component/dragdrop/SquareLg";
 import UploadFiles from "./UploadFiles";
-
-
-const PrivateOptions=[
-    {value:0,label:"Private"},
-    {value:1,label:"Public"},
-]
-const CategoryOptions=[
-    {value:0,label:"안방"},
-    {value:1,label:"작은 방"},
-    {value:2,label:"기타 방"},
-    {value:3,label:"거실"},
-    {value:4,label:"부엌"},
-    {value:5,label:"화장실"},
-]
-
-
+import axios from "axios";
+import {Link, useHistory} from 'react-router-dom'
 const UploadPage = () => {
-    const [description,setDescription]=useState("")
-    const [privates,setPrivates]=useState("")
-    const [videoTitle,setVideoTitle]=useState("")
+    const [validated, setValidated] = useState(false);
     const [show,setShow]=useState(false)
     const [qrshow,setQrshow]=useState(false)
+    const [movingWriter,setMovingWriter]=useState('')
+    const [movingDetail,setMovingDetail]=useState('')
+    const history = useHistory();
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        const estiJsnon={
+            movingWriter:movingWriter,
+            movingDetail:movingWriter,
+        };
+        axios
+            .post(`http://localhost:8080/orders/esitmateform`,estiJsnon)
+            .then(response => {
+                alert('성공');
+                sessionStorage.setItem('estiDate', JSON.stringify(response.data));
+                console.log(sessionStorage.estiDate);
 
-    const [selectedFiles, setSelectedFiles] = useState(undefined);
-    const [currentFile, setCurrentFile] = useState(undefined);
-    const [message, setMessage] = useState("");
-    const onClickShow=()=>{
-        setShow(!show)
-    }
+                history.push('/videotest');
+            })
+            .catch(error => {
+                alert('실패!');
+                throw error;
+            });
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        setValidated(true);
+    };
     return <>
         <SideBar/>
         <div style={{maxWidth:'700px',margin:'2rem auto'}}>
             <div style={{textAlign:'center',marginButton:'2rem'}}>
                 <h1>2단계.비디오와 가구배치도 올리기</h1>
             </div>
-            <MDBCol>
+            <MDBCol noValidate validated={validated} onSubmit={handleSubmit}>
                 <MDBCard style={{ width: "100%" ,height:"200px"}}>
                     <MDBCardBody>
                         <h3>가구배치도</h3>
-                        <MDBBtn color="amber"onClick={onClickShow}>
+                        <MDBBtn color="amber"onClick={e=>setShow(true)}>
                             58평
                         </MDBBtn>
                         <Modal
@@ -87,35 +93,25 @@ const UploadPage = () => {
             <br/>
             <br/>
             <MDBInput label={"제목"}
-                      onChange={e=>setVideoTitle(e.currentTarget.value)}
-                      value={videoTitle}
+                      onChange={e=>setMovingWriter(e.target.value)}
+                      value={movingWriter}
                   />
             <br/>
             <br/>
-            <MDBInput label={"방설명"}
-                      onChange={e=>setDescription(e.currentTarget.value)}
-                      value={e=>setPrivates(e.currentTarget.value)}
-                    />
-            <MDBDropdown>
-                <MDBDropdownToggle nav caret color="success">
-                    공개여부
-                </MDBDropdownToggle>
-                <MDBDropdownMenu color="success">
-                    <MDBDropdownItem>비공개</MDBDropdownItem>
-                    <MDBDropdownItem>공개</MDBDropdownItem>
-                </MDBDropdownMenu>
-            </MDBDropdown>
-            <MDBDropdown>
-                <MDBDropdownToggle nav caret color="success">
-                    방구분
-                </MDBDropdownToggle>
-                <MDBDropdownMenu color="success">
-                    <MDBDropdownItem>안방</MDBDropdownItem>
-                    <MDBDropdownItem>거실</MDBDropdownItem>
-                    <MDBDropdownItem>작은방</MDBDropdownItem>
-                    <MDBDropdownItem>화장실</MDBDropdownItem>
-                </MDBDropdownMenu>
-            </MDBDropdown>
+            <Form.Group as={Col} md="4" controlId="validationCustom02">
+                <Form.Label>방설명</Form.Label>
+                <Form.Control
+                    required
+                    type="text"
+                    placeholder="Phone Number"
+                    value={movingDetail}
+                    onChange={e => setMovingDetail(e.target.value)}
+                />
+                <Form.Control.Feedback type="invalid">
+                    입력란이 비었습니다!
+                </Form.Control.Feedback>
+            </Form.Group>
+
             <br/>
             <br/>
             <Button  onClick={e=>setQrshow(!qrshow)}>
@@ -126,9 +122,9 @@ const UploadPage = () => {
                     <img src={QRcode}/>
                 </Modal>
             </Button>
-            <MDBBtn type={"primary"} onClick href={"/videotest"}>
+          <Link to={"/videotest"}> <MDBBtn type={"primary"} onClick={handleSubmit} >
                 submit
-            </MDBBtn>
+          </MDBBtn></Link>
         </div>
     </>
 

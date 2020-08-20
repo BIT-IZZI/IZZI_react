@@ -15,7 +15,6 @@ const VideoUploadPage = () => {
     const [videoTitle,setVideoTitle]=useState("")
     const [show,setShow]=useState(false)
     const [qrshow,setQrshow]=useState(false)
-
     const [selectedFiles, setSelectedFiles] = useState(undefined);
     const [currentFile, setCurrentFile] = useState(undefined);
     const [message, setMessage] = useState("");
@@ -40,7 +39,6 @@ const VideoUploadPage = () => {
         formData.append("file", file);
         return http.post("/izzifile/imageUpload/456", formData, {});
     };
-
     const selectFile = (event) => {
         setSelectedFiles(event.target.files);
     };
@@ -60,7 +58,6 @@ const VideoUploadPage = () => {
 
         setSelectedFiles(undefined);
     };
-
     return <>
         <SideBar/>
         <div style={{maxWidth:'700px',margin:'2rem auto'}}>
@@ -127,24 +124,7 @@ const VideoUploadPage = () => {
                 <MDBCol>
                     <MDBCard style={{ width: "100%" ,height:"200px"}}>
                         <MDBCardBody>
-                            {/*<section className="container">
-						        <div {...getRootProps({className: 'dropzone'})}>
-							        <input {...getInputProps()} />
-							        {!isDragActive && !isFileExist && "Click me or drag a file to upload!"}
-							        {isDragActive && !isDragReject && "Drop it like it's hot!"}
-							        {isDragReject && "File type not accepted, sorry!"}
-							        {/* {isFileTooLarge && (<div className="text-danger mt-2">File is too large.</div>)}*/}
-                            {/*{isFileExist && (
-								        <>
-									        <div style={{display: 'flex', flexDirection: 'row',
-										        flexWrap: 'wrap', marginTop: 16}}>*/}
-                            {/* {thumbs}*/}
-                            {/*</div>
-									        <button type="button"
-									                onClick={upload}>드래그 업로드</button>
-								        </>          )}
-					        {/*</div>
-					        </section>*/}
+
                         </MDBCardBody>
                     </MDBCard>
                 </MDBCol>

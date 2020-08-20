@@ -12,7 +12,7 @@ export const Navigator = () => {
 		window.location.reload(); // 새로고침버튼처럼 현재 리소스를 다시불러옴
 	};
 	return (
-		<div>
+		<div className="navbar-fixed">
 			<Navbar className='navbar-collapse' variant='dark'>
 				<Link to='/'>
 					<Navbar.Brand>

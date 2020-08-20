@@ -17,7 +17,6 @@ const UploadFiles = () => {
     };
     const upload = () => {
         let currentFile = selectedFiles[0];
-
         setProgress(0);
         setCurrentFile(currentFile);
 
@@ -40,6 +39,7 @@ const UploadFiles = () => {
         setSelectedFiles(undefined);
     };
     return (
+        <div>
         <div>
             {currentFile && (
                 <div className="progress">
@@ -72,9 +72,9 @@ const UploadFiles = () => {
                 {message}
             </div>
 
-            <div className="card">
+{/*        <div className="card">
                 <div className="card-header">List of Files</div>
-            {/*    <ul className="list-group list-group-flush">
+               <ul className="list-group list-group-flush">
                     {fileInfos &&
                     fileInfos.map((file, index) => (
                         <li className="list-group-item" key={2}>
@@ -83,8 +83,9 @@ const UploadFiles = () => {
                         </li>
 
                     ))}
-                </ul>*/}
-            </div>
+                </ul>
+            </div>*/}
+        </div>
         </div>
     );
 };
