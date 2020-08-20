@@ -2,8 +2,10 @@ import React, {useState} from 'react';
 import {MDBBtn, MDBCol, MDBView, MDBMask, MDBContainer, MDBRow} from 'mdbreact';
 import './MovingType.css';
 import ModalTest from '../../modalTest/ModalTest';
+import '../../../assets/css/main.css'
 
 const MovingType = () => {
+
 	const [showw, setShow] = useState(false);
 	const [modalPage, setModalPage] = useState(1);
 	const handleClose = () => setShow(false);
@@ -19,13 +21,14 @@ const MovingType = () => {
 
 	return (
 		<>
-			<MDBContainer>
+			<MDBContainer className="modalImg">
 				<ModalTest
 					modalPage={modalPage}
 					show={showw}
 					handleClose={handleClose}
 					handlePage={handlePage}
 				/>
+				<br/><br/><br/><br/><br/>
 				<MDBRow>
 					<MDBCol md='3'>
 						<MDBView hover zoom onClick={handleShow}>
@@ -40,7 +43,6 @@ const MovingType = () => {
 							</MDBMask>
 						</MDBView>
 					</MDBCol>
-
 					<MDBCol md='3'>
 						<MDBView hover zoom>
 							<img
@@ -83,13 +85,14 @@ const MovingType = () => {
 					</MDBCol>
 				</MDBRow>
 			</MDBContainer>
-
-			<MDBBtn color='amber' onClick={handlePage}>
+			<br/><br/>
+			<MDBBtn className="submitBtn"
+					color='amber'
+					onClick={handlePage}>
 				무료 견적 신청하기
 			</MDBBtn>
-			<br />
-
 			{/*이사종류를 눌렀을때*/}
+			<br/><br/><br/>
 		</>
 	);
 };

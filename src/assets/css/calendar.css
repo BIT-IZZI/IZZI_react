@@ -67,6 +67,10 @@
     direction: rtl;
 }
 
+.card-body{
+    text-align: center;
+}
+
 .color-a{
     color: rgba(171, 242, 0, 0.7);
 }
@@ -675,17 +679,17 @@
 .navyBlueDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
     border: 2px solid rgba(52, 73, 94, 0.7) !important;
 }
-.greenDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+.handDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
     /*border: 2px solid rgba(171, 242, 0, 0.7) !important;*/
     text-emphasis: filled circle;
     color:rgba(171, 242, 0, 0.7);
 }
-.redDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+.holiDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
     /*border: 2px solid red !important;*/
     text-emphasis: filled circle;
     color: red;
 }
-.primaryDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+.saleDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
     /*border: 2px solid #2176C1 !important;*/
     text-emphasis: filled circle;
     color: #2176C1;

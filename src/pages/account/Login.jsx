@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+
 import {Link, useHistory} from 'react-router-dom';
 import {
 	MDBBtn,
@@ -91,7 +92,7 @@ const Login = () => {
 								</MDBCardBody>
 								<MDBModalFooter className='mx-5 pt-3 mb-1'>
 									<p className='font-small grey-text d-flex justify-content-end'>
-										회원이 아니신가요??
+										회원이 아니세요?
 										<Link to='/signup' className='blue-text ml-1'>
 											회원가입하기
 										</Link>

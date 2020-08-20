@@ -19,17 +19,17 @@ import MovingFloor from "../move/component/movingPoint/MovingFloor";
 
 
 const ModalTest = ({ modalPage, show, handleClose, handlePage }) => {
-    const [showw, setShow] = useState(false);
+    const [shows, setShow] = useState(false);
     const onClickShow=e=>{
-        setShow(!showw)
+        setShow(!shows)
     }
 
     return (
         <div>
-            <Modal  size={"lg"} show={show} onHide={handleClose}>
+            <Modal  size={"lg"} show={shows} onHide={handleClose}>
 
                     {(modalPage === 1) &&
-                    <div >
+                    <div className="modalImg">
                         <Modal.Header closeButton>
                             <Modal.Title id="example-custom-modal-styling-title">
                                 이사종류

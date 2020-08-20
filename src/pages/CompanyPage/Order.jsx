@@ -1,104 +1,62 @@
-import React from 'react';
-import {MDBDataTableV5} from 'mdbreact';
-import {Link} from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import MaterialTable from 'material-table';
+import {Link, useHistory} from "react-router-dom";
 
-export default function SelectSearchTopReverse() {
-	const fetchData = e => {
-		e.preventDefault();
-		axios.get(``);
-	};
-	const [datatable, setDatatable] = React.useState({
-		columns: [
-			{
-				label: '이름',
-				field: 'name',
-				width: 150,
-				attributes: {
-					'aria-controls': 'DataTable',
-					'aria-label': 'Name',
-				},
-			},
-			{
-				label: '출발지',
-				field: 'movingFrom',
-				width: 270,
-			},
-			{
-				label: '도착지',
-				field: 'movingTo',
-				sort: 'asc',
-				width: 100,
-			},
-			{
-				label: '이사 종류',
-				field: 'office',
-				width: 200,
-			},
-			{
-				label: '평수',
-				field: 'age',
-				sort: 'asc',
-				width: 100,
-			},
-
-			{
-				label: '이사 희망일',
-				field: 'date',
-				sort: 'disabled',
-				width: 150,
-			},
-		],
-		rows: [
-			{
-				name: <Link to='/customerinfo'>홍두깨</Link>,
-				movingFrom: (
-					<Link to='/customerinfo'> '서울특별시 서대문구 연희동'</Link>
-				),
-				office: '우리집 이사',
-				movingTo: <Link to='/customerinfo'>'경기도 고양시 덕양구 화정동'</Link>,
-				age: '35',
-				date: '2011/04/25',
-				salary: '$320',
-			},
-			{
-				name: 'Garrett Winters',
-				movingFrom: 'Accountant',
-				office: 'Tokyo',
-				age: '63',
-				date: '2011/07/25',
-				salary: '$170',
-			},
-			{
-				name: 'Ashton Cox',
-				movingFrom: 'Junior Technical Author',
-				office: 'San Francisco',
-				age: '66',
-				date: '2009/01/12',
-				salary: '$86',
-			},
-		],
-	});
+const Order = () => {
+	const history= useHistory()
+	const [myData, setMyData] = useState([]);
+	useEffect(() => {
+		axios
+			.get('http://localhost:8080/orders/list')
+			.then(({data}) => {
+				setMyData(data.list);
+				console.log(data.list);
+			})
+			.catch(error => {
+				throw error;
+			});
+	}, []);
+	const columns = [
+		{title: '번호', field: 'id'},
+		{title: '이름', field: 'name'},
+		{title: '출발지', field: 'movingFrom'},
+		{title: '도착지', field: 'movingTo'},
+		{title: '이사종류', field: 'movingType'},
+		{title: '평수', field: 'square'},
+		{title: '이사 희망일', field: 'movingDate'},
+	];
 
 	return (
-		<div style={{padding: '1rem', margin: '0 auto', maxWidth: 1200}}>
-			<h1 className='text-center' style={{padding: '1rem'}}>
-				이사 접수{' '}
-			</h1>
-
-			<MDBDataTableV5
-				// bordered 테두리
-				hover
-				entriesOptions={[5, 20, 25]}
-				entries={10}
-				pagesAmount={4}
-				data={datatable}
-				pagingTop
-				searchTop
-				searchBottom={false}
-				barReverse
-				style={{padding: '1rem', margin: '0 auto', maxWidth: 1200}}
-			/>
-		</div>
+		<>
+			<div className='container-fluid'>
+				<div className='row'>
+					<div className='col-sm-12'>
+						<div className='card'>
+							<div className='card-body'>
+								<div id='batchDelete' className='transactions'>
+									<MaterialTable
+										title='이사접수'
+										columns={columns}
+										data={myData}
+										options={{
+											search: true,
+											pageSize: 10,
+											columnsButton: true,
+											maxBodyHeight: 700,
+											grouping: true,
+										}}
+										onRowClick={((event, rowData) => {
+											history.push(`/customerInfo/${rowData.id}`)
+										})}
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</>
 	);
-}
+};
+export default Order;

@@ -18,7 +18,8 @@ import {
 	OrderMain,
 	OrderDetail,
 	Calcula,
-	MCalendar
+	MCalendar,
+	TesCa
 } from './index';
 import MovingDate from '../components/move/component/MovingDate';
 import {Navigator, Footer} from '../commons/index';
@@ -42,7 +43,7 @@ import CustomerInfoMarket from './community/CustomerInfoMarket';
 import VideoCommunity from '../components/videoUpload/VideoCommunity';
 import MyInfo from './myPage/MyInfo';
 import UploadPage from "../components/videoUpload/UploadPage";
-
+import UserInfo from './community/UserInfo';
 const Home = () => {
 	return (
 		<>
@@ -72,6 +73,10 @@ const Home = () => {
 				<Route path='/userMyPage' component={UserMyPage} />
 				<Route path='/adminMyPage' component={AdminMyPage} />
 				<Route path='/order' component={Order} />
+				<Route
+					path={`/customerInfo/:id`}
+					render={props => <CustomerInfo {...props} />}
+				/>
 				<Route path='/statistics' component={Statistics} />
 				<Route path='/customerinfo' component={CustomerInfo} />
 				<Route path={'/notice'} component={Notice} />
@@ -83,6 +88,8 @@ const Home = () => {
 				<Route path={'/application'} component={Application} />
 				<Route path={'/reports'} component={Reports} />
 				<Route path={'/info'} component={CustomerInfoMarket} />
+				<Route path={'/userInfo/:articleId'}
+					   render={props=> <UserInfo {...props} />} />
 				<Route path={'/videocommunity'} component={VideoCommunity} />
 				<Route path={'/myinfo'} component={MyInfo} />
 				<Route path={'/filepage'} component={UploadPage} />
@@ -90,6 +97,7 @@ const Home = () => {
 				<Route path={"/mcalendar"} component={MCalendar}/>
 				<Route path={"/ordermain"} component={OrderMain}/>
 				<Route path={"/orderdetail"} component={OrderDetail}/>
+				<Route path={"/testca"} component={TesCa}/>
 
 			</Switch>
 			<Footer />

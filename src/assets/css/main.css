@@ -1,6 +1,8 @@
 html{
     font-family: "Nanum Gothic", sans-serif;
+    height: 100%;
 }
+
 main.masthead {
     text-align: center;
     color: #fff;
@@ -45,16 +47,24 @@ main.masthead .intro-text .intro-heading {
 .video{
     margin: auto;
 }
+.submitBtn{
+    position: relative;
+    left: 45%;
+}
+.modalImg{
+    text-align: center;
+}
+
 .navbar-collapse {
     background-color: #2176C1;
     border: 0px;
     -webkit-box-shadow: none;
     box-shadow: none;
 }
-.navbar-fixed{
+/*.navbar-fixed{
     position: fixed;
     width: 100%;
-}
+}*/
 .sidebar {
     /*background: -webkit-gradient(linear, left bottom, left top, from(white), to(white));
     background: linear-gradient(to top, white, #6B66FF);*/
