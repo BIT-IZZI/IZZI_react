@@ -59,6 +59,7 @@ const UserInfo = ({match}) => {
 	const [contents, setContents] = useState('');
 	const [userLocation, setUserLocation] = useState({lat: '', lng: ''});
 	const [searchedAddr, setSearchedAddr] = useState('');
+
 	const handleDelete = e => {
 		e.preventDefault();
 		axios

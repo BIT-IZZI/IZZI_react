@@ -28,7 +28,7 @@ const Market = () => {
 					<div className='row'>
 						<div className='col-lg-12'>
 							<br />
-							<h2 className='page-header'>중고 거래</h2>
+							<h2 className='page-header'>중고 거래 게시판</h2>
 							<br />
 						</div>
 					</div>
@@ -53,7 +53,6 @@ const Market = () => {
 												<th>내용</th>
 												<th>희망 거래 장소</th>
 												<th>날짜 </th>
-												<th>View</th>
 											</tr>
 										</thead>
 										<tbody>
