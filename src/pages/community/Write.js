@@ -12,6 +12,7 @@ const Write = () => {
 	);
 	const [address, setAddress] = useState('');
 	const [contents, setContents] = useState('');
+	const[ regDate,setRegDate]=useState('')
 	const history = useHistory();
 
 	const newUsedArticle = e => {
@@ -21,6 +22,7 @@ const Write = () => {
 			writer: writer,
 			address: address,
 			contents: contents,
+			regDate: regDate,
 		};
 		if (title === '' || address === '' || contents === '') {
 			alert('입력창을 다채워주세요');
