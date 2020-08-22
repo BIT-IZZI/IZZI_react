@@ -63,7 +63,7 @@ const UserInfo = ({match}) => {
 	const[regDate,setRegDate]=useState('')
 	const [userLocation, setUserLocation] = useState({lat: '', lng: ''});
 	const [searchedAddr, setSearchedAddr] = useState('');
-	const [comWriter, setComWriter]=useState("")
+	const [comWriter, setComWriter]=useState(JSON.parse(sessionStorage.userData).userId)
 	const [ comContents, setComContents] =useState("")
 	const [comRegDate, setComRegDate]=useState("")
 
@@ -101,6 +101,7 @@ const UserInfo = ({match}) => {
 			});
 	};
 	const handleComment = e =>{
+		setComWriter(JSON.parse(sessionStorage.userData).userId)
 		e.preventDefault()
 		const comment={
 			comWriter: comWriter,
@@ -108,8 +109,9 @@ const UserInfo = ({match}) => {
 			comRegDate: comRegDate
 		}
 		axios.post(`http://localhost:8080/articles/createComment`,comment)
-			.then(res=>{
-				console.log(res)
+			.then(r=>{
+				console.log(r.data)
+				window.location.reload();
 			}).catch(error=>{
 				throw error;
 		})
@@ -141,6 +143,14 @@ const UserInfo = ({match}) => {
 				throw error;
 			});
 	}, []);
+	/*useEffect(()=>{
+		axios.get(`http://localhost:8080/articles/createComment`)
+			.then(r=>{
+				console.log(r.data)
+			}).catch(error=>{
+				throw error
+		})
+	},[])*/
 	const locations = [
 		{
 			name: `${writer}님 중고거래 희망위치`,
@@ -232,10 +242,6 @@ const UserInfo = ({match}) => {
 									>
 										<thead>
 										<tr>
-											<th colspan='2'>{title}</th>
-											<th></th>
-										</tr>
-										<tr>
 											<th>글쓴이: {writer}</th>
 											<th>{address}</th>
 											<th> 작성일: {regDate}</th>
@@ -243,17 +249,18 @@ const UserInfo = ({match}) => {
 										</thead>
 										<tbody>
 										<tr>
-											<td colSpan='3'>
-												<ReactQuill
-												theme="snow"
-												value={{contents}}
-												modules={modules}
-												formats={formats}
-											/></td>
+											<td colspan='3'>
+											<textarea
+												className='form-control'
+												name='contents'
+												rows={14}
+												value={contents}
+											/>
+											</td>
 										</tr>
 										<tr>
 											<td colSpan="3">
-											<input value="댓글내용"></input>
+											<div>{comContents} 댓글 내용 여기에, 댓글쓴이, 댓글단시간</div>
 											</td>
 										</tr>
 										</tbody>
@@ -278,8 +285,10 @@ const UserInfo = ({match}) => {
 										</div>
 									) : (
 										<div>
-											<MDBInput label="댓글달기" background icon="edit" />
-											<MDBBtn onClick={handleComment}>댓글 달기</MDBBtn>
+											<MDBInput label="댓글달기" background icon="edit"
+											onChange={e => setComContents(e.target.value)}/>
+											<MDBInput>댓글 작성자: </MDBInput>
+											<MDBBtn onClick={handleComment} outline color="primary">댓글 달기</MDBBtn>
 										</div>
 									))}
 								</div>

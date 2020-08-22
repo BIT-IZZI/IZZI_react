@@ -5,7 +5,7 @@ import {
 	GoogleMap,
 	useLoadScript,
 	Marker,
-	InfoWindow,
+	InfoWindow,Polyline
 } from '@react-google-maps/api';
 import usePlacesAutocomplete, {
 	getGeocode,
@@ -23,6 +23,7 @@ import './Map/Search.css';
 import '@reach/combobox/styles.css';
 import mapStyles from './Map/mapStyles';
 import axios from 'axios';
+
 
 Geocode.setApiKey('AIzaSyCrQuKKwt0DtPF8vxKPx6dRq3us6me2LO8');
 Geocode.setLanguage('ko');
@@ -45,6 +46,7 @@ const CustomerInfo = ({match}) => {
 	const [post, setPost] = useState({});
 	const [centeredCoor, setCenteredCoor] = useState({lat: '', lng: ''});
 	const [movingToCoor, setMovingToCoor] = useState({lat: '', lng: ''});
+	const [polyShow,setPolyShow]=useState(false);
 	useEffect(() => {
 		console.log(`${match.params.id}`);
 		axios
@@ -56,7 +58,7 @@ const CustomerInfo = ({match}) => {
 				Geocode.fromAddress(res.data.movingFrom).then(
 					response => {
 						const movingFrom = response.results[0].geometry.location;
-						console.log(setCenteredCoor(movingFrom)); // undefined뜸
+						console.log(movingFrom); // undefined뜸
 						setCenteredCoor(movingFrom);
 					},
 					error => {
@@ -146,7 +148,20 @@ const CustomerInfo = ({match}) => {
 
 	if (loadError) return 'Error';
 	if (!isLoaded) return 'Loading...';
-
+   // 구에서의 최단거리
+	function haversine_distance() {
+		const R = 6371.0710; // Radius of the Earth in km
+		const rlat1 = centeredCoor.lat * (Math.PI/180); // Convert degrees to radians
+		const rlat2 = movingToCoor.lat * (Math.PI/180); // Convert degrees to radians
+		const difflat = rlat2-rlat1; // Radian difference (latitudes)
+		const difflon = ( movingToCoor.lng-centeredCoor.lng) * (Math.PI/180); // Radian difference (longitudes)
+		const d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
+		return d;
+	}
+	const distance=  haversine_distance();
+	const midPoint = {lat: (centeredCoor.lat+ movingToCoor.lat)/2 ,
+		lng: (centeredCoor.lng + movingToCoor.lng)/2}
+		console.log(midPoint)
 	return (
 		<>
 			<div>
@@ -203,8 +218,10 @@ const CustomerInfo = ({match}) => {
 								required
 								value={post.movingTo}
 							/>
+
 							<br />
 							<br />
+							<h4>두 지점 사이의 거리: {distance.toFixed()} km </h4>
 							<Locate panTo={panTo} />
 							<Search
 								panTo={panTo}
@@ -328,6 +345,38 @@ const CustomerInfo = ({match}) => {
 										</div>
 									</InfoWindow>
 								) : null}
+								<Polyline
+									path={[movingToCoor,centeredCoor]}
+									visible={true}
+									options={{
+										strokeColor: "#fa0a1a",
+										strokeOpacity: 1,
+										strokeWeight: 3,
+										icons:[
+											{icon: {path:window.google.maps.SymbolPath.DEFAULT},
+												offset: "0",
+												repeat: "40px"},
+										]
+									}}
+									onClick={()=>{
+										setPolyShow(true)
+									}}
+								>
+									<InfoWindow position={midPoint}
+												visible={true}
+									>
+										<p>두 지점 사이의 거리: {distance.toFixed()} km</p>
+									</InfoWindow>
+								</Polyline>
+								{polyShow ? (
+									<InfoWindow position={midPoint}
+												onCloseClick={() => {
+													setPolyShow(false);
+												}}
+									>
+										<p>두 지점 사이의 거리: {distance.toFixed()} km</p>
+									</InfoWindow>
+								):null}
 							</GoogleMap>
 						</MDBCol>
 					</MDBRow>
