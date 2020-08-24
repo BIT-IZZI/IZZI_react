@@ -38,7 +38,6 @@ const Signup = () => {
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		alert('회원가입 버튼 클릭');
 		const userJson = {
 			userId: userId,
 			password: password,
@@ -54,7 +53,7 @@ const Signup = () => {
 		axios
 			.post(`http://localhost:8080/users/signUp`, userJson)
 			.then(response => {
-				alert('성공');
+				alert('회원가입이 완료되었습니다.');
 				history.push('/login');
 			})
 			.catch(error => {

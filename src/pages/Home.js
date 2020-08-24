@@ -69,7 +69,7 @@ const Home = () => {
 				<Route path='/adminMyPage' component={AdminMyPage} />
 				<Route path='/order' component={Order} setUserInfo />
 				<Route
-					path={`/customerInfo/:id`}
+					path={`/customerInfo/:orderId`}
 					render={props => <CustomerInfo {...props} />}
 				/>
 				<Route path='/statistics' component={Statistics} />

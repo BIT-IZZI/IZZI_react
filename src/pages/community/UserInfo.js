@@ -258,11 +258,102 @@ const UserInfo = ({match}) => {
 											/>
 											</td>
 										</tr>
-										<tr>
-											<td colSpan="3">
-											<div>{comContents} 댓글 내용 여기에, 댓글쓴이, 댓글단시간</div>
-											</td>
-										</tr>
+
+										<Locate panTo={panTo} />
+										<Search
+											panTo={panTo}
+											setPosition={setSearchSelected}
+											setMarkerShow={setSearchMarker}
+											setSearchedAddr={setSearchedAddr}
+										/>
+
+										<GoogleMap
+											id='map'
+											mapContainerStyle={mapContainerStyle}
+											zoom={16}
+											center={userLocation}
+											options={options}
+											onClick={onMapClick}
+											onLoad={onMapLoad}
+										>
+											{searchMarker && (
+												<Marker
+													position={searchSelected}
+													onClick={() => searchSelected}
+													icon={{
+														url: `/movingCar.png`,
+														origin: new window.google.maps.Point(0, 0),
+														anchor: new window.google.maps.Point(15, 15),
+														scaledSize: new window.google.maps.Size(30, 30),
+													}}
+												>
+													<InfoWindow>
+														<h5>{searchedAddr}</h5>
+													</InfoWindow>
+												</Marker>
+											)}
+
+											{locations.map(item => {
+												return (
+													<Marker
+														key={item.name}
+														position={item.location}
+														onClick={() => onSelect(item)}
+														icon={{
+															url: `/home.svg`,
+															origin: new window.google.maps.Point(0, 0),
+															anchor: new window.google.maps.Point(20, 20),
+															scaledSize: new window.google.maps.Size(40, 40),
+														}}
+													/>
+												);
+											})}
+											{initialSelected.location && (
+												<InfoWindow
+													position={initialSelected.location}
+													onCloseClick={() => setInitialSelected({})}
+												>
+													<div>
+														<h5>{initialSelected.name}</h5>
+														<p> {address}</p>
+													</div>
+												</InfoWindow>
+											)}
+
+											{markers.map(marker => (
+												<Marker
+													key={`${marker.lat}-${marker.lng}`}
+													position={{lat: marker.lat, lng: marker.lng}}
+													onClick={() => {
+														setSelected(marker);
+														setInfoShow(true);
+													}}
+													icon={{
+														url: `/movingCar.png`,
+														origin: new window.google.maps.Point(0, 0),
+														anchor: new window.google.maps.Point(15, 15),
+														scaledSize: new window.google.maps.Size(30, 30),
+													}}
+												/>
+											))}
+											{infoShow ? (
+												<InfoWindow
+													position={{lat: selected.lat, lng: selected.lng}}
+													onCloseClick={() => {
+														setInfoShow(false);
+													}}
+												>
+													<div>
+														<h4>
+											<span role='img' aria-label='bear'>
+												주소
+											</span>
+														</h4>
+														<p>{selectedAddr} </p>
+													</div>
+												</InfoWindow>
+											) : null}
+										</GoogleMap>
 										</tbody>
 									</table>
 									{sessionStorage.userData &&
@@ -283,14 +374,8 @@ const UserInfo = ({match}) => {
 												삭제하기
 											</button>
 										</div>
-									) : (
-										<div>
-											<MDBInput label="댓글달기" background icon="edit"
-											onChange={e => setComContents(e.target.value)}/>
-											<MDBInput>댓글 작성자: </MDBInput>
-											<MDBBtn onClick={handleComment} outline color="primary">댓글 달기</MDBBtn>
-										</div>
-									))}
+									) :null
+									)}
 								</div>
 								{/* /.panel-body */}
 							</div>

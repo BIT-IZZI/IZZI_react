@@ -48,9 +48,9 @@ const CustomerInfo = ({match}) => {
 	const [movingToCoor, setMovingToCoor] = useState({lat: '', lng: ''});
 	const [polyShow,setPolyShow]=useState(false);
 	useEffect(() => {
-		console.log(`${match.params.id}`);
+		console.log(`${match.params.orderId}`);
 		axios
-			.get(`http://localhost:8080/orders/findUser/${match.params.id}`)
+			.get(`http://localhost:8080/orders/findUser/${match.params.orderId}`)
 			.then(res => {
 				console.log(`axios`);
 				console.log(res.data);
@@ -221,7 +221,9 @@ const CustomerInfo = ({match}) => {
 
 							<br />
 							<br />
-							<h4>두 지점 사이의 거리: {distance.toFixed()} km </h4>
+							<h3>두 지점 사이의 거리: {distance.toFixed()} km </h3>
+							<h3>두 거리 간 예상 이사 배달 비용 : {distance.toFixed()*0.2} 만원(km당 천원)</h3>
+
 							<Locate panTo={panTo} />
 							<Search
 								panTo={panTo}
@@ -349,7 +351,7 @@ const CustomerInfo = ({match}) => {
 									path={[movingToCoor,centeredCoor]}
 									visible={true}
 									options={{
-										strokeColor: "#fa0a1a",
+										strokeColor: "#096BF2 ",
 										strokeOpacity: 1,
 										strokeWeight: 3,
 										icons:[

@@ -47,7 +47,7 @@ const Order = () => {
                                             grouping: true,
                                         }}
                                         onRowClick={((event, rowData) => {
-                                            history.push(`/customerInfo/${rowData.id}`)
+                                            history.push(`/customerInfo/${rowData.orderId}`)
                                         })}
                                     />
                                 </div>

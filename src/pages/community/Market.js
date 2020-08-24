@@ -49,7 +49,8 @@ const Market = () => {
 											grouping: true,
 										}}
 										onRowClick={((event, rowData) => {
-											history.push(`/userInfo/${rowData.articleId}`)
+											sessionStorage.userData ? (	history.push(`/userInfo/${rowData.articleId}`))
+												: history.push('/login')
 										})}
 									/>
 								</div>

@@ -21,7 +21,7 @@ const Login = () => {
 			password: password,
 		};
 		axios
-			.post(`http://localhost:8080/users/login/`, userJson)
+			.post(`http://localhost:8080/users/login`, userJson)
 			.then(response => {
 				alert('로그인하였습니다.');
 				sessionStorage.setItem('userData', JSON.stringify(response.data));
