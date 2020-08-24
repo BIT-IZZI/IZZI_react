@@ -4,17 +4,14 @@ import axios from 'axios';
 import {Link, useHistory} from 'react-router-dom';
 
 const UserMypage = () => {
+	const [accountInfo] = useState(JSON.parse(sessionStorage.userData));
 	const [id, setId] = useState('');
-	const [userId, setUserId] = useState(
-		JSON.parse(sessionStorage.userData).userId,
-	);
+	const [userId, setUserId] = useState('');
 	const [password, setPassword] = useState('');
-	const [name, setName] = useState(JSON.parse(sessionStorage.userData).name);
-	const [phoneNumber, setPhoneNumber] = useState(
-		JSON.parse(sessionStorage.userData).phoneNumber,
-	);
+	const [name, setName] = useState('');
+	const [phoneNumber, setPhoneNumber] = useState('');
 	const [addr, setAddr] = useState('');
-	const [email, setEmail] = useState(JSON.parse(sessionStorage.userData).email);
+	const [email, setEmail] = useState('');
 	const [birthDate, setBirthDate] = useState('');
 	const [gender, setGender] = useState('');
 	const [userData, setUserData] = useState(
@@ -22,10 +19,16 @@ const UserMypage = () => {
 	);
 	const history = useHistory();
 	useEffect(() => {
-		setId(userData.id);
-		setBirthDate(userData.birthDate);
-		setGender(userData.gender);
-		setAddr(userData.address);
+		if(accountInfo) {
+			setId(userData.id);
+			setBirthDate(userData.birthDate);
+			setGender(userData.gender);
+			setAddr(userData.address);
+			setName(userData.name);
+			setUserId(accountInfo.userId);
+			setPhoneNumber(accountInfo.phoneNumber);
+			setEmail(accountInfo.email);
+		}
 	}, [userData]);
 
 	const handleSubmit = e => {

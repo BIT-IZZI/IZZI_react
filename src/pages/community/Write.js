@@ -15,7 +15,7 @@ const Write = () => {
 	const history = useHistory();
 
 	const newUsedArticle = e => {
-		e.preventDefault();
+		e.preventDefault()
 		const used = {
 			title: title,
 			writer: writer,

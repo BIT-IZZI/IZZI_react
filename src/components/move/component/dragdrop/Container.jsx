@@ -9,7 +9,7 @@ import ex from '../../../../assets/img/ex.jpg'
 import couch from '../../../../assets/img/couch.png'
 import table from '../../../../assets/img/table.png'
 const styles = {
-    width: 1000,
+    width: 800,
     height: 700,
     border: '1px solid black',
     position: 'relative',

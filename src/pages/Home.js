@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Route, Switch} from 'react-router-dom';
 import '../assets/css/main.css';
 
@@ -44,10 +44,20 @@ import VideoCommunity from '../components/videoUpload/VideoCommunity';
 import MyInfo from './myPage/MyInfo';
 import UploadPage from "../components/videoUpload/UploadPage";
 import UserInfo from './community/UserInfo';
+import SquareLg from "../components/move/component/dragdrop/SquareLg";
 const Home = () => {
+	const [accountInfo] = useState(JSON.parse(sessionStorage.getItem("userData")));
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        if (accountInfo) {
+            setUserId(accountInfo.userId);
+        }
+    }, [accountInfo]);
+
 	return (
 		<>
-			<Navigator />
+			<Navigator userId={userId}/>
 			<Switch>
 				<Route exact path={'/'}>
 					<Main />
@@ -98,6 +108,7 @@ const Home = () => {
 				<Route path={"/ordermain"} component={OrderMain}/>
 				<Route path={"/orderdetail"} component={OrderDetail}/>
 				<Route path={"/testca"} component={TesCa}/>
+				<Route path={"/lg"} component={SquareLg}/>
 
 			</Switch>
 			<Footer />

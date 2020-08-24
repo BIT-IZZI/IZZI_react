@@ -10,9 +10,8 @@ export const Capture = () => {
     return (
         <div className={"box"}>
             <DndProvider backend={HTML5Backend}>
-                <br/>
-                <br/>
                 <Example />
+
             </DndProvider>
         </div>
     )

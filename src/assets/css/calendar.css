@@ -693,9 +693,27 @@
     /*border: 2px solid #2176C1 !important;*/
     text-emphasis: filled circle;
     color: #2176C1;
-
+}
+.pbRain20:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+    /*border: 2px solid rgba(171, 242, 0, 0.7) !important;*/
+    text-emphasis: '20';
+}
+.pbRain40:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+    /*border: 2px solid rgba(171, 242, 0, 0.7) !important;*/
+    text-emphasis: '40';
 
 }
+.pbRain60:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+    /*border: 2px solid rgba(171, 242, 0, 0.7) !important;*/
+    text-emphasis: '60';
+
+}
+.pbRain80:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+    /*border: 2px solid rgba(171, 242, 0, 0.7) !important;*/
+    text-emphasis: '80';
+
+}
+
 
 @keyframes fadeCalendar {
     from {

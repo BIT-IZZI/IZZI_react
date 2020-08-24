@@ -26,7 +26,7 @@ const ModalTest = ({ modalPage, show, handleClose, handlePage }) => {
 
     return (
         <div>
-            <Modal  size={"lg"} show={shows} onHide={handleClose}>
+            <Modal  size={"lg"} show={show} onHide={handleClose}>
 
                     {(modalPage === 1) &&
                     <div className="modalImg">
@@ -44,7 +44,7 @@ const ModalTest = ({ modalPage, show, handleClose, handlePage }) => {
                                             className="img-fluid"
                                             alt=""
 
-                                        /><h3>보관이사</h3><p>국내 최대 규모의 보관창고운영<br/>안전하고 깔끔한 보관서비스</p>
+                                        /><h3>보이사</h3><p>국내 최대 규모의 보관창고운영<br/>안전하고 깔끔한 보관서비스</p>
                                         <MDBMask className="flex-center" overlay="red-strong">
                                             <p className="white-text">보관이사</p>
                                         </MDBMask>

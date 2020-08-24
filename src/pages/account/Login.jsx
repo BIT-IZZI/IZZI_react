@@ -21,13 +21,13 @@ const Login = () => {
 			password: password,
 		};
 		axios
-			.post(`http://localhost:8080/users/login/`, userJson)
+			.post(`http://localhost:8080/users/login`, userJson)
 			.then(response => {
 				alert('로그인하였습니다.');
 				sessionStorage.setItem('userData', JSON.stringify(response.data));
-				if (response.status === 200) history.push('/');
-				console.log(sessionStorage.userData);
+				history.push('/');
 				window.location.reload();
+
 			})
 			.catch(error => {
 				alert('아이디 혹은 비밀번호가 틀렸습니다.');

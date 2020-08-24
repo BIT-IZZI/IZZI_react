@@ -1,73 +1,114 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Form, Modal, Button, Col} from 'react-bootstrap'
-import {MDBBtn, MDBCol, MDBCard, MDBCardBody, MDBInput} from 'mdbreact'
+import { Form, Modal, Button, Col} from 'react-bootstrap'
+import {
+    MDBBtn,
+    MDBCol,
+    MDBCard,
+    MDBCardBody,
+    MDBInput,
+    MDBContainer,
+    MDBRow,
+    MDBJumbotron,
+    MDBCardTitle
+} from 'mdbreact'
 import {Link, useHistory} from 'react-router-dom'
-import {MCalendar} from "../../../pages";
 import {Postcode} from "../../../pages/account";
 import axios from 'axios'
 import SquareLg from "./dragdrop/SquareLg";
 import UploadFiles from "../../videoUpload/UploadFiles";
 import QRcode from "../../../assets/img/QRcode.png";
-import DatePicker, {utils} from "react-modern-calendar-datepicker";
+import DatePicker, {Calendar,utils} from "react-modern-calendar-datepicker";
+import "../../../assets/css/calendar.css";
+import '../../modalTest/modal.css'
 function MovingEstimateForm() {
+    const [accountInfo] = useState(JSON.parse(sessionStorage.userData));
     const [validated, setValidated] = useState(false);
-
-    const [movingName,setMovingName]=useState('');
-    const [movingPhone,setMovingPhone]=useState('');
+    const [movingName, setMovingName] = useState("");
+    const [userId, setUserId] = useState('');
+    const [id, setId] = useState('');
+    const [movingPhone, setMovingPhone] = useState('');
     const [movingFrom, setMovingFrom] = useState('');
-    const [movingTo,setMovingTo] = useState('');
-    const [optionalAddrFrom,setOptionalAddrFrom]=useState('')
-    const [optionalAddrTo,setOptionalAddrTo]=useState('')
-    const [movingDate,setMovingDate]=useState('')
-    const [movingType,setMovingType]=useState('')
-    const [show,setShow]=useState(false)
-    const [qrshow,setQrshow]=useState(false)
-    const [movingWriter,setMovingWriter]=useState('')
-    const [movingDetail,setMovingDetail]=useState('')
-    const [selectedDay, setSelectedDay] = useState("");
-    const[pbRain, setPbRain] = useState([])
-    //console.log(movingDate)
+    const [movingTo, setMovingTo] = useState('');
+    const [optionalAddrFrom, setOptionalAddrFrom] = useState('')
+    const [optionalAddrTo, setOptionalAddrTo] = useState('')
+    const [movingType, setMovingType] = useState('')
+    const [show, setShow] = useState(false)
+    const [qrshow, setQrshow] = useState(false)
+    const [movingWriter, setMovingWriter] = useState('')
+    const [movingDetail, setMovingDetail] = useState('')
+    const [square,setSquare]=useState('')
+    const [pbRain, setPbRain] = useState([])
     const [data, setData] = useState([]);
-    const history = useHistory();
+    const [check, setCheck] = useState(false)
+ //   const [selectedDay, setSelectedDay] = useState(null);
+    const [strSelectedDay, setStrSelectedDay] = useState("");
+    const [selectedDay, setSelectedDay] = useState(utils().getToday());
 
-    const regDate =e=>{
-        setMovingDate(e.target.value)
-        console.log("이사일"+movingDate)
+    useEffect(() => {
+        if(accountInfo) {
+            setMovingName(accountInfo.name);
+            setMovingPhone(accountInfo.phoneNumber);
+            setMovingFrom(accountInfo.address);
+            setOptionalAddrFrom(accountInfo.optionalAddr);
+            setUserId(accountInfo.userId);
+            setId(accountInfo.id);
+        }
+    })
+    const regDate = (e) => {
+        e.preventDefault();
+        if (movingName === '' || movingPhone === '' || movingFrom === '' || movingFrom === '' || movingTo === '' || optionalAddrFrom === '' || optionalAddrTo === '' || check === false) {
+            alert('입력창을 다채워주세요');
+            setValidated(true);
+        } else {
+            const data = selectedDay;
+            const movingDate = `${data.year}-${data.month}-${data.day}`;
+            setStrSelectedDay(movingDate);
+            handleSubmit();
+        }
     }
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        const estiJsnon={
-            movingName:movingName,
-            movingPhone:movingPhone,
-            movingFrom:movingFrom,
-            movingTo:movingTo,
-            optionalAddrFrom:optionalAddrFrom,
-            optionalAddrTo:optionalAddrTo,
-            movingDate:selectedDay,
-            movingType:movingType,
-            movingWriter:movingWriter,
-            movingDetail:movingWriter,
+    const handleSubmit = () => {
+        console.log(strSelectedDay);
+        const estiJsnon = {
+            movingName: movingName,
+            movingPhone: movingPhone,
+            movingFrom: movingFrom,
+            movingTo: movingTo,
+            optionalAddrFrom: optionalAddrFrom,
+            optionalAddrTo: optionalAddrTo,
+            movingDate: strSelectedDay,
+            movingType: movingType,
+            movingWriter: movingWriter,
+            movingDetail: movingDetail,
+            square:square,
+            userId: userId,
         };
-        axios
-            .post(`http://localhost:8080/orders/esitmateform`,estiJsnon)
-            .then(response => {
-                alert('성공');
-                localStorage.setItem('estiDate', JSON.stringify(response.data));
-                console.log(localStorage.estiDate);
+        if(strSelectedDay === "") {
+            alert("내용을 한번 더 확인해 주세요!");
 
-                history.push('/videotest');
-            })
-            .catch(error => {
-                alert('실패!');
-                throw error;
-            });
-        const form = event.currentTarget;
+        } else if (strSelectedDay !== "") {
+            axios
+                .post(`http://localhost:8080/orders/esitmateform/${id}`, estiJsnon)
+                .then(response => {
+                    alert('성공');
+                    localStorage.setItem('estiDate', JSON.stringify(response.data));
+                    window.location.href = '/videotest';
+                    /*      history.push('/videotest');*/
+                })
+                .catch(error => {
+                    alert('실패했어요!');
+                    throw error;
+                });
+        }
+
+        //}
+        /*const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
-        }
-        setValidated(true);
-    };
+        }*/
+
+
+    }
     const goodDays = [
         {
             year: 2020,
@@ -317,7 +358,7 @@ function MovingEstimateForm() {
         },
     ];
     const priceStyle = {
-        color : 'red'
+        color: 'red'
     }
     useEffect(() => {
             axios.get(`http://localhost:8080/statistics/pbRain`)
@@ -325,25 +366,25 @@ function MovingEstimateForm() {
                     const pBRainDate = [];
                     res.data.pbRain.forEach(one => {
                         let obj = {};
-                        if(one.rainProb <= 20) {
+                        if (one.rainProb <= 20) {
                             obj.year = 2020;
                             obj.month = Number(one.precipitationDate.split("-")[0]);
                             obj.day = Number(one.precipitationDate.split("-")[1]);
                             obj.className = 'purpleDay';
                             pBRainDate.push(obj);
-                        } else if(one.rainProb <= 40) {
+                        } else if (one.rainProb <= 40) {
                             obj.year = 2020;
                             obj.month = Number(one.precipitationDate.split("-")[0]);
                             obj.day = Number(one.precipitationDate.split("-")[1]);
                             obj.className = 'handDay';
                             pBRainDate.push(obj);
-                        }else if(one.rainProb <= 60) {
+                        } else if (one.rainProb <= 60) {
                             obj.year = 2020;
                             obj.month = Number(one.precipitationDate.split("-")[0]);
                             obj.day = Number(one.precipitationDate.split("-")[1]);
                             obj.className = 'navyBlueDay';
                             pBRainDate.push(obj);
-                        }else if(one.rainProb <= 80) {
+                        } else if (one.rainProb <= 80) {
                             obj.year = 2020;
                             obj.month = Number(one.precipitationDate.split("-")[0]);
                             obj.day = Number(one.precipitationDate.split("-")[1]);
@@ -367,214 +408,301 @@ function MovingEstimateForm() {
             setData(goodDays)
         }
         , [])
+    const renderCustomInput = ({ ref }) => (
+        <input
+            readOnly = "true"
+            ref={ref}
+            placeholder="Select a Day"
+            value ={`${selectedDay.year}/${selectedDay.month}/${selectedDay.day}`}
+            style={{
+                textAlign: 'center',
+                padding: '0.3rem 0.5rem',
+                fontSize: 'medium',
+                border: '1px solid #184f90',
+                borderRadius: '50px',
+                boxShadow: '0 0.5rem 1rem rgba(156, 136, 255, 0.2)',
+                color: '#184f90',
+                outline: 'none',
+                margin : '0.3rem'
+
+            }}
+            className="my-custom-input-class"
+
+        />
+    )
     return (
         <>
-            <div>
-                <Card border="success" style={{ width: '110rem' }}>
-                    <Card.Header> <Card.Title> 이사견적 신청서</Card.Title></Card.Header>
-                    <Card.Body>
-                        <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                            <Form>
-                                <Form.Group as={Col} md="3" controlId="validationCustom01">
-                                    <Form.Label>신청인 성함</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        placeholder="name"
-                                        value={movingName}
-                                        onChange={e => setMovingName(e.target.value)}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        입력란이 비었습니다!
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group as={Col} md="3" controlId="validationCustom02">
-                                    <Form.Label>신청인 연락처</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        placeholder="Phone Number"
-                                        value={movingPhone}
-                                        onChange={e => setMovingPhone(e.target.value)}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        입력란이 비었습니다!
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group as={Col} md="3" controlId="validationCustom03">
-                                    <Form.Label>출발지 정보</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="주소를 입력해 주세요"
-                                        required
-                                        value={movingFrom}
-                                        onChange={e => setMovingFrom(e.target.value)}/>
-                                    <div className='input-group-append'>
-                                        <Postcode onSelectedAddr={setMovingFrom} />
-                                    </div>
-                                    <Form.Control.Feedback type="invalid">
-                                        입력란이 비었습니다!
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group as={Col} md="3" controlId="validationCustom04">
-                                    <Form.Label>상세주소</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="상세주소"
-                                        required
-                                        value={optionalAddrFrom}
-                                        onChange={e => setOptionalAddrFrom(e.target.value)}/>
-                                    <Form.Control.Feedback type="invalid">
-                                        입력란이 비었습니다!
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group as={Col} md="3" controlId="validationCustom03">
-                                    <Form.Label>도착지 정보</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="주소를 입력해 주세요."
-                                        required
-                                        value={movingTo}
-                                        onChange={e => setMovingTo(e.target.value)} />
-                                    <div className='input-group-append'>
-                                        <Postcode onSelectedAddr={setMovingTo} />
-                                    </div>
-                                    <Form.Control.Feedback type="invalid">
-                                        입력란이 비었습니다!
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group as={Col} md="3" controlId="validationCustom04">
-                                    <Form.Label>상세주소</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="상세주소"
-                                        required
-                                        value={optionalAddrTo}
-                                        onChange={e => setOptionalAddrTo(e.target.value)}/>
-                                    <Form.Control.Feedback type="invalid">
-                                        입력란이 비었습니다!
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Form>
-                            <div style={{maxWidth:'700px',margin:'2rem auto'}}>
-                                <div style={{textAlign:'center',marginButton:'2rem'}}>
-                                    <h1>2단계.비디오와 가구배치도 올리기</h1>
-                                </div>
-                                <MDBCol noValidate validated={validated} onSubmit={handleSubmit}>
-                                    <MDBCard style={{ width: "100%" ,height:"200px"}}>
+            <div id="wrapper">
+                <div>
+                    <div className="row">
+                        <div className="col-lg-12"><br/>
+                            <h2 className="page-header">{userId}님의 견적 신청서</h2><br/>
+                        </div>
+                        <MDBContainer className="mt-5 text-center">
+                            <MDBRow>
+                                <MDBCol>
+                                    <MDBJumbotron>
                                         <MDBCardBody>
-                                            <h3>가구배치도</h3>
-                                            <MDBBtn color="amber"onClick={e=>setShow(true)}>
-                                                58평
-                                            </MDBBtn>
-                                            <Modal
-                                                size={"lg"}
-                                                show={show}
-                                                onHide={() => setShow(false)}
-                                                dialogClassName="modal-90w"
-                                                aria-labelledby="example-custom-modal-styling-title"
-                                            >
-                                                <Modal.Header closeButton>
-                                                    <Modal.Title id="example-custom-modal-styling-title">
-                                                        58평
-                                                    </Modal.Title>
-                                                </Modal.Header>
-                                                <Modal.Body>
-                                                    <a className="list">
-                                                        <SquareLg/>
-                                                    </a>
-                                                </Modal.Body>
-                                            </Modal>
+
+                                            <MDBCardTitle className="h2" style={{textAlign: 'center', marginButton: '2rem'}}>{/*가구배치*/}
+                                            1단계 내 방 비디오와 가구배치도 올리기
+                                            </MDBCardTitle>
+                                            <MDBCol noValidate validated={validated} onSubmit={handleSubmit}>
+                                                <MDBCard style={{width: "100%", height: "200px"}}>
+                                                    <MDBCardBody>
+                                                        <h3>가구배치도</h3>
+                                                        <MDBBtn color="amber" onClick={e => setShow(true)}>
+                                                            58평
+                                                        </MDBBtn>
+                                                        <Modal
+                                                            show={show}
+                                                            onHide={() => setShow(false)}
+                                                            dialogClassName='custom-dialog'
+                                                            aria-labelledby="example-custom-modal-styling-title"
+                                                        >
+                                                            <Modal.Header closeButton>
+                                                                <Modal.Title id="example-custom-modal-styling-title">
+                                                                    58평
+                                                                </Modal.Title>
+                                                            </Modal.Header>
+                                                            <Modal.Body>
+                                                                <a className="list">
+                                                                    <SquareLg/>
+                                                                </a>
+                                                            </Modal.Body>
+                                                        </Modal>
+                                                    </MDBCardBody>
+                                                </MDBCard>
+                                            </MDBCol>
+
+                                            <MDBCol>{/*파일업로드*/}
+                                                <MDBCard style={{width: "100%", height: "200px"}}>
+                                                    <MDBCardBody>
+                                                        <UploadFiles/>
+                                                    </MDBCardBody>
+                                                </MDBCard>
+                                            </MDBCol>
+                                            <br/>
+                                            <br/>
+
+                                            <MDBCardTitle className="h2" style={{textAlign: 'center', marginButton: '2rem'}}>{/*가구배치*/}
+                                                2단계 상세내용 입력
+                                            </MDBCardTitle>
+
+                                            <Form noValidate validated={validated} onSubmit={handleSubmit}  style={{textAlign: 'center'}}>
+                                                <Form>
+                                                    <Form.Group as={Col} md="10" controlId="validationCustom01">
+                                                        <Form.Label>신청인 성함</Form.Label>
+                                                        <Form.Control
+                                                            required
+                                                            type="text"
+                                                            placeholder="name"
+                                                            value={movingName}
+                                                            onChange={e => setMovingName(e.target.value)}
+                                                        />
+                                                        <Form.Control.Feedback type="invalid">
+                                                            입력란이 비었습니다!
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                    <Form.Group as={Col} md="10" controlId="validationCustom02">
+                                                        <Form.Label>신청인 연락처</Form.Label>
+                                                        <Form.Control
+                                                            required
+                                                            type="text"
+                                                            placeholder="Phone Number"
+                                                            value={movingPhone}
+                                                            onChange={e => setMovingPhone(e.target.value)}
+                                                        />
+                                                        <Form.Control.Feedback type="invalid">
+                                                            입력란이 비었습니다!
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                    <Form.Group as={Col} md="10" controlId="validationCustom03">
+                                                        <Form.Label>출발지 정보</Form.Label>
+                                                        <Form.Control
+                                                            type="text"
+                                                            placeholder="주소를 입력해 주세요"
+                                                            required
+                                                            value={movingFrom}
+                                                            onChange={e => setMovingFrom(e.target.value)}/>
+                                                        <div className='input-group-append'>
+                                                            <Postcode onSelectedAddr={setMovingFrom}/>
+                                                        </div>
+                                                        <Form.Control.Feedback type="invalid">
+                                                            입력란이 비었습니다!
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                    <Form.Group as={Col} md="10" controlId="validationCustom04">
+                                                        <Form.Label>상세주소</Form.Label>
+                                                        <Form.Control
+                                                            type="text"
+                                                            placeholder="상세주소"
+                                                            required
+                                                            value={optionalAddrFrom}
+                                                            onChange={e => setOptionalAddrFrom(e.target.value)}/>
+                                                        <Form.Control.Feedback type="invalid">
+                                                            입력란이 비었습니다!
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                    <Form.Group controlId="exampleForm.ControlSelect1">
+                                                        <Form.Label>평수 </Form.Label>
+                                                        <Form.Control as="select"
+                                                                      required
+                                                                      value={square}
+                                                                      onChange={e => setSquare(e.target.value)}>
+                                                            <option >선택</option>
+                                                            <option value={25}>25평 이하</option>
+                                                            <option value={35}>35평 이하</option>
+                                                            <option value={40}>40평 이하</option>
+                                                            <option value={45}>45평 이상</option>
+                                                        </Form.Control>
+                                                    </Form.Group>
+                                                    <Form.Group as={Col} md="10" controlId="validationCustom03">
+                                                        <Form.Label>도착지 정보</Form.Label>
+                                                        <Form.Control
+                                                            type="text"
+                                                            placeholder="주소를 입력해 주세요."
+                                                            required
+                                                            value={movingTo}
+                                                            onChange={e => setMovingTo(e.target.value)}/>
+                                                        <div className='input-group-append'>
+                                                            <Postcode onSelectedAddr={setMovingTo}/>
+                                                        </div>
+                                                        <Form.Control.Feedback type="invalid">
+                                                            입력란이 비었습니다!
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                    <Form.Group as={Col} md="10" controlId="validationCustom04">
+                                                        <Form.Label>상세주소</Form.Label>
+                                                        <Form.Control
+                                                            type="text"
+                                                            placeholder="상세주소"
+                                                            required={true}
+                                                            value={optionalAddrTo}
+                                                            onChange={e => setOptionalAddrTo(e.target.value)}
+                                                        />
+                                                        <Form.Control.Feedback type="invalid">
+                                                            입력란이 비었습니다!
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                </Form>
+
+                                                <div onSubmit>
+                                                    <br/>
+                                                    <br/>
+                                                    <MDBInput label={"제목"}
+                                                              onChange={e => setMovingWriter(e.target.value)}
+                                                              value={movingWriter}
+                                                    />
+                                                    <br/>
+                                                    <br/>
+                                                    <div className="form-group">
+                                                        <label htmlFor="exampleFormControlTextarea1">내용</label>
+                                                        <textarea className="form-control" id="exampleFormControlTextarea1"
+                                                                  name="contents" rows={10}
+                                                                  required
+                                                                  type="text"
+                                                                  placeholder="설명"
+                                                                  value={movingDetail}
+                                                                  onChange={e => setMovingDetail(e.target.value)}>
+                                                          </textarea>
+                                                    </div>
+                                                    <br/>
+                                                    <br/>
+                                                </div>
+                                                <Form.Group controlId="exampleForm.ControlSelect1">
+                                                    <div id="wrapper">
+                                                        <div id="page-wrap">
+                                                    <section className="select">
+                                                    <Form.Label>이사 날짜</Form.Label>
+                                                     {/*   <DatePicker
+                                                            value={selectedDay}
+                                                            onChange={setSelectedDay}
+                                                            inputPlaceholder="Select a day"
+                                                            minimumDate={utils().getToday()}
+                                                            shouldHighlightWeekends
+                                                            customDaysClassName={data}
+                                                        />*/}
+                                                    <div>
+                                                        <DatePicker
+                                                            value={selectedDay}
+                                                            renderInput={renderCustomInput}
+                                                            inputClassName="my-custom-input-class"
+                                                            shouldHighlightWeekends
+                                                        />
+                                                    </div>
+                                                    <div className="row">
+                                                        <Calendar
+                                                            value={selectedDay}
+                                                            onChange={setSelectedDay}
+                                                            minimumDate={utils().getToday()}
+                                                            colorPrimary="#00365a"
+                                                            calendarClassName="custom-calendar"
+                                                            shouldHighlightWeekends
+                                                            customDaysClassName={data}
+                                                        />
+                                                        <section className="card-body">
+                                                            <br/>
+                                                            <p className="color-a"><h4>＊손 없는 날</h4><h5 style={priceStyle}>35% 추가 금액 적용</h5></p><br/>
+                                                            <p className="color-b"><h4>＊공휴일</h4><h5 style={priceStyle}>15% 추가 금액 적용</h5></p><br/>
+                                                            <p className="color-c"><h4>＊특가 기간</h4><h5 style={priceStyle}>20% 할인 금액 적용</h5></p>
+                                                        </section>
+                                                    </div>
+                                                    </section>
+                                                        </div>
+                                                    </div>
+                                            </Form.Group>
+                                                    <Form.Group controlId="exampleForm.ControlSelect1">
+                                                        <Form.Label>이사 유형</Form.Label>
+                                                        <Form.Control as="select"
+                                                                      required
+                                                                      value={movingType}
+                                                                      onChange={e => setMovingType(e.target.value)}>
+                                                            <option >선택</option>
+                                                            <option value={'집이사'}>집이사</option>
+                                                            <option value={'사무실이사'}>사무실이사</option>
+                                                            <option value={'보관이사'}>보관이사</option>
+                                                            <option value={'소형이사'}>소형이사</option>
+                                                        </Form.Control>
+                                                    </Form.Group>
+                                                <Form.Group>
+                                                    <Form.Check
+                                                        required
+                                                        label="개인정보 제공에 동의합니다."
+                                                        feedback="You must agree before submitting."
+                                                        value={check}
+                                                        onClick={() => setCheck(true)}
+                                                    />
+                                                </Form.Group>
+                                                <Button onClick={e => setQrshow(!qrshow)}>
+                                                    어플다운받기
+                                                    <Modal show={qrshow} size={"sm"}
+                                                           onClick={e => setQrshow(!qrshow)}
+                                                           onHide={() => false}>
+                                                        <img src={QRcode}/>
+                                                    </Modal>
+                                                </Button>
+                                                {sessionStorage.userData && (
+                                                    <Button type="submit" onClick={regDate}>Submit form</Button>)}
+                                                {!sessionStorage.userData && (
+                                                    <Button type="submit" onClick={() => alert("로그인을 해주세요")}>Submit form</Button>)}
+                                            </Form>
+
                                         </MDBCardBody>
-                                    </MDBCard>
+                                    </MDBJumbotron>
                                 </MDBCol>
-                                <br/>
-                                <div style={{marginBottom:50}}>
-                                    <h3>파일 선택 방식</h3>
-                                    <MDBCol>
-                                        <MDBCard style={{ width: "100%" ,height:"200px"}}>
-                                            <MDBCardBody>
-                                                <UploadFiles/>
-                                            </MDBCardBody>
-                                        </MDBCard>
-                                    </MDBCol>
-
-                                </div>
-
-                            </div>
-                            <div onSubmit>
-                                <br/>
-                                <br/>
-                                <MDBInput label={"제목"}
-                                          onChange={e=>setMovingWriter(e.target.value)}
-                                          value={movingWriter}
-                                />
-                                <br/>
-                                <br/>
-                                <Form.Group as={Col} md="4" controlId="validationCustom02">
-                                    <Form.Label>방설명</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        placeholder="설명"
-                                        value={movingDetail}
-                                        onChange={e => setMovingDetail(e.target.value)}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        입력란이 비었습니다!
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <br/>
-                                <br/>
-                            </div>
-                            <Form>
-                                <Card border="light" style={{ width: '70rem' }}>
-                                    <Card.Header><Card.Title>이사일을 정해주세요</Card.Title></Card.Header>
-                                    <DatePicker
-
-                                      value={selectedDay}
-                                   onChange={setSelectedDay}
-                                      onClick={regDate}
-                                        inputPlaceholder="Select a day"
-                                        minimumDate={utils().getToday()}
-                                        shouldHighlightWeekends
-                                        customDaysClassName={data}
-                                    />
-                                </Card>
-                                <Card border="light" style={{ width: '70rem' }}>
-                                    <Card.Header><Card.Title>이사 유형</Card.Title></Card.Header>
-                                    <Form.Group controlId="exampleForm.SelectCustomSizeLg">
-
-                                        <Form.Check label={"집이사"} value={movingType} onChange={e=>setMovingType(e.target.value)}/>
-                                        <Form.Check label={"사무실이사"} value={movingType} onChange={e=>setMovingType(e.target.value)}/>
-                                        <Form.Check label={"보관이사"}value={movingType} onChange={e=>setMovingType(e.target.value)}/>
-                                        <Form.Check label={"소형이사"}value={movingType} onChange={e=>setMovingType(e.target.value)}/>
-
-                                    </Form.Group>
-                                </Card>
-                            </Form>
-                            <Form.Group>
-                                <Form.Check
-                                    required
-                                    label="개인정보 제공에 동의합니다."
-                                    feedback="You must agree before submitting."
-                                />
-                            </Form.Group>
-                            <Button  onClick={e=>setQrshow(!qrshow)}>
-                                어플다운받기
-                                <Modal show={qrshow} size={"sm"}
-                                       onClick={e=>setQrshow(!qrshow)}
-                                       onHide={()=>false}>
-                                    <img src={QRcode}/>
-                                </Modal>
-                            </Button>
-                            <Link to={"/videotest"}>  <Button type="submit" onClick={handleSubmit}>Submit form</Button></Link>
-                        </Form>
-                    </Card.Body>
-                </Card>
+                            </MDBRow>
+                        </MDBContainer>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div style={{textAlign: 'center', marginButton: '2rem'}}>
+            </div>
             </div>
         </>
     );
 }
+
 
 export default MovingEstimateForm;

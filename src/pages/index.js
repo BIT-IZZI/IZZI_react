@@ -9,4 +9,6 @@ export {default as Weather} from '../components/weather/Weather'
 export {Application, Calcula} from '../components/index'
 export {default as MCalendar} from './MCalendar'
 export {default as TesCa} from './TestCa'
-// 관리자 아이디 slimshady20   비밀번호 123
+//  관리자 아이디 slimshady20   비밀번호 123
+
+

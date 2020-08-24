@@ -1,16 +1,11 @@
 import React, { Fragment, useCallback, useRef } from 'react'
-
-import '../../../../App.css';
 import styled from 'styled-components'
 import { useCapture } from './capture/index'
 import {Capture} from './capture/Capture'
 
-
-
 const Wrapper = styled.div`
   text-align: center;
 `
-
 const Headline = styled.h1`
   font-family: 'Open Sans Condensed', sans-serif;
   font-weight: 700;
@@ -28,17 +23,13 @@ const ComponentWrapper = styled.div`
   background-color: green;
   
 `
-
 const Button = styled.input.attrs({ type: 'button' })``
-
-
 const SquareLg=()=> {
     const { snap } = useCapture()
     const element = useRef(null)
     const onClick = useCallback(() => {
         snap(element, { file: 'download.png' })
     }, [snap, element])
-
     return (
         <div className="App">
             <Fragment>
@@ -49,9 +40,7 @@ const SquareLg=()=> {
                     </ComponentWrapper>
                     <br/>
                     <br/>
-                    <br/>
-                    <br/>
-                    <Button onClick={onClick} value="Download" />
+                    <Button onClick={onClick} value="캡쳐하고 다운받기" />
                 </Wrapper>
             </Fragment>
 

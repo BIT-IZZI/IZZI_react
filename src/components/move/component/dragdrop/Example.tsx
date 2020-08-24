@@ -10,7 +10,6 @@ export const Example: React.FC = () => {
     return (
         <div>
             <Container hideSourceOnDrag={hideSourceOnDrag} />
-
         </div>
     )
 }

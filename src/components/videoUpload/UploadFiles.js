@@ -72,7 +72,7 @@ const UploadFiles = () => {
                 {message}
             </div>
 
-{/*        <div className="card">
+      {/*<div className="card">
                 <div className="card-header">List of Files</div>
                <ul className="list-group list-group-flush">
                     {fileInfos &&
