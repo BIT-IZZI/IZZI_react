@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {MDBRow, MDBCol} from 'mdbreact';
 import Geocode from 'react-geocode';
 import {
 	GoogleMap,
 	useLoadScript,
 	Marker,
-	InfoWindow,
+	InfoWindow,Polyline
 } from '@react-google-maps/api';
 import usePlacesAutocomplete, {
 	getGeocode,
@@ -22,6 +22,8 @@ import {
 import './Map/Search.css';
 import '@reach/combobox/styles.css';
 import mapStyles from './Map/mapStyles';
+import axios from 'axios';
+
 
 Geocode.setApiKey('AIzaSyCrQuKKwt0DtPF8vxKPx6dRq3us6me2LO8');
 Geocode.setLanguage('ko');
@@ -33,28 +35,70 @@ const mapContainerStyle = {
 const options = {
 	styles: mapStyles,
 };
-const center = {
-	lat: 37.5717975,
-	lng: 126.9325254,
-};
-const locations = [
-	{
-		name: '홍두깨님 희망 이사 지역',
-		location: {
-			lat: 37.57822294432912,
-			lng: 126.92318541124448,
-		},
-	},
-];
 
-const CustomerInfo = () => {
+const CustomerInfo = ({match}) => {
 	const [searchMarker, setSearchMarker] = useState(false);
 	const [searchSelected, setSearchSelected] = useState({lat: '', lng: ''});
 	const [searchedAddr, setSearchedAddr] = useState('');
 	const [infoShow, setInfoShow] = useState(false);
 	const [selectedAddr, setSelectedAddr] = useState('');
 	const [selected, setSelected] = useState({lat: '', lng: ''});
-
+	const [post, setPost] = useState({});
+	const [centeredCoor, setCenteredCoor] = useState({lat: '', lng: ''});
+	const [movingToCoor, setMovingToCoor] = useState({lat: '', lng: ''});
+	const [polyShow,setPolyShow]=useState(false);
+	useEffect(() => {
+		console.log(`${match.params.orderId}`);
+		axios
+			.get(`http://localhost:8080/orders/findUser/${match.params.orderId}`)
+			.then(res => {
+				console.log(`axios`);
+				console.log(res.data);
+				console.log(res.data.movingFrom);
+				Geocode.fromAddress(res.data.movingFrom).then(
+					response => {
+						const movingFrom = response.results[0].geometry.location;
+						console.log(movingFrom); // undefined뜸
+						setCenteredCoor(movingFrom);
+					},
+					error => {
+						console.error(error);
+					},
+				);
+				Geocode.fromAddress(res.data.movingTo).then(
+					response => {
+						const movingTo = response.results[0].geometry.location;
+						console.log(movingTo);
+						setMovingToCoor(movingTo);
+					},
+					error => {
+						console.error(error);
+					},
+				);
+				setPost(res.data);
+			})
+			.catch(err => {
+				throw err;
+			});
+	}, []);
+	const locations = [
+		{
+			name: `${post.name}님 출발지`,
+			location: {
+				lat: centeredCoor.lat,
+				lng: centeredCoor.lng,
+			},
+		},
+	];
+	const destinations = [
+		{
+			name: `${post.name}님 도착지`,
+			arrival: {
+				lat: movingToCoor.lat,
+				lng: movingToCoor.lng,
+			},
+		},
+	];
 	Geocode.fromLatLng(selected.lat, selected.lng).then(
 		response => {
 			const address = response.results[0].formatted_address;
@@ -69,6 +113,9 @@ const CustomerInfo = () => {
 	const onSelect = item => {
 		setInitialSelected(item);
 	};
+	const onSelect2 = info => {
+		setDestinationSelected(info);
+	};
 	const {isLoaded, loadError} = useLoadScript({
 		googleMapsApiKey: 'AIzaSyCrQuKKwt0DtPF8vxKPx6dRq3us6me2LO8',
 		libraries,
@@ -76,6 +123,7 @@ const CustomerInfo = () => {
 	const [markers, setMarkers] = React.useState([]);
 
 	const [initialSelected, setInitialSelected] = useState({});
+	const [destinationSelected, setDestinationSelected] = useState({});
 
 	const onMapClick = React.useCallback(e => {
 		setMarkers(current => [
@@ -100,7 +148,20 @@ const CustomerInfo = () => {
 
 	if (loadError) return 'Error';
 	if (!isLoaded) return 'Loading...';
-
+	// 구에서의 최단거리
+	function haversine_distance() {
+		const R = 6371.0710; // Radius of the Earth in km
+		const rlat1 = centeredCoor.lat * (Math.PI/180); // Convert degrees to radians
+		const rlat2 = movingToCoor.lat * (Math.PI/180); // Convert degrees to radians
+		const difflat = rlat2-rlat1; // Radian difference (latitudes)
+		const difflon = ( movingToCoor.lng-centeredCoor.lng) * (Math.PI/180); // Radian difference (longitudes)
+		const d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
+		return d;
+	}
+	const distance=  haversine_distance();
+	const midPoint = {lat: (centeredCoor.lat+ movingToCoor.lat)/2 ,
+		lng: (centeredCoor.lng + movingToCoor.lng)/2}
+	console.log(midPoint)
 	return (
 		<>
 			<div>
@@ -111,7 +172,7 @@ const CustomerInfo = () => {
 				>
 					<MDBRow>
 						<MDBCol md='8' className='mb-3'>
-							<h2> 홍두꺠님 회원정보</h2>
+							<h2> {post.name}님 회원정보</h2>
 							<label htmlFor='defaultFormRegisterNameEx'>이름</label>
 							<input
 								name='fname'
@@ -119,16 +180,7 @@ const CustomerInfo = () => {
 								id='defaultFormRegisterNameEx'
 								className='form-control'
 								required
-								value='홍두깨'
-							/>
-							<label htmlFor='defaultFormRegisterNameEx'>아이디</label>
-							<input
-								name='fname'
-								type='text'
-								id='defaultFormRegisterNameEx'
-								className='form-control'
-								required
-								value='Izzy2020'
+								value={post.name}
 							/>
 							<label htmlFor='defaultFormRegisterNameEx'>전화번호</label>
 							<input
@@ -137,7 +189,16 @@ const CustomerInfo = () => {
 								id='defaultFormRegisterNameEx'
 								className='form-control'
 								required
-								value='010-1234-5678'
+								value={post.phoneNumber}
+							/>
+							<label htmlFor='defaultFormRegisterNameEx'>이사 희망 날짜</label>
+							<input
+								name='fname'
+								type='text'
+								id='defaultFormRegisterNameEx'
+								className='form-control'
+								required
+								value={post.movingDate}
 							/>
 							<label htmlFor='defaultFormRegisterNameEx'>출발지</label>
 							<input
@@ -146,7 +207,7 @@ const CustomerInfo = () => {
 								id='defaultFormRegisterNameEx'
 								className='form-control'
 								required
-								value={searchedAddr}
+								value={post.movingFrom}
 							/>
 							<label htmlFor='defaultFormRegisterNameEx'>도착지</label>
 							<input
@@ -155,10 +216,14 @@ const CustomerInfo = () => {
 								id='defaultFormRegisterNameEx'
 								className='form-control'
 								required
-								value={searchedAddr}
+								value={post.movingTo}
 							/>
+
 							<br />
 							<br />
+							<h3>두 지점 사이의 거리: {distance.toFixed()} km </h3>
+							<h3>두 거리 간 예상 이사 배달 비용 : {distance.toFixed()*0.2} 만원(km당 천원)</h3>
+
 							<Locate panTo={panTo} />
 							<Search
 								panTo={panTo}
@@ -169,21 +234,12 @@ const CustomerInfo = () => {
 							<GoogleMap
 								id='map'
 								mapContainerStyle={mapContainerStyle}
-								zoom={14}
-								center={center}
+								zoom={12}
+								center={centeredCoor}
 								options={options}
 								onClick={onMapClick}
 								onLoad={onMapLoad}
 							>
-								<Marker
-									position={center}
-									icon={{
-										url: `/home.svg`,
-										origin: new window.google.maps.Point(0, 0),
-										anchor: new window.google.maps.Point(15, 15),
-										scaledSize: new window.google.maps.Size(45, 45),
-									}}
-								/>
 								{searchMarker && (
 									<Marker
 										position={searchSelected}
@@ -207,10 +263,10 @@ const CustomerInfo = () => {
 											position={item.location}
 											onClick={() => onSelect(item)}
 											icon={{
-												url: `/movingCar.png`,
+												url: `/home.svg`,
 												origin: new window.google.maps.Point(0, 0),
-												anchor: new window.google.maps.Point(15, 15),
-												scaledSize: new window.google.maps.Size(30, 30),
+												anchor: new window.google.maps.Point(20, 20),
+												scaledSize: new window.google.maps.Size(40, 40),
 											}}
 										/>
 									);
@@ -221,10 +277,37 @@ const CustomerInfo = () => {
 										clickable={true}
 										onCloseClick={() => setInitialSelected({})}
 									>
-										<h5>{initialSelected.name}</h5>
+										<h5>
+											{initialSelected.name} : {post.movingFrom}
+										</h5>
 									</InfoWindow>
 								)}
-
+								{destinations.map(info => {
+									return (
+										<Marker
+											key={info.name}
+											position={info.arrival}
+											onClick={() => onSelect2(info)}
+											icon={{
+												url: `/movingCar.png`,
+												origin: new window.google.maps.Point(0, 0),
+												anchor: new window.google.maps.Point(15, 15),
+												scaledSize: new window.google.maps.Size(30, 30),
+											}}
+										/>
+									);
+								})}
+								{destinationSelected.arrival && (
+									<InfoWindow
+										position={destinationSelected.arrival}
+										clickable={true}
+										onCloseClick={() => setDestinationSelected({})}
+									>
+										<h5>
+											{destinationSelected.name} : {post.movingTo}
+										</h5>
+									</InfoWindow>
+								)}
 								{markers.map(marker => (
 									<Marker
 										key={`${marker.lat}-${marker.lng}`}
@@ -264,6 +347,38 @@ const CustomerInfo = () => {
 										</div>
 									</InfoWindow>
 								) : null}
+								<Polyline
+									path={[movingToCoor,centeredCoor]}
+									visible={true}
+									options={{
+										strokeColor: "#096BF2 ",
+										strokeOpacity: 1,
+										strokeWeight: 3,
+										icons:[
+											{icon: {path:window.google.maps.SymbolPath.DEFAULT},
+												offset: "0",
+												repeat: "40px"},
+										]
+									}}
+									onClick={()=>{
+										setPolyShow(true)
+									}}
+								>
+									<InfoWindow position={midPoint}
+												visible={true}
+									>
+										<p>두 지점 사이의 거리: {distance.toFixed()} km</p>
+									</InfoWindow>
+								</Polyline>
+								{polyShow ? (
+									<InfoWindow position={midPoint}
+												onCloseClick={() => {
+													setPolyShow(false);
+												}}
+									>
+										<p>두 지점 사이의 거리: {distance.toFixed()} km</p>
+									</InfoWindow>
+								):null}
 							</GoogleMap>
 						</MDBCol>
 					</MDBRow>
@@ -303,7 +418,7 @@ function Search({panTo, setPosition, setMarkerShow, setSearchedAddr}) {
 	} = usePlacesAutocomplete({
 		requestOptions: {
 			location: {lat: () => 37.5717975, lng: () => 126.9325254}, // 검색할때의 이 지점에서부터 찾는?
-			radius: 100 * 1000,
+			radius: 200 * 1000,
 		},
 	});
 	// https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
@@ -347,9 +462,9 @@ function Search({panTo, setPosition, setMarkerShow, setSearchedAddr}) {
 				<ComboboxPopover>
 					<ComboboxList>
 						{status === 'OK' &&
-							data.map(({id, description}) => (
-								<ComboboxOption key={id} value={description} />
-							))}
+						data.map(({id, description}) => (
+							<ComboboxOption key={id} value={description} />
+						))}
 					</ComboboxList>
 				</ComboboxPopover>
 			</Combobox>

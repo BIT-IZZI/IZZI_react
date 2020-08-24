@@ -1,3 +1,4 @@
+/*
 import React, { useState, useEffect } from "react";
 import UploadService from "./UploadService";
 
@@ -12,13 +13,16 @@ const UploadFiles = () => {
     const [progress, setProgress] = useState(0);
     const [message, setMessage] = useState("");
     const [fileInfos, setFileInfos] = useState([]);
+    const [orderId,setOrderId]=useState(JSON.parse(localStorage.estiDate).orderId)
     const selectFile = (event) => {
         setSelectedFiles(event.target.files);
     };
     const upload = () => {
+
         let currentFile = selectedFiles[0];
         setProgress(0);
         setCurrentFile(currentFile);
+        setOrderId('');
 
         UploadService.upload(currentFile, (event) => {
             setProgress(Math.round((100 * event.loaded) / event.total));
@@ -72,7 +76,7 @@ const UploadFiles = () => {
                 {message}
             </div>
 
-      {/*<div className="card">
+      {/!*<div className="card">
                 <div className="card-header">List of Files</div>
                <ul className="list-group list-group-flush">
                     {fileInfos &&
@@ -84,8 +88,21 @@ const UploadFiles = () => {
 
                     ))}
                 </ul>
-            </div>*/}
+            </div>*!/}
         </div>
+        </div>
+    );
+};
+
+export default UploadFiles;
+*/
+
+import React from 'react';
+
+const UploadFiles = () => {
+    return (
+        <div>
+            <h1>d</h1>
         </div>
     );
 };

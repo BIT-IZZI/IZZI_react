@@ -45,6 +45,7 @@ import MyInfo from './myPage/MyInfo';
 import UploadPage from "../components/videoUpload/UploadPage";
 import UserInfo from './community/UserInfo';
 import SquareLg from "../components/move/component/dragdrop/SquareLg";
+import UploadTest from "../components/videoUpload/UploadTest";
 const Home = () => {
 
 
@@ -77,7 +78,7 @@ const Home = () => {
 				<Route path='/adminMyPage' component={AdminMyPage} />
 				<Route path='/order' component={Order} />
 				<Route
-					path={`/customerInfo/:id`}
+					path={`/customerInfo/:orderId`}
 					render={props => <CustomerInfo {...props} />}
 				/>
 				<Route path='/statistics' component={Statistics} />
@@ -102,6 +103,7 @@ const Home = () => {
 				<Route path={"/orderdetail"} component={OrderDetail}/>
 				<Route path={"/testca"} component={TesCa}/>
 				<Route path={"/lg"} component={SquareLg}/>
+				<Route path={"/uploadtest"} component={UploadTest}/>
 
 			</Switch>
 			<Footer />

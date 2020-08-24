@@ -18,8 +18,8 @@ const Order = () => {
 			});
 	}, []);
 	const columns = [
-		{title: '번호', field: 'id'},
-		{title: '이름', field: 'name'},
+		{title: '번호', field: 'orderId'},
+		{title: '이름', field: 'movingName'},
 		{title: '출발지', field: 'movingFrom'},
 		{title: '도착지', field: 'movingTo'},
 		{title: '이사종류', field: 'movingType'},
@@ -47,7 +47,7 @@ const Order = () => {
 											grouping: true,
 										}}
 										onRowClick={((event, rowData) => {
-											history.push(`/customerInfo/${rowData.id}`)
+											history.push(`/customerInfo/${rowData.orderId}`)
 										})}
 									/>
 								</div>

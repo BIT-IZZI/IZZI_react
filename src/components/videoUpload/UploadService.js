@@ -1,11 +1,12 @@
 import http from "../../http-common";
 
 const upload = (file, onUploadProgress) => {
-    let formData = new FormData();
 
+    let formData = new FormData();
+    console.log(JSON.parse(localStorage.estiDate).orderId);
     formData.append("file", file);
     console.log(file)
-    return http.post(`/izzifile/upload`, formData, {
+    return http.post(`/izzifile/upload/${JSON.parse(localStorage.estiDate).orderId}`, formData, {
         headers: {
             "Content-Type": "multipart/form-data",
         },
@@ -14,7 +15,7 @@ const upload = (file, onUploadProgress) => {
 };
 
 const getFiles = () => {
-    return http.get("/izzifile/files");
+    return  null/*http.get("/izzifile/files")*/;
 };
 
 export default {

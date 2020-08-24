@@ -2,12 +2,14 @@ import React, {useEffect, useState} from 'react';
 
 import {SideBar} from '../../commons/index';
 import axios from 'axios';
-import '../../assets/css/sb-admin-2.css';
-import {Link} from 'react-router-dom';
+/*import '../../assets/css/sb-admin-2.css';*/
+import {Link, useHistory} from 'react-router-dom';
 import {MDBBtn} from 'mdbreact';
+import MaterialTable from "material-table";
 
 const Market = () => {
 	const [articlesList, setArticlesList] = useState([]);
+	const history =useHistory()
 	useEffect(() => {
 		axios
 			.get(`http://localhost:8080/articles/list`)
@@ -19,74 +21,48 @@ const Market = () => {
 				throw error;
 			});
 	}, []);
-
+	const columns=[
+		{title: '번호', field: 'articleId'},
+		{title: '제목', field: 'title'},
+		{title: '글쓴이', field: 'writer'},
+		{title: '희망 거래 장소', field: 'address'},
+		{title: '작성일', field: 'regDate'},
+	]
 	return (
 		<>
 			<SideBar />
-			<div id='wrapper'>
-				<div id='page-wrapper'>
-					<div className='row'>
-						<div className='col-lg-12'>
-							<br />
-							<h2 className='page-header'>중고 거래 게시판</h2>
-							<br />
-						</div>
-					</div>
-					<div className='row'>
-						<div className='col-lg-12'>
-							<div className='panel panel-default'>
-								{/*<div className="panel-heading">
-                                        <h3>후기</h3>
-                                    </div>*/}
-								{/* /.panel-heading */}
-								<div className='panel-body'>
-									<table
-										width='100%'
-										className='table table-striped table-bordered table-hover'
-										id='dataTables-example'
-									>
-										<thead>
-											<tr>
-												<th>번호</th>
-												<th>제목</th>
-												<th>작성자</th>
-												<th>내용</th>
-												<th>희망 거래 장소</th>
-												<th>날짜 </th>
-											</tr>
-										</thead>
-										<tbody>
-											{articlesList.map((item, i) => (
-												<tr>
-													<td>{i + 1}</td>
-													<td>
-														<Link to={`/userInfo/${item.articleId}`}>
-															{' '}
-															{item.title}
-														</Link>
-													</td>
-													<td>{item.writer}</td>
-													<td>{item.contents}</td>
-													<td>{item.address} </td>
-													<td>날짜 </td>
-												</tr>
-											))}
-										</tbody>
-									</table>
-									{sessionStorage.userData && (
-										<Link to='/write'>
-											<MDBBtn className='btn blue-gradient'>글쓰기</MDBBtn>
-										</Link>
-									)}
+			<div style={{padding: '2rem', margin: '0 auto', maxWidth: 1200}}>
+				<div className='row'>
+					<div className='col-sm-12'>
+						<div className='card'>
+							<div className='card-body'>
+								<div id='batchDelete' className='transactions'>
+									<MaterialTable
+										title='중고 게시판'
+										columns={columns}
+										data={articlesList}
+										options={{
+											search: true,
+											pageSize: 10,
+											columnsButton: true,
+											maxBodyHeight: 700,
+											grouping: true,
+										}}
+										onRowClick={((event, rowData) => {
+											sessionStorage.userData ? (	history.push(`/userInfo/${rowData.articleId}`))
+												: history.push('/login')
+										})}
+									/>
 								</div>
-								{/* /.panel-body */}
+								{sessionStorage.userData && (
+									<Link to='/write'>
+										<MDBBtn className='btn blue-gradient'>글쓰기</MDBBtn>
+									</Link>
+								)}
 							</div>
-							{/* /.panel */}
 						</div>
-						{/* /.col-lg-12 */}
 					</div>
 				</div>
-				{/* /#page-wrapper */}
 			</div>
 		</>
 	);

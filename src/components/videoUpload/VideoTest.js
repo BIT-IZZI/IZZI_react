@@ -37,7 +37,7 @@ const VideoTest = () => {
     const [square,setSquare]=useState('')
     const [strSelectedDay, setStrSelectedDay] = useState("");
     const [selectedDay, setSelectedDay] = useState(utils().getToday());
-    const [userId, setUserId] = useState('');
+    const [userId, setUserId] = useState(JSON.parse(sessionStorage.userData).userId);
     const [validated, setValidated] = useState(false);
     const [data, setData] = useState([]);
     const [pbRain, setPbRain] = useState([])
@@ -57,6 +57,8 @@ const VideoTest = () => {
             setOptionalAddrFrom(accountInfo.optionalAddrFrom);
             setOptionalAddrTo(accountInfo.optionalAddrTo);
             setMovingDate(accountInfo.movingDate);
+
+
         }
     })
     const load = url => {
@@ -112,7 +114,7 @@ const VideoTest = () => {
     }
     const playerref = useRef(ref)
     const handleProgress = state => {
-        console.log('onProgress', state)
+      // console.log('onProgress', state)
         // We only want to update time slider if we are not currently seeking
         if (!seeking) {
             setState(state)
@@ -146,7 +148,7 @@ const VideoTest = () => {
 
         } else if (strSelectedDay !== "") {
             axios
-                .post(`http://localhost:8080/orders/modifyform/${userId}`, estiJsnon)
+                .patch(`http://localhost:8080/orders/modifyform/${userId}`, estiJsnon)
                 .then(response => {
                     alert('성공');
                     localStorage.setItem('estiDate', JSON.stringify(response.data));
@@ -482,7 +484,7 @@ const VideoTest = () => {
                 <div id="page-wrapper">
                     <div className="row">
                         <div className="col-lg-12"><br/>
-                            <h2 className="page-header">견적서 작성 내역</h2><br/>
+                            <h2 className="page-header">{userId}견적서 작성 내역</h2><br/>
                         </div>
                     </div>
                     <div className="row">
@@ -556,13 +558,13 @@ const VideoTest = () => {
                                 </MDBCol>
                                 <form method="post">
                                     <div className="form-group">
-                                        <div className="form-group">
-                                        </div>
+
                                         <label htmlFor="exampleFormControlInput1">제목</label>
                                         <MDBInput
-                                            type="text" className="form-control"
-                                            id="exampleFormControlInput1" name="movingWriter"
-                                            value={movingWriter}></MDBInput>
+                                            type="text"
+                                            validate
+                                            value={movingWriter}
+                                            onChange={e=> setMovingWriter(e.target.value)}/>
                                     </div>
                                     <br/>
                                     <div className="form-group">
@@ -570,15 +572,25 @@ const VideoTest = () => {
                                         <MDBInput
                                             type="text" className="form-control"
                                             id="exampleFormControlInput1" name="crea_id"
-                                            value={movingName}/>
+                                            value={movingName}
+                                            onChange={e=> setMovingName(e.target.value)}/>
                                     </div>
                                     <br/>
                                     <Form.Label>신청인 연락처</Form.Label>
                                     <Form.Control
                                         required
                                         type="text"
-
                                         value={movingPhone}
+
+
+                                    />
+                                    <MDBInput
+                                        label='아이디'
+                                        group
+                                        type='text'
+                                        validate
+                                        value={movingFrom}
+                                        onChange={e => setMovingFrom(e.target.value)}
 
                                     />
                                     <Form.Group as={Col} md="10" controlId="validationCustom03">
