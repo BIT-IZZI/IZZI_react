@@ -1,10 +1,18 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Nav, Navbar, Form} from 'react-bootstrap';
 import {Link, useHistory} from 'react-router-dom';
 import '../assets/css/main.css';
 import logo from '../assets/img/logo2.png';
 
-export const Navigator = ({userId}) => {
+export const Navigator = () => {
+    const [accountInfo] = useState(JSON.parse(sessionStorage.getItem("userData")));
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        if (accountInfo) {
+            setUserId(accountInfo.userId);
+        }
+    }, [accountInfo]);
 
     const history = useHistory();
     const handleLogout = () => {

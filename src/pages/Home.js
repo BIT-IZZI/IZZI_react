@@ -46,18 +46,11 @@ import UploadPage from "../components/videoUpload/UploadPage";
 import UserInfo from './community/UserInfo';
 import SquareLg from "../components/move/component/dragdrop/SquareLg";
 const Home = () => {
-	const [accountInfo] = useState(JSON.parse(sessionStorage.getItem("userData")));
-    const [userId, setUserId] = useState(null);
 
-    useEffect(() => {
-        if (accountInfo) {
-            setUserId(accountInfo.userId);
-        }
-    }, [accountInfo]);
 
 	return (
 		<>
-			<Navigator userId={userId}/>
+			<Navigator/>
 			<Switch>
 				<Route exact path={'/'}>
 					<Main />

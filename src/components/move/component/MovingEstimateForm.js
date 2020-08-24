@@ -21,7 +21,7 @@ import DatePicker, {Calendar,utils} from "react-modern-calendar-datepicker";
 import "../../../assets/css/calendar.css";
 import '../../modalTest/modal.css'
 function MovingEstimateForm() {
-    const [accountInfo] = useState(JSON.parse(sessionStorage.userData));
+    const [accountInfo] = useState(JSON.parse(sessionStorage.getItem("userData")));
     const [validated, setValidated] = useState(false);
     const [movingName, setMovingName] = useState("");
     const [userId, setUserId] = useState('');
@@ -40,20 +40,24 @@ function MovingEstimateForm() {
     const [pbRain, setPbRain] = useState([])
     const [data, setData] = useState([]);
     const [check, setCheck] = useState(false)
- //   const [selectedDay, setSelectedDay] = useState(null);
+    //   const [selectedDay, setSelectedDay] = useState(null);
     const [strSelectedDay, setStrSelectedDay] = useState("");
     const [selectedDay, setSelectedDay] = useState(utils().getToday());
 
     useEffect(() => {
-        if(accountInfo) {
+        if(!accountInfo) {
+            alert("로그인 후 작성 가능합니다.");
+
+        }else{
             setMovingName(accountInfo.name);
             setMovingPhone(accountInfo.phoneNumber);
             setMovingFrom(accountInfo.address);
             setOptionalAddrFrom(accountInfo.optionalAddr);
             setUserId(accountInfo.userId);
             setId(accountInfo.id);
+
         }
-    })
+    },[])
     const regDate = (e) => {
         e.preventDefault();
         if (movingName === '' || movingPhone === '' || movingFrom === '' || movingFrom === '' || movingTo === '' || optionalAddrFrom === '' || optionalAddrTo === '' || check === false) {
@@ -445,7 +449,7 @@ function MovingEstimateForm() {
                                         <MDBCardBody>
 
                                             <MDBCardTitle className="h2" style={{textAlign: 'center', marginButton: '2rem'}}>{/*가구배치*/}
-                                            1단계 내 방 비디오와 가구배치도 올리기
+                                                1단계 내 방 비디오와 가구배치도 올리기
                                             </MDBCardTitle>
                                             <MDBCol noValidate validated={validated} onSubmit={handleSubmit}>
                                                 <MDBCard style={{width: "100%", height: "200px"}}>
@@ -613,9 +617,9 @@ function MovingEstimateForm() {
                                                 <Form.Group controlId="exampleForm.ControlSelect1">
                                                     <div id="wrapper">
                                                         <div id="page-wrap">
-                                                    <section className="select">
-                                                    <Form.Label>이사 날짜</Form.Label>
-                                                     {/*   <DatePicker
+                                                            <section className="select">
+                                                                <Form.Label>이사 날짜</Form.Label>
+                                                                {/*   <DatePicker
                                                             value={selectedDay}
                                                             onChange={setSelectedDay}
                                                             inputPlaceholder="Select a day"
@@ -623,48 +627,48 @@ function MovingEstimateForm() {
                                                             shouldHighlightWeekends
                                                             customDaysClassName={data}
                                                         />*/}
-                                                    <div>
-                                                        <DatePicker
-                                                            value={selectedDay}
-                                                            renderInput={renderCustomInput}
-                                                            inputClassName="my-custom-input-class"
-                                                            shouldHighlightWeekends
-                                                        />
-                                                    </div>
-                                                    <div className="row">
-                                                        <Calendar
-                                                            value={selectedDay}
-                                                            onChange={setSelectedDay}
-                                                            minimumDate={utils().getToday()}
-                                                            colorPrimary="#00365a"
-                                                            calendarClassName="custom-calendar"
-                                                            shouldHighlightWeekends
-                                                            customDaysClassName={data}
-                                                        />
-                                                        <section className="card-body">
-                                                            <br/>
-                                                            <p className="color-a"><h4>＊손 없는 날</h4><h5 style={priceStyle}>35% 추가 금액 적용</h5></p><br/>
-                                                            <p className="color-b"><h4>＊공휴일</h4><h5 style={priceStyle}>15% 추가 금액 적용</h5></p><br/>
-                                                            <p className="color-c"><h4>＊특가 기간</h4><h5 style={priceStyle}>20% 할인 금액 적용</h5></p>
-                                                        </section>
-                                                    </div>
-                                                    </section>
+                                                                <div>
+                                                                    <DatePicker
+                                                                        value={selectedDay}
+                                                                        renderInput={renderCustomInput}
+                                                                        inputClassName="my-custom-input-class"
+                                                                        shouldHighlightWeekends
+                                                                    />
+                                                                </div>
+                                                                <div className="row">
+                                                                    <Calendar
+                                                                        value={selectedDay}
+                                                                        onChange={setSelectedDay}
+                                                                        minimumDate={utils().getToday()}
+                                                                        colorPrimary="#00365a"
+                                                                        calendarClassName="custom-calendar"
+                                                                        shouldHighlightWeekends
+                                                                        customDaysClassName={data}
+                                                                    />
+                                                                    <section className="card-body">
+                                                                        <br/>
+                                                                        <p className="color-a"><h4>＊손 없는 날</h4><h5 style={priceStyle}>35% 추가 금액 적용</h5></p><br/>
+                                                                        <p className="color-b"><h4>＊공휴일</h4><h5 style={priceStyle}>15% 추가 금액 적용</h5></p><br/>
+                                                                        <p className="color-c"><h4>＊특가 기간</h4><h5 style={priceStyle}>20% 할인 금액 적용</h5></p>
+                                                                    </section>
+                                                                </div>
+                                                            </section>
                                                         </div>
                                                     </div>
-                                            </Form.Group>
-                                                    <Form.Group controlId="exampleForm.ControlSelect1">
-                                                        <Form.Label>이사 유형</Form.Label>
-                                                        <Form.Control as="select"
-                                                                      required
-                                                                      value={movingType}
-                                                                      onChange={e => setMovingType(e.target.value)}>
-                                                            <option >선택</option>
-                                                            <option value={'집이사'}>집이사</option>
-                                                            <option value={'사무실이사'}>사무실이사</option>
-                                                            <option value={'보관이사'}>보관이사</option>
-                                                            <option value={'소형이사'}>소형이사</option>
-                                                        </Form.Control>
-                                                    </Form.Group>
+                                                </Form.Group>
+                                                <Form.Group controlId="exampleForm.ControlSelect1">
+                                                    <Form.Label>이사 유형</Form.Label>
+                                                    <Form.Control as="select"
+                                                                  required
+                                                                  value={movingType}
+                                                                  onChange={e => setMovingType(e.target.value)}>
+                                                        <option >선택</option>
+                                                        <option value={'집이사'}>집이사</option>
+                                                        <option value={'사무실이사'}>사무실이사</option>
+                                                        <option value={'보관이사'}>보관이사</option>
+                                                        <option value={'소형이사'}>소형이사</option>
+                                                    </Form.Control>
+                                                </Form.Group>
                                                 <Form.Group>
                                                     <Form.Check
                                                         required
@@ -698,7 +702,7 @@ function MovingEstimateForm() {
             </div>
             <div>
                 <div style={{textAlign: 'center', marginButton: '2rem'}}>
-            </div>
+                </div>
             </div>
         </>
     );
