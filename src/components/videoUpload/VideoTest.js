@@ -9,7 +9,7 @@ import {Postcode} from "../../pages/account";
 import "../../assets/css/calendar.css";
 import DatePicker, {Calendar, utils} from "react-modern-calendar-datepicker";
 import axios from "axios";
-
+import {CardDeck,Card} from 'react-bootstrap'
 const VideoTest = () => {
     const [accountInfo,setAccountInfo] = useState(JSON.parse(localStorage.estiDate));
     const [state, setState] = useState("")
@@ -43,6 +43,7 @@ const VideoTest = () => {
     const [pbRain, setPbRain] = useState([])
     const [id, setId] = useState('');
     const [movingDate,setMovingDate]=useState('')
+    const [orderId,setOrderId]=useState('')
     useEffect(() => {
         if(accountInfo) {
             setMovingName(accountInfo.movingName);
@@ -57,8 +58,7 @@ const VideoTest = () => {
             setOptionalAddrFrom(accountInfo.optionalAddrFrom);
             setOptionalAddrTo(accountInfo.optionalAddrTo);
             setMovingDate(accountInfo.movingDate);
-
-
+            setOrderId(accountInfo.orderId)
         }
     })
     const load = url => {
@@ -477,6 +477,21 @@ const VideoTest = () => {
             className="my-custom-input-class"
         />
     )
+    const [imageList, setImageList] = useState([]);
+    const [date,setDate]=useState([]);
+    useEffect(() => {
+        console.log(sessionStorage.getItem("userDate").userId)
+/*        axios
+            .get(`http://localhost:8080/file/geturi/${sessionStorage.getItem("userDate").userId}`)
+            .then(({data}) => {
+                setImageList(data);
+                console.log(data);
+            })
+            .catch(error => {
+                throw error;
+            });*/
+    }, []);
+
     return (
         <div>
             <SideBar/>
@@ -554,19 +569,15 @@ const VideoTest = () => {
                                                 </td>
                                             </tr>
                                         </MDBCardBody>
+
+                                        <MDBCardBody>
+                                            <h1>올린사진</h1>
+                                                    <img src={date}/>
+                                        </MDBCardBody>
+                                        
                                     </MDBCard>
                                 </MDBCol>
                                 <form method="post">
-                                    <div className="form-group">
-
-                                        <label htmlFor="exampleFormControlInput1">제목</label>
-                                        <MDBInput
-                                            type="text"
-                                            validate
-                                            value={movingWriter}
-                                            onChange={e=> setMovingWriter(e.target.value)}/>
-                                    </div>
-                                    <br/>
                                     <div className="form-group">
                                         <label htmlFor="exampleFormControlInput1">작성자</label>
                                         <MDBInput
@@ -576,14 +587,15 @@ const VideoTest = () => {
                                             onChange={e=> setMovingName(e.target.value)}/>
                                     </div>
                                     <br/>
+
+                                    <br/>
                                     <Form.Label>신청인 연락처</Form.Label>
                                     <Form.Control
                                         required
                                         type="text"
                                         value={movingPhone}
-
-
                                     />
+
                                     <MDBInput
                                         label='아이디'
                                         group
@@ -699,6 +711,16 @@ const VideoTest = () => {
                                             value={optionalAddrTo}
                                         />
                                     </Form.Group>
+                                    <div className="form-group">
+
+                                        <label htmlFor="exampleFormControlInput1">제목</label>
+                                        <MDBInput
+                                            type="text"
+                                            validate
+                                            value={movingWriter}
+                                            onChange={e=> setMovingWriter(e.target.value)}/>
+                                    </div>
+
                                     <div className="form-group">
                                         <label htmlFor="exampleFormControlTextarea1">내용</label>
                                         <textarea className="form-control" id="exampleFormControlTextarea1"

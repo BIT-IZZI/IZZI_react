@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 import {SideBar} from '../../commons/index';
 import axios from 'axios';
-/*import '../../assets/css/sb-admin-2.css';*/
+
 import {Link, useHistory} from 'react-router-dom';
 import {MDBBtn} from 'mdbreact';
 import MaterialTable from "material-table";

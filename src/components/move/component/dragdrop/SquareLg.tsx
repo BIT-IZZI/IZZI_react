@@ -20,7 +20,7 @@ const ComponentWrapper = styled.div`
   width: 100%;
   height: 100%;
   margin: 0 auto ;
-  background-color: green;
+  
   
 `
 const Button = styled.input.attrs({ type: 'button' })``

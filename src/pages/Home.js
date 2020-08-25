@@ -46,6 +46,7 @@ import UploadPage from "../components/videoUpload/UploadPage";
 import UserInfo from './community/UserInfo';
 import SquareLg from "../components/move/component/dragdrop/SquareLg";
 import UploadTest from "../components/videoUpload/UploadTest";
+import MovingEstimateFormTwo from "../components/move/component/MovingEstimateFormTwo";
 const Home = () => {
 
 
@@ -104,6 +105,7 @@ const Home = () => {
 				<Route path={"/testca"} component={TesCa}/>
 				<Route path={"/lg"} component={SquareLg}/>
 				<Route path={"/uploadtest"} component={UploadTest}/>
+				<Route path={"/estimatetwo"} component={MovingEstimateFormTwo}/>
 
 			</Switch>
 			<Footer />
