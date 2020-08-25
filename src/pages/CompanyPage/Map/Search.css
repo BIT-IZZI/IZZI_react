@@ -28,3 +28,13 @@
     width: 30px;
     cursor: pointer;
 }
+.estisearch {
+    position: relative;
+    top: 4rem;
+    left: 40%;
+    height: 50px;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 300px;
+    z-index: 10;
+}

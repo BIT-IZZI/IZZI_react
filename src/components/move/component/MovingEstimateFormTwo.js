@@ -81,9 +81,10 @@ const postApis = (payload) => {
         Accept: 'application/json',
         'Content-Type': 'multipart/form-data'
     })
-        .then(res =>
-            alert("성공")
-        )
+        .then(res => {
+            alert("이미지 업로드 완료")
+            window.location.href = '/videotest';
+        })
 }
 const handlePost = () => {
     const formData = new FormData()
@@ -102,7 +103,6 @@ return (
         <div id="wrapper">
             <div>
                 <div className="row">
-
                     <MDBContainer className="mt-5 text-center">
                         <MDBRow>
                             <MDBCol>
@@ -160,7 +160,7 @@ return (
                                             textAlign: 'center',
                                             marginButton: '2rem'
                                         }}>{/*가구배치*/}
-                                            <Form.Group>
+                                           {/* <Form.Group>
                                                 <Form.Check
                                                     required
                                                     label="개인정보 제공에 동의합니다."
@@ -168,7 +168,7 @@ return (
                                                     value={check}
                                                     onClick={() => setCheck(true)}
                                                 />
-                                            </Form.Group>
+                                            </Form.Group>*/}
                                             <Button onClick={e => setQrshow(!qrshow)}>
                                                 어플다운받기
                                                 <Modal show={qrshow} size={"sm"}
@@ -177,6 +177,11 @@ return (
                                                     <img src={QRcode}/>
                                                 </Modal>
                                             </Button>
+                                            {sessionStorage.userData && (
+                                                <Button type='submit' >
+                                                    Submit form
+                                                </Button>
+                                            )}
 
                                             {!sessionStorage.userData && (
                                                 <Button type="submit" onClick={() => alert("로그인을 해주세요")}>Submit

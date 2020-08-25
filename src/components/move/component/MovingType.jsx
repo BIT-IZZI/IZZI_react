@@ -17,6 +17,7 @@ const MovingType = () => {
 		} else {
 			setModalPage(modalPage + 1);
 		}
+
 	};
 
 	return (

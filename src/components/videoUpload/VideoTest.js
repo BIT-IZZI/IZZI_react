@@ -9,7 +9,8 @@ import {Postcode} from "../../pages/account";
 import "../../assets/css/calendar.css";
 import DatePicker, {Calendar, utils} from "react-modern-calendar-datepicker";
 import axios from "axios";
-import {CardDeck,Card} from 'react-bootstrap'
+
+import img from "../../assets/img/1.jpeg";
 const VideoTest = () => {
     const [accountInfo,setAccountInfo] = useState(JSON.parse(localStorage.estiDate));
     const [state, setState] = useState("")
@@ -479,18 +480,34 @@ const VideoTest = () => {
     )
     const [imageList, setImageList] = useState([]);
     const [date,setDate]=useState([]);
-    useEffect(() => {
-        console.log(sessionStorage.getItem("userDate").userId)
-/*        axios
-            .get(`http://localhost:8080/file/geturi/${sessionStorage.getItem("userDate").userId}`)
+  /*  useEffect(() => {
+       console.log(JSON.parse(sessionStorage.getItem("userData")).id)
+        axios
+            .get(`http://localhost:8080/file/geturi/${JSON.parse(localStorage.getItem("estiDate")).orderId}`)
             .then(({data}) => {
                 setImageList(data);
-                console.log(data);
+                console.log("data :" + data);
+                console.log("setImageList :" + imageList);
+
             })
             .catch(error => {
                 throw error;
-            });*/
-    }, []);
+            });
+    }, []);*/
+useEffect(()=>{
+    axios
+        .get(`http://localhost:8080/file/getfilename/${JSON.parse(localStorage.getItem("estiDate")).orderId}`)
+        .then(({data}) => {
+            setImageList(data);
+            console.log("data :" + data);
+            console.log("setImageList :" + imageList);
+
+        })
+        .catch(error => {
+            throw error;
+        });
+}, []);
+
 
     return (
         <div>
@@ -572,9 +589,12 @@ const VideoTest = () => {
 
                                         <MDBCardBody>
                                             <h1>올린사진</h1>
-                                                    <img src={date}/>
+                                            <h1>{imageList}</h1>
+                                                    <img onl src="[imageList]" width="100px" height="100px"/>
+                                                    <img src="C:/Users/user/Documents/IzzI_backend/src/main/resources/static/images/izzi/download%20(26).png"/>
+
+
                                         </MDBCardBody>
-                                        
                                     </MDBCard>
                                 </MDBCol>
                                 <form method="post">
@@ -587,7 +607,6 @@ const VideoTest = () => {
                                             onChange={e=> setMovingName(e.target.value)}/>
                                     </div>
                                     <br/>
-
                                     <br/>
                                     <Form.Label>신청인 연락처</Form.Label>
                                     <Form.Control
