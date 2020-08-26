@@ -12,6 +12,7 @@ import '@reach/combobox/styles.css';
 
 import mapStyles from '../CompanyPage/Map/mapStyles';
 import {SideBar} from '../../commons';
+import {MDBBtn, MDBCardBody} from "mdbreact";
 
 Geocode.setApiKey('AIzaSyCrQuKKwt0DtPF8vxKPx6dRq3us6me2LO8');
 Geocode.setLanguage('ko');
@@ -393,11 +394,28 @@ function Search({panTo, setPosition, setMarkerShow, setSearchedAddr}) {
 			console.log('😱 Error: ', error);
 		}
 	};
+	const downloadFile = ()=>{
+		axios.get(`http://localhost:8080/file/download/16`,{
+			responseType: 'arraybuffer',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/pdf'
+			}
+		}).then(res =>{
+			const url = window.URL.createObjectURL(new Blob([res.data]));
+			const link = document.createElement('a');
+			link.href = url;
+			link.setAttribute('download', 'download.png');
+			document.body.appendChild(link);
+			link.click();
+		})
+	}
 	return (
 		<div className='search'>
 			<Combobox onSelect={handleSelect}>
 				<br />
-				<ComboboxInput value={value} onChange={handleInput} disabled={!ready} placeholder='위치 검색' />
+				<MDBBtn onClick={downloadFile}>중고거래사진 다운로드</MDBBtn>
+		{/*		<ComboboxInput value={value} onChange={handleInput} disabled={!ready} placeholder='위치 검색' />*/}
 				<ComboboxPopover>
 					<ComboboxList>{status === 'OK' && data.map(({id, description}) => <ComboboxOption key={id} value={description} />)}</ComboboxList>
 				</ComboboxPopover>

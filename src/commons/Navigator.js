@@ -21,6 +21,7 @@ export const Navigator = () => {
         window.location.reload(); // 새로고침버튼처럼 현재 리소스를 다시불러옴
     };
     return (
+        <>
         <div className="navbar-fixed">
             <Navbar className='navbar-collapse' variant='dark'>
                 <Link to='/'>
@@ -41,7 +42,7 @@ export const Navigator = () => {
                     <Link to='/notice'>
                         <Navbar.Brand>공지사항</Navbar.Brand>
                     </Link>
-                    <Link to='/community'>
+                    <Link to='/market'>
                         <Navbar.Brand>커뮤니티</Navbar.Brand>
                     </Link>
                     <Link to='/contacts'>
@@ -65,12 +66,12 @@ export const Navigator = () => {
                     {userId && (
                         <>
                             <Navbar.Brand onClick={handleLogout}>로그아웃</Navbar.Brand>
-                            {userId === 'slimshady20' && (
+                            {userId === 'emp01' && (
                                 <Link to='/adminMyPage'>
                                     <Navbar.Brand> MyPage</Navbar.Brand>
                                 </Link>
                             )}
-                            {userId !== 'slimshady20' && (
+                            {userId !== 'emp01' && (
                                 <Link to='/userMyPage'>
                                     <Navbar.Brand>Mypage</Navbar.Brand>
                                 </Link>
@@ -81,6 +82,7 @@ export const Navigator = () => {
                 </Form>
             </Navbar>
         </div>
+            </>
     );
 };
 export default Navigator;

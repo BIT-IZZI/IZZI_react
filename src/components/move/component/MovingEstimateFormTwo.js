@@ -108,7 +108,6 @@ return (
                             <MDBCol>
                                 <MDBJumbotron>
                                     <MDBCardBody>
-
                                         <MDBCardTitle className="h2" style={{
                                             textAlign: 'center',
                                             marginButton: '2rem'

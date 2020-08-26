@@ -56,9 +56,11 @@ function MovingEstimateForm() {
     const [selected, setSelected] = useState({lat: '', lng: ''});
     const [centeredCoor, setCenteredCoor] = useState({lat: '', lng: ''});
     const [polyShow, setPolyShow] = useState(false);
-
+    const [mPrice,setMPrice]=useState('');
+    const [prices]=useState( '');
     const [calDate, setCalDate] = useState(0);
     console.log(JSON.parse(sessionStorage.getItem('userData')));
+
     useEffect(() => {
         if (!accountInfo) {
             alert('로그인 후 작성 가능합니다.');
@@ -94,6 +96,7 @@ function MovingEstimateForm() {
         }
     };
     const handleSubmit = () => {
+
         console.log(strSelectedDay);
         const estiJsnon = {
             movingName: movingName,
@@ -126,6 +129,7 @@ function MovingEstimateForm() {
                     throw error;
                 });
         }
+
 
     };
     const initialState = {number: 0};
@@ -421,7 +425,8 @@ function MovingEstimateForm() {
                         obj.day = Number(one.precipitationDate.split('-')[1]);
                         obj.className = 'pbRain60';
                         pBRainDate.push(obj);
-                    } /*else if (one.rainProb <= 80) {
+                    }
+                    /*else if (one.rainProb <= 80) {
                         obj.year = 2020;
                         obj.month = Number(one.precipitationDate.split('-')[0]);
                         obj.day = Number(one.precipitationDate.split('-')[1]);
@@ -443,6 +448,7 @@ function MovingEstimateForm() {
             });
         setData(goodDays);
     }, []);
+
     const renderCustomInput = ({ref}) => (
         <input
             readOnly='true'

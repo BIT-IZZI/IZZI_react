@@ -1,51 +1,238 @@
-import React from 'react';
-import {Bar} from 'react-chartjs-2';
-
+import React, {useEffect, useState} from 'react';
+import {Bar, Line} from 'react-chartjs-2';
+import {UserSideBar} from '../../commons/index'
+import axios from 'axios';
 import '../../assets/css/sb-admin-2.css'
-
 const Charts = () => {
-    const state = {
+    const [dataList, setDataList] = useState('')
+    const barData = {
         labels: ['January', 'February', 'March',
-            'April', 'May', 'June','July',"August"],
+            'April', 'May', 'June','July','August',
+            'September', 'October','November','December'],
         datasets: [
             {
-                label: '방문',
+                label: '서울',
                 backgroundColor: 'rgba(75,192,192,1)',
                 borderColor: 'rgba(0,0,0,1)',
                 borderWidth: 2,
-                data: [65, 59, 80, 81, 56, 40, 44, 12]
+                data: [129031,143367,137242,122867,    117209,    97933, 118365,    110592,    345802,    128067,    113012,    382630
+                ]
+            },
+            {
+                label: '부산',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '대구',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '인천',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '광주',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '대전',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '울산',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '세종',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '경기',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '강원',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '충북',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '충남',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '전북',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '전남',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '경북',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '경남',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            },
+            {
+                label: '제주',
+                backgroundColor: 'rgba(75,192,192,1)',
+                borderColor: 'rgba(0,0,0,1)',
+                borderWidth: 2,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
             }
         ]
     }
-
+    const lineData = {
+        labels: ['1월', '2월', '3월', '4월',
+            '5월', '6월','7월','8월',
+            '9월', '10월','11월','12월'],
+        datasets: [
+            {
+                label: '전출 인구수 (명)',
+                fill: false,
+                lineTension: 0.1,
+                backgroundColor: '#2176C1',
+                borderColor: 'rgba(139,189,255,1)',
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: 'rgba(75,192,192,1)',
+                pointBackgroundColor: '#fff',
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+                pointHoverBorderColor: 'rgba(220,220,220,1)',
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                data: [667227, 702329, 641449, 587293,
+                    569020, 484468, 563622, 565607,
+                    1647014, 594081, 565735, 1805598]
+            }
+        ]
+    };
+    useEffect(()=> {
+        axios
+            .get(`http://localhost:8080/statistics/list`)
+            .then(({data}) => {
+                setDataList(data.list);
+                console.log(data.list);
+            })
+            .catch(err => {
+                throw err;
+            });
+    }, [])
     return (
         <>
             <nav className="sidebar sidebar-offcanvas">
                 <ul className="nav">
-                    <li className="nav-item nav-category"><h1>Dashboard</h1></li>
+                    <li className="nav-item nav-category"><h3>주문 관리</h3></li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">
-                            <span className="menu-title">사용자 관리</span>
+                        <a className="nav-link" href="/order">
+                            <span className="menu-title">이사 접수 내역</span>
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">
-                            <span className="menu-title">주문 관리</span>
+                        <a className="nav-link" href="/">
+                            <span className="menu-title">고객 관리</span>
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">
-                            <span className="menu-title">통 계</span>
+                        <a className="nav-link" href="statistics">
+                            <span className="menu-title">매출 통계</span>
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">
-                            <span className="menu-title">일정 관리</span>
+                        <a className="nav-link" href="/charts">
+                            <span className="menu-title">인구통계</span>
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">
-                            <span className="menu-title">환경 설정</span>
+                        <a className="nav-link" href="/">
+                            <span className="menu-title">프로모션</span>
                         </a>
                     </li>
                 </ul>
@@ -54,33 +241,12 @@ const Charts = () => {
                 <div id="page-wrapper">
                     <div className="row">
                         <div className="col-lg-12"><br/>
-                            <h2 className="page-header">통계</h2><br/>
+                            <h2 className="page-header">19년도 인구 이동 통계</h2><br/>
+                            <h5>*출처 통계청(940만명 기준)</h5>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="panel panel-default">
-                                <div>
-                                    <Bar
-                                        data={state}
-                                        options={{
-                                            title:{
-                                                display:true,
-                                                text:'방문자 통계 현황',
-                                                fontSize:20
-                                            },
-                                            legend:{
-                                                display:true,
-                                                position:'right'
-                                            }
-                                        }}
-                                    />
-                                </div>
-                                {/* /.panel-body */}
-                            </div>
-                            {/* /.panel */}
-                        </div>
-                        {/* /.col-lg-12 */}
+                    <div>
+                        <Line data={lineData} />
                     </div>
                 </div>
                 {/* /#page-wrapper */}
@@ -88,5 +254,4 @@ const Charts = () => {
         </>
     );
 };
-
 export default Charts;

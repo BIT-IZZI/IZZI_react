@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import {SideBar} from "../../commons";
 
 import '../../assets/css/sb-admin-2.css'
+import {Market} from "./index";
 
 const Community = () => {
         return (
@@ -16,9 +17,10 @@ const Community = () => {
                                     </div>
                             </div>
                             <div className="row">
-                                    <div className="col-lg-12">
+
+                                    {/*<div className="col-lg-12">
                                             <div className="panel panel-default">
-                                                    {/* /.panel-heading */}
+                                                     /.panel-heading
                                                     <div className="panel-body">
                                                             <table width="100%" className="table table-striped table-bordered table-hover" id="dataTables-example">
                                                                     <thead>
@@ -69,10 +71,10 @@ const Community = () => {
                                                                     </tbody>
                                                             </table>
                                                     </div>
-                                                    {/* /.panel-body */}
+                                                     /.panel-body
                                             </div>
-                                            {/* /.panel */}
-                                    </div>
+                                             /.panel
+                                    </div>*/}
                                     {/* /.col-lg-12 */}
                             </div>
                             <div className="row">
@@ -80,13 +82,15 @@ const Community = () => {
                                             <Link to="/market"><h2 className="page-header">중고 거래</h2><br/></Link>
                                     </div>
                             </div>
-                            <div className="row">
+
+
+                            {/*<div className="row">
                                     <div className="col-lg-12">
                                             <div className="panel panel-default">
-                                                    {/*<div className="panel-heading">
+                                                    <div className="panel-heading">
                                 <h3>후기</h3>
-                            </div>*/}
-                                                    {/* /.panel-heading */}
+                            </div>
+                                                     /.panel-heading
                                                     <div className="panel-body">
                                                             <table width="100%" className="table table-striped table-bordered table-hover" id="dataTables-example">
                                                                     <thead>
@@ -137,12 +141,12 @@ const Community = () => {
                                                                     </tbody>
                                                             </table>
                                                     </div>
-                                                    {/* /.panel-body */}
+                                                     /.panel-body
                                             </div>
-                                            {/* /.panel */}
+                                             /.panel
                                     </div>
-                                    {/* /.col-lg-12 */}
-                            </div>
+                                     /.col-lg-12
+                            </div>*/}
                     </div>
                     {/* /#page-wrapper */}
                 </div>

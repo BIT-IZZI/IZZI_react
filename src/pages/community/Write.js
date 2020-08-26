@@ -4,6 +4,7 @@ import '../../assets/css/sb-admin-2.css';
 import {Postcode} from '../account';
 import axios from 'axios';
 import {useHistory} from 'react-router-dom';
+import {MDBCard, MDBCardBody, MDBCol} from "mdbreact";
 
 const Write = () => {
 	const [title, setTitle] = useState('');
@@ -38,6 +39,25 @@ const Write = () => {
 				});
 		}
 	};
+	const [upload, setUpload] = useState(null);
+	const postApis = (payload) => {
+
+		const orderId = JSON.parse(localStorage.estiDate).orderId
+		axios.post(`http://localhost:8080/file/upload/${orderId}/null`, payload, {
+			authorization: 'JWT fefege..',
+			Accept: 'application/json',
+			'Content-Type': 'multipart/form-data'
+		})
+			.then(res => {
+				alert("이미지 업로드 완료")
+
+			})
+	}
+	const handlePost = () => {
+		const formData = new FormData()
+		formData.append('file', upload)
+		postApis(formData)
+	}
 	return (
 		<>
 			<SideBar />
@@ -101,6 +121,16 @@ const Write = () => {
 											onChange={e => setContents(e.target.value)}
 										/>
 									</div>
+									<MDBCol>{/*파일업로드*/}
+										<MDBCard style={{width: "100%", height: "100px"}}>
+											<MDBCardBody>
+												<h3>중고 물품 사진올리기</h3>
+												<input type="file" name="file"
+													   onChange={e => setUpload(e.target.files[0])}/>
+												<button type="button" onClick={handlePost}>업로드</button>
+											</MDBCardBody>
+										</MDBCard>
+									</MDBCol>
 									<button
 										type='submit'
 										className='btn btn-info'
