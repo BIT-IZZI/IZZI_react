@@ -45,6 +45,7 @@ const VideoTest = () => {
     const [id, setId] = useState('');
     const [movingDate,setMovingDate]=useState('')
     const [orderId,setOrderId]=useState('')
+
     useEffect(() => {
         if(accountInfo) {
             setMovingName(accountInfo.movingName);
@@ -70,46 +71,7 @@ const VideoTest = () => {
             pip: false
         })
     }
-/*
-    const renderLoadButton = (url, label) => {
-        return (
-            <button onClick={() => load(url)}>
-                {label}
-            </button>
-        )
-    }
-    const handlePlayPause = () => {
-        setPlaying(!playing)
-    }
 
-    const handleTogglePIP = () => {
-        setPip(!pip)
-    }
-
-    const handlePlay = () => {
-        console.log('onPlay')
-        setPlaying(playing)
-    }
-    const handleEnablePIP = () => {
-        console.log('onEnablePIP')
-        setPip(true)
-    }
-    const handleDisablePIP = () => {
-        console.log('onDisablePIP')
-        setPip(!pip)
-    }
-    const handlePause = () => {
-        console.log('onPause')
-        setPlaying(false)//무조건 false로 둘것
-    }
-    const handleEnded = () => {
-        console.log('onEnded')
-        setPlaying(loop)
-    }
-    const handleDuration = (duration) => {
-        console.log('onDuration', duration)
-        setDuration(duration)
-    }*/
     const ref = player => {
         setPlayer(player)
     }
@@ -501,13 +463,28 @@ useEffect(()=>{
             setImageList(data);
             console.log("data :" + data);
             console.log("setImageList :" + imageList);
-
+        
         })
         .catch(error => {
             throw error;
         });
 }, []);
-
+const downloadFile = ()=>{
+        axios.get(`http://localhost:8080/file/download/16`,{
+            responseType: 'arraybuffer',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/pdf'
+            }
+        }).then(res =>{
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'download.png');
+            document.body.appendChild(link);
+            link.click();
+        })
+    }
 
     return (
         <div>
@@ -591,8 +568,8 @@ useEffect(()=>{
                                             <h1>올린사진</h1>
                                             <h1>{imageList}</h1>
                                                     <img onl src="[imageList]" width="100px" height="100px"/>
-                                                    <img src="C:/Users/user/Documents/IzzI_backend/src/main/resources/static/images/izzi/download%20(26).png"/>
-
+                                              {/*      <img src="C:/Users/user/Documents/IzzI_backend/src/main/resources/static/images/izzi/download%20(26).png"/>*/}
+                                            <MDBBtn onClick={downloadFile}>올린파일 다운로드</MDBBtn>
 
                                         </MDBCardBody>
                                     </MDBCard>

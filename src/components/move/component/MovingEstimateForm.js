@@ -751,8 +751,264 @@ function MovingEstimateForm() {
                                                                         colorPrimary='#00365a'
                                                                         calendarClassName='custom-calendar'
                                                                         shouldHighlightWeekends
-                                                                        customDaysClassName={data}
+                                                                        customDaysClassName={
+                                                                            [{
+                                                                            year: 2020,
+                                                                            month: 8,
+                                                                            day: 18,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 8,
+                                                                            day: 27,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 8,
+                                                                            day: 28,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 9,
+                                                                            day: 6,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 9,
+                                                                            day: 7,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 9,
+                                                                            day: 16,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 9,
+                                                                            day: 25,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 9,
+                                                                            day: 26,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 9,
+                                                                            day: 30,
+                                                                            className: 'holiDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 10,
+                                                                            day: 1,
+                                                                            className: 'holiDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 10,
+                                                                            day: 2,
+                                                                            className: 'holiDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 10,
+                                                                            day: 3,
+                                                                            className: 'holiDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 10,
+                                                                            day: 5,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 10,
+                                                                            day: 6,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 10,
+                                                                            day: 9,
+                                                                            className: 'holiDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 10,
+                                                                            day: 15,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 10,
+                                                                            day: 16,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 10,
+                                                                            day: 25,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 10,
+                                                                            day: 26,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 4,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 5,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 9,
+                                                                            className: 'saleDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 10,
+                                                                            className: 'saleDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 11,
+                                                                            className: 'saleDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 12,
+                                                                            className: 'saleDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 13,
+                                                                            className: 'saleDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 16,
+                                                                            className: 'saleDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 17,
+                                                                            className: 'saleDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 18,
+                                                                            className: 'saleDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 19,
+                                                                            className: 'saleDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 20,
+                                                                            className: 'saleDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 14,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 23,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 11,
+                                                                            day: 24,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 12,
+                                                                            day: 3,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 12,
+                                                                            day: 4,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 12,
+                                                                            day: 13,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 12,
+                                                                            day: 14,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 12,
+                                                                            day: 23,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 12,
+                                                                            day: 24,
+                                                                            className: 'handDay',
+                                                                        },
+                                                                        {
+                                                                            year: 2020,
+                                                                            month: 12,
+                                                                            day: 25,
+                                                                            className: 'holiDay',
+                                                                        }]}
                                                                         
+                                                                    />
+                                                                    <Calendar
+                                                                        value={selectedDay}
+                                                                        onChange={setSelectedDay}
+                                                                        minimumDate={utils().getToday()}
+                                                                        colorPrimary='#00365a'
+                                                                        calendarClassName='custom-calendar'
+                                                                        shouldHighlightWeekends
+                                                                        customDaysClassName={data}
+
                                                                     />
                                                                     <section className='card-body'>
                                                                         <br />

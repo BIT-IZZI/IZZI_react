@@ -217,7 +217,7 @@ const ModalTest = ({modalPage, show, handleClose, handlePage}) => {
                 <div onClick={onClickShow}>
                     <Modal.Header closeButton>
                         <Modal.Title id="example-custom-modal-styling-title">
-                            도착지( 서울 )
+                            도착지
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body onClick={handlePage}>
@@ -364,7 +364,7 @@ const ModalTest = ({modalPage, show, handleClose, handlePage}) => {
                 }
                 {(modalPage === 6) &&
                 <div><Modal.Header closeButton>
-                    <Modal.Title>이사날짜</Modal.Title>
+                    <Modal.Title>예상금액</Modal.Title>
                 </Modal.Header>
                     <Modal.Body>
                         <h2>
