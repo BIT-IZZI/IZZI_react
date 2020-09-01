@@ -735,6 +735,14 @@
 
 }
 
+
+.responsive-calendar {
+    /* by setting font-size, all the elements will correspond */
+    font-size: 14px !important; /* default to 10px */
+}
+
+
+
 @keyframes fadeCalendar {
     from {
         opacity: 0;

@@ -1,7 +1,7 @@
 import React, { Fragment, useCallback, useRef } from 'react'
 import styled from 'styled-components'
 import { useCapture } from './capture/index'
-import {Capture} from './capture/Capture'
+import {CaptureC} from './capture/CaptureC'
 
 const Wrapper = styled.div`
   text-align: center;
@@ -24,7 +24,7 @@ const ComponentWrapper = styled.div`
   
 `
 const Button = styled.input.attrs({ type: 'button' })``
-const SquareLg=()=> {
+const SquareC=()=> {
     const { snap } = useCapture()
     const element = useRef(null)
     const onClick = useCallback(() => {
@@ -36,7 +36,7 @@ const SquareLg=()=> {
                 <Wrapper>
                     <Headline>캡쳐</Headline>
                     <ComponentWrapper ref={element}>
-                        <Capture/>
+                        <CaptureC/>
                     </ComponentWrapper>
                     <br/>
                     <br/>
@@ -48,4 +48,4 @@ const SquareLg=()=> {
     )
 }
 
-export default SquareLg;
+export default SquareC;

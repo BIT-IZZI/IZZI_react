@@ -5,6 +5,7 @@ import {Postcode} from '../account';
 import axios from 'axios';
 import {useHistory} from 'react-router-dom';
 import {MDBCard, MDBCardBody, MDBCol} from "mdbreact";
+import {Image} from "../../components/videoUpload";
 
 const Write = () => {
 	const [title, setTitle] = useState('');
@@ -39,7 +40,7 @@ const Write = () => {
 				});
 		}
 	};
-	const [upload, setUpload] = useState(null);
+/*	const [upload, setUpload] = useState(null);
 	const postApis = (payload) => {
 
 		const orderId = JSON.parse(localStorage.estiDate).orderId
@@ -57,7 +58,8 @@ const Write = () => {
 		const formData = new FormData()
 		formData.append('file', upload)
 		postApis(formData)
-	}
+	}*/
+	const [img, setImg] =useState('')
 	return (
 		<>
 			<SideBar />
@@ -122,12 +124,10 @@ const Write = () => {
 										/>
 									</div>
 									<MDBCol>{/*파일업로드*/}
-										<MDBCard style={{width: "100%", height: "100px"}}>
+										<MDBCard style={{width: "100%", height: "170px"}}>
 											<MDBCardBody>
 												<h3>중고 물품 사진올리기</h3>
-												<input type="file" name="file"
-													   onChange={e => setUpload(e.target.files[0])}/>
-												<button type="button" onClick={handlePost}>업로드</button>
+												<Image path={'marketImgUpload'} setImgLink={(imgLink)=>{setImg(imgLink)}}/>
 											</MDBCardBody>
 										</MDBCard>
 									</MDBCol>

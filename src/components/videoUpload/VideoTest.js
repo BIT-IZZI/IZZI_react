@@ -10,9 +10,10 @@ import "../../assets/css/calendar.css";
 import DatePicker, {Calendar, utils} from "react-modern-calendar-datepicker";
 import axios from "axios";
 
-import img from "../../assets/img/1.jpeg";
+import FittedImage from "react-fitted-image";
+
 const VideoTest = () => {
-    const [accountInfo,setAccountInfo] = useState(JSON.parse(localStorage.estiDate));
+    const [accountInfo, setAccountInfo] = useState(JSON.parse(localStorage.estiDate));
     const [state, setState] = useState("")
     const [url, setUrl] = useState(null)
     const [controls, setControls] = useState(false)
@@ -32,22 +33,21 @@ const VideoTest = () => {
     const [movingPhone, setMovingPhone] = useState('');
     const [movingFrom, setMovingFrom] = useState('');
     const [movingTo, setMovingTo] = useState('');
+    const [movingPrice, setMovingPrice] = useState(0.0)
     const [optionalAddrFrom, setOptionalAddrFrom] = useState('')
     const [optionalAddrTo, setOptionalAddrTo] = useState('')
     const [movingType, setMovingType] = useState('')
-    const [square,setSquare]=useState('')
+    const [square, setSquare] = useState('')
     const [strSelectedDay, setStrSelectedDay] = useState("");
     const [selectedDay, setSelectedDay] = useState(utils().getToday());
     const [userId, setUserId] = useState(JSON.parse(sessionStorage.userData).userId);
-    const [validated, setValidated] = useState(false);
     const [data, setData] = useState([]);
     const [pbRain, setPbRain] = useState([])
-    const [id, setId] = useState('');
-    const [movingDate,setMovingDate]=useState('')
-    const [orderId,setOrderId]=useState('')
+    const [movingDate, setMovingDate] = useState('')
+    const [orderId, setOrderId] = useState('')
 
     useEffect(() => {
-        if(accountInfo) {
+        if (accountInfo) {
             setMovingName(accountInfo.movingName);
             setMovingPhone(accountInfo.movingPhone);
             setMovingFrom(accountInfo.movingFrom);
@@ -60,35 +60,32 @@ const VideoTest = () => {
             setOptionalAddrFrom(accountInfo.optionalAddrFrom);
             setOptionalAddrTo(accountInfo.optionalAddrTo);
             setMovingDate(accountInfo.movingDate);
-            setOrderId(accountInfo.orderId)
+            setOrderId(accountInfo.orderId);
+            setMovingPrice(accountInfo.movingPrice);
+            calTotalPrice({movingDate, movingPrice})
         }
-    })
-    const load = url => {
-        setState({
-            url,
-            played: 0,
-            loaded: 0,
-            pip: false
-        })
-    }
+    }, [accountInfo])
+
+     // useEffect(({movingDate, movingPrice})=>{
+     //     if(movingDate && movingPrice){calTotalPrice({movingDate, movingPrice})}
+     //
+     // }, [movingDate], [movingPrice])
 
     const ref = player => {
         setPlayer(player)
     }
     const playerref = useRef(ref)
     const handleProgress = state => {
-      // console.log('onProgress', state)
-        // We only want to update time slider if we are not currently seeking
         if (!seeking) {
             setState(state)
         }
     }
     const modifyBtn = (e) => {
         e.preventDefault();
-            const data = selectedDay;
-            const movingDate = `${data.year}-${data.month}-${data.day}`;
-            setStrSelectedDay(movingDate);
-            handleSubmit();
+        const data = selectedDay;
+        const movingDate = `${data.year}-${data.month}-${data.day}`;
+        setStrSelectedDay(movingDate);
+        handleSubmit();
     }
     const handleSubmit = () => {
         console.log(strSelectedDay);
@@ -105,6 +102,7 @@ const VideoTest = () => {
             movingDetail: movingDetail,
             square: square,
             userId: userId,
+            movingPrice:movingPrice
         };
         if (strSelectedDay === "") {
             alert("내용을 한번 더 확인해 주세요!");
@@ -379,53 +377,46 @@ const VideoTest = () => {
         color: 'red'
     }
     useEffect(() => {
-            axios.get(`http://localhost:8080/statistics/pbRain`)
-                .then((res) => {
-                    const pBRainDate = [];
-                    res.data.pbRain.forEach(one => {
-                        let obj = {};
-                        if (one.rainProb <= 20) {
-                            obj.year = 2020;
-                            obj.month = Number(one.precipitationDate.split("-")[0]);
-                            obj.day = Number(one.precipitationDate.split("-")[1]);
-                            obj.className = 'pbRain20';
-                            pBRainDate.push(obj);
-                        } else if (one.rainProb <= 40) {
-                            obj.year = 2020;
-                            obj.month = Number(one.precipitationDate.split("-")[0]);
-                            obj.day = Number(one.precipitationDate.split("-")[1]);
-                            obj.className = 'pbRain40';
-                            pBRainDate.push(obj);
-                        } else if (one.rainProb <= 60) {
-                            obj.year = 2020;
-                            obj.month = Number(one.precipitationDate.split("-")[0]);
-                            obj.day = Number(one.precipitationDate.split("-")[1]);
-                            obj.className = 'pbRain60';
-                            pBRainDate.push(obj);
-                        } else {
-                            obj.year = 2020;
-                            obj.month = Number(one.precipitationDate.split("-")[0]);
-                            obj.day = Number(one.precipitationDate.split("-")[1]);
-                            obj.className = 'pbRain80';
-                            pBRainDate.push(obj);
-                        }
-                    });
-                    setData(pBRainDate);
-                    setPbRain(res.data.pbRain)
-                }).catch(
-                error => {
-                    throw(error)
-                }
-            )
-            setData(goodDays)
-        }
-        , [])
-    const renderCustomInput = ({ ref }) => (
+        axios
+            .get(`http://localhost:8080/statistics/pbRain`)
+            .then(res => {
+                const pBRainDate = [];
+                res.data.pbRain.forEach(one => {
+                    let obj = {};
+                    if (one.rainProb <= 30) {
+                        obj.year = 2020;
+                        obj.month = Number(one.precipitationDate.split('-')[0]);
+                        obj.day = Number(one.precipitationDate.split('-')[1]);
+                        obj.className = 'pbRain20';
+                        pBRainDate.push(obj);
+                    } else if (one.rainProb <= 50) {
+                        obj.year = 2020;
+                        obj.month = Number(one.precipitationDate.split('-')[0]);
+                        obj.day = Number(one.precipitationDate.split('-')[1]);
+                        obj.className = 'pbRain40';
+                        pBRainDate.push(obj);
+                    } else if (one.rainProb <= 70) {
+                        obj.year = 2020;
+                        obj.month = Number(one.precipitationDate.split('-')[0]);
+                        obj.day = Number(one.precipitationDate.split('-')[1]);
+                        obj.className = 'pbRain60';
+                        pBRainDate.push(obj);
+                    }
+                });
+                setData(pBRainDate);
+                setPbRain(res.data.pbRain);
+            })
+            .catch(error => {
+                throw error;
+            });
+        setData(goodDays);
+    }, []);
+    const renderCustomInput = ({ref}) => (
         <input
-            readOnly = "true"
+            readOnly="true"
             ref={ref}
             placeholder="Select a Day"
-            value ={`${selectedDay.year}/${selectedDay.month}/${selectedDay.day}`}
+            value={`${selectedDay.year}/${selectedDay.month}/${selectedDay.day}`}
             style={{
                 textAlign: 'center',
                 padding: '0.3rem 0.5rem',
@@ -435,56 +426,46 @@ const VideoTest = () => {
                 boxShadow: '0 0.5rem 1rem rgba(156, 136, 255, 0.2)',
                 color: '#184f90',
                 outline: 'none',
-                margin : '0.3rem'
+                margin: '0.3rem'
             }}
             className="my-custom-input-class"
         />
     )
     const [imageList, setImageList] = useState([]);
-    const [date,setDate]=useState([]);
-  /*  useEffect(() => {
-       console.log(JSON.parse(sessionStorage.getItem("userData")).id)
+
+    const [imageUrl, setImageUrl] = useState('')
+    useEffect(() => {
         axios
-            .get(`http://localhost:8080/file/geturi/${JSON.parse(localStorage.getItem("estiDate")).orderId}`)
+            .get(`http://localhost:8080/file/getfilename/${JSON.parse(localStorage.getItem("estiDate")).orderId}`)
             .then(({data}) => {
                 setImageList(data);
                 console.log("data :" + data);
                 console.log("setImageList :" + imageList);
-
+                setImageUrl(JSON.parse(sessionStorage.getItem("url")))
+                calTotalPrice(movingDate)
             })
             .catch(error => {
                 throw error;
             });
-    }, []);*/
-useEffect(()=>{
-    axios
-        .get(`http://localhost:8080/file/getfilename/${JSON.parse(localStorage.getItem("estiDate")).orderId}`)
-        .then(({data}) => {
-            setImageList(data);
-            console.log("data :" + data);
-            console.log("setImageList :" + imageList);
-        
-        })
-        .catch(error => {
-            throw error;
-        });
-}, []);
-const downloadFile = ()=>{
-        axios.get(`http://localhost:8080/file/download/16`,{
-            responseType: 'arraybuffer',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/pdf'
-            }
-        }).then(res =>{
-            const url = window.URL.createObjectURL(new Blob([res.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'download.png');
-            document.body.appendChild(link);
-            link.click();
-        })
+    }, []);
+
+    const [totalPrice, setTotalPrice] = useState(0)
+
+
+    const calTotalPrice = ({movingDate, movingPrice}) => {
+        if (movingDate ===("2020-08-27" || "2020-08-28")){
+            setTotalPrice(movingPrice * 1.35);
+        }else if(movingDate === ("2020-08-29"|| "2020-08-30")) {
+            setTotalPrice(movingPrice * 1.15);
+        }else if(movingDate === ("2020-09-09"||"2020-09-10"|| "2020-09-11"||"2020-09-12"||"2020-09-13")){
+            setTotalPrice(movingPrice * 0.8);
+        }else if(movingDate === ("2020-09-17"||"2020-09-18"|| "2020-09-19"||"2020-09-20")){
+            setTotalPrice(movingPrice * 0.8);
+        }else {
+            setTotalPrice(movingPrice);
+        }
     }
+
 
     return (
         <div>
@@ -493,7 +474,7 @@ const downloadFile = ()=>{
                 <div id="page-wrapper">
                     <div className="row">
                         <div className="col-lg-12"><br/>
-                            <h2 className="page-header">{userId}견적서 작성 내역</h2><br/>
+                            <h2 className="page-header">{userId}님의 견적서 작성 내역</h2><br/>
                         </div>
                     </div>
                     <div className="row">
@@ -566,10 +547,8 @@ const downloadFile = ()=>{
 
                                         <MDBCardBody>
                                             <h1>올린사진</h1>
-                                            <h1>{imageList}</h1>
-                                                    <img onl src="[imageList]" width="100px" height="100px"/>
-                                              {/*      <img src="C:/Users/user/Documents/IzzI_backend/src/main/resources/static/images/izzi/download%20(26).png"/>*/}
-                                            <MDBBtn onClick={downloadFile}>올린파일 다운로드</MDBBtn>
+                                            <FittedImage fit="contain" src={imageUrl} alt="#"/>
+
 
                                         </MDBCardBody>
                                     </MDBCard>
@@ -581,7 +560,7 @@ const downloadFile = ()=>{
                                             type="text" className="form-control"
                                             id="exampleFormControlInput1" name="crea_id"
                                             value={movingName}
-                                            onChange={e=> setMovingName(e.target.value)}/>
+                                            onChange={e => setMovingName(e.target.value)}/>
                                     </div>
                                     <br/>
                                     <br/>
@@ -627,46 +606,71 @@ const downloadFile = ()=>{
 
                                     </Form.Group>
                                     <Form.Group controlId="exampleForm.ControlSelect1">
-                                        <Form.Label>평수 </Form.Label>
-                                        <Form.Control as="select"
-                                                      required
-                                                      value={square}
-                                                      onChange={e => setSquare(e.target.value)}>
-                                            <option >선택</option>
-                                            <option value={25}>25평 이하</option>
-                                            <option value={35}>35평 이하</option>
-                                            <option value={40}>40평 이하</option>
-                                            <option value={45}>45평 이상</option>
-                                        </Form.Control>
-                                    </Form.Group>
-                                    <Form.Group controlId="exampleForm.ControlSelect1">
                                         <div id="wrapper">
                                             <div id="page-wrap">
-                                                <section className="select">
-                                                    <Form.Label>이사 날짜</Form.Label>
+                                                <section className='select'>
+                                                    <Form.Label><h3>이사 날짜</h3></Form.Label>
+                                                    <h4>(둘 중 어떠한 달력을 선택해도 똑같이 선택됩니다.)</h4>
                                                     <div>
-                                                        <DatePicker
-                                                            value={selectedDay}
-                                                            renderInput={renderCustomInput}
-                                                            inputClassName="my-custom-input-class"
-                                                            shouldHighlightWeekends
+                                                        <DatePicker value={selectedDay} renderInput={renderCustomInput}
+                                                                    inputClassName='my-custom-input-class'
+                                                                    shouldHighlightWeekends
                                                         />
                                                     </div>
-                                                    <div className="row">
+                                                    <div className='row'>
                                                         <Calendar
-
                                                             value={selectedDay}
                                                             onChange={setSelectedDay}
                                                             minimumDate={utils().getToday()}
-                                                            colorPrimary="#00365a"
-                                                            calendarClassName="custom-calendar"
+                                                            colorPrimary='#00365a'
+                                                            calendarClassName='custom-calendar'
+                                                            calendarClassName="responsive-calendar"
+                                                            shouldHighlightWeekends
+                                                            customDaysClassName={goodDays}
+
+                                                        />
+                                                        <section className='card-body'>
+                                                            <br/>
+                                                            <br/>
+                                                            <p className='color-a'>
+                                                                <h4>＊손 없는 날</h4>
+                                                                <h5 style={priceStyle}>35% 추가 금액 적용</h5>
+                                                            </p>
+                                                            <br/>
+                                                            <p className='color-b'>
+                                                                <h4>＊공휴일</h4>
+                                                                <h5 style={priceStyle}>15% 추가 금액 적용</h5>
+                                                            </p>
+                                                            <br/>
+                                                            <p className='color-c'>
+                                                                <h4>＊특가 기간</h4>
+                                                                <h5 style={priceStyle}>20% 할인 금액 적용</h5>
+                                                            </p>
+
+                                                        </section>
+                                                        <Calendar
+                                                            value={selectedDay}
+                                                            onChange={setSelectedDay}
+                                                            minimumDate={utils().getToday()}
+                                                            colorPrimary='#00365a'
+                                                            calendarClassName='custom-calendar'
+                                                            calendarClassName="responsive-calendar"
                                                             shouldHighlightWeekends
                                                             customDaysClassName={data}
                                                         />
-                                                        <section className="card-body">
-                                                            <h2>확정 이사 날짜</h2>
-                                                            <h2> {movingDate}</h2>
+                                                        <section className='card-body'>
+                                                            <p className='color-d'>
+                                                                <h4>＊강수 확률</h4>
+                                                                <h5 style={priceStyle}>30% 이하  &#128153;</h5>
+                                                                <h5 style={priceStyle}> 50% 이상 &#128155; </h5>
+                                                                <h5 style={priceStyle}>70% 이상 &#128163;</h5>
+                                                                <h5>*기상청(기상개방포털) </h5><br/>
+                                                                <h5 style={{color: 'red'}}> 2000년 1월 1일~ 2020년 8월
+                                                                    16일 </h5><br/>
+                                                                <h5>강수자료를 기준으로 했습니다.</h5>
+                                                            </p>
                                                         </section>
+
                                                     </div>
                                                 </section>
 
@@ -679,11 +683,22 @@ const downloadFile = ()=>{
                                                       required
                                                       value={movingType}
                                                       onChange={e => setMovingType(e.target.value)}>
-                                            <option >선택</option>
+                                            <option>선택</option>
                                             <option value={'집이사'}>집이사</option>
                                             <option value={'사무실이사'}>사무실이사</option>
                                             <option value={'보관이사'}>보관이사</option>
                                             <option value={'소형이사'}>소형이사</option>
+                                        </Form.Control>
+                                    </Form.Group>
+                                    <Form.Group controlId='exampleForm.ControlSelect1'>
+                                        <Form.Label><h3>평수</h3></Form.Label>
+                                        <Form.Control as='select' required value={square}
+                                                      onChange={e => setSquare(e.target.value)}>
+                                            <option>선택</option>
+                                            <option value={'25평이하'}>25평 이하</option>
+                                            <option value={'35평이하'}>35평 이하</option>
+                                            <option value={'40평이하'}>40평 이하</option>
+                                            <option value={'45평이상'}>45평 이상</option>
                                         </Form.Control>
                                     </Form.Group>
                                     <Form.Group as={Col} md="10" controlId="validationCustom03">
@@ -693,7 +708,7 @@ const downloadFile = ()=>{
                                             placeholder="주소를 입력해 주세요."
                                             required
                                             value={movingTo}
-                                           />
+                                        />
                                         <div className='input-group-append'>
                                             <Postcode onSelectedAddr={setMovingTo}/>
                                         </div>
@@ -714,7 +729,7 @@ const downloadFile = ()=>{
                                             type="text"
                                             validate
                                             value={movingWriter}
-                                            onChange={e=> setMovingWriter(e.target.value)}/>
+                                            onChange={e => setMovingWriter(e.target.value)}/>
                                     </div>
 
                                     <div className="form-group">
@@ -723,6 +738,20 @@ const downloadFile = ()=>{
                                                   name="contents" rows={10} value={movingDetail}>
                                          </textarea>
                                     </div>
+
+
+                                    <section className="card-body">
+                                        <h2>확정 이사 날짜</h2>
+                                        <h2> {movingDate}</h2>
+                                        <br/>
+                                        <button onClick={({movingPrice, movingDate})=>calTotalPrice({movingPrice, movingDate})}>눌러</button>
+                                        <h2 style={{
+                                            color: 'red',
+                                            fontWeight: 'bold'
+                                        }}> 결제 금액 : {totalPrice} {"60" + movingPrice}</h2>
+                                        {/*  <h2>{Math.round(movingPrice*0.01)*100}만원</h2>
+                                        <h2>{totalPrice}</h2>*/}
+                                    </section>
                                     <MDBBtn type="submit" className="btn btn-info" onClick={modifyBtn}>수정하기</MDBBtn>
                                     <Link to={"/videocommunity"}> <MDBBtn type="button"
                                                                           className="btn btn-secondary">목록으로</MDBBtn></Link>

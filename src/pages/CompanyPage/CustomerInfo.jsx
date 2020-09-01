@@ -1,29 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {MDBRow, MDBCol} from 'mdbreact';
 import Geocode from 'react-geocode';
-import {
-	GoogleMap,
-	useLoadScript,
-	Marker,
-	InfoWindow,Polyline
-} from '@react-google-maps/api';
-import usePlacesAutocomplete, {
-	getGeocode,
-	getLatLng,
-} from 'use-places-autocomplete';
-import {
-	Combobox,
-	ComboboxInput,
-	ComboboxPopover,
-	ComboboxList,
-	ComboboxOption,
-} from '@reach/combobox';
+import {GoogleMap, useLoadScript, Marker, InfoWindow, Polyline} from '@react-google-maps/api';
+import usePlacesAutocomplete, {getGeocode, getLatLng} from 'use-places-autocomplete';
+import {Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption} from '@reach/combobox';
 
 import './Map/Search.css';
 import '@reach/combobox/styles.css';
 import mapStyles from './Map/mapStyles';
 import axios from 'axios';
-
 
 Geocode.setApiKey('AIzaSyCrQuKKwt0DtPF8vxKPx6dRq3us6me2LO8');
 Geocode.setLanguage('ko');
@@ -46,7 +31,7 @@ const CustomerInfo = ({match}) => {
 	const [post, setPost] = useState({});
 	const [centeredCoor, setCenteredCoor] = useState({lat: '', lng: ''});
 	const [movingToCoor, setMovingToCoor] = useState({lat: '', lng: ''});
-	const [polyShow,setPolyShow]=useState(false);
+	const [polyShow, setPolyShow] = useState(false);
 	useEffect(() => {
 		console.log(`${match.params.orderId}`);
 		axios
@@ -83,7 +68,7 @@ const CustomerInfo = ({match}) => {
 	}, []);
 	const locations = [
 		{
-			name: `${post.name}님 출발지`,
+			name: `${post.movingName}님 출발지`,
 			location: {
 				lat: centeredCoor.lat,
 				lng: centeredCoor.lng,
@@ -92,7 +77,7 @@ const CustomerInfo = ({match}) => {
 	];
 	const destinations = [
 		{
-			name: `${post.name}님 도착지`,
+			name: `${post.movingName}님 도착지`,
 			arrival: {
 				lat: movingToCoor.lat,
 				lng: movingToCoor.lng,
@@ -148,89 +133,56 @@ const CustomerInfo = ({match}) => {
 
 	if (loadError) return 'Error';
 	if (!isLoaded) return 'Loading...';
-	// 구에서의 최단거리
+	// 호에서의 거리
 	function haversine_distance() {
-		const R = 6371.0710; // Radius of the Earth in km
-		const rlat1 = centeredCoor.lat * (Math.PI/180); // Convert degrees to radians
-		const rlat2 = movingToCoor.lat * (Math.PI/180); // Convert degrees to radians
-		const difflat = rlat2-rlat1; // Radian difference (latitudes)
-		const difflon = ( movingToCoor.lng-centeredCoor.lng) * (Math.PI/180); // Radian difference (longitudes)
-		const d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
+		const R = 6371.071; // Radius of the Earth in km
+		const rlat1 = centeredCoor.lat * (Math.PI / 180); // Convert degrees to radians
+		const rlat2 = movingToCoor.lat * (Math.PI / 180); // Convert degrees to radians
+		const difflat = rlat2 - rlat1; // Radian difference (latitudes)
+		const difflon = (movingToCoor.lng - centeredCoor.lng) * (Math.PI / 180); // Radian difference (longitudes)
+		const d =
+			2 *
+			R *
+			Math.asin(
+				Math.sqrt(Math.sin(difflat / 2) * Math.sin(difflat / 2) + Math.cos(rlat1) * Math.cos(rlat2) * Math.sin(difflon / 2) * Math.sin(difflon / 2)),
+			);
 		return d;
 	}
-	const distance=  haversine_distance();
-	const midPoint = {lat: (centeredCoor.lat+ movingToCoor.lat)/2 ,
-		lng: (centeredCoor.lng + movingToCoor.lng)/2}
-	console.log(midPoint)
+	const distance = haversine_distance();
+	const midPoint = {lat: (centeredCoor.lat + movingToCoor.lat) / 2, lng: (centeredCoor.lng + movingToCoor.lng) / 2};
+	console.log(midPoint);
 	return (
 		<>
 			<div>
-				<form
-					className='needs-validation'
-					noValidate
-					style={{padding: '4rem', margin: '0 auto', maxWidth: 800}}
-				>
+				<form className='needs-validation' noValidate style={{padding: '4rem', margin: '0 auto', maxWidth: 800}}>
 					<MDBRow>
 						<MDBCol md='8' className='mb-3'>
-							<h2> {post.name}님 회원정보</h2>
+							<h2> {post.movingName}님 회원정보</h2>
 							<label htmlFor='defaultFormRegisterNameEx'>이름</label>
-							<input
-								name='fname'
-								type='text'
-								id='defaultFormRegisterNameEx'
-								className='form-control'
-								required
-								value={post.name}
-							/>
+							<input name='fname' type='text' id='defaultFormRegisterNameEx' className='form-control' required value={post.movingName} />
 							<label htmlFor='defaultFormRegisterNameEx'>전화번호</label>
-							<input
-								name='fname'
-								type='text'
-								id='defaultFormRegisterNameEx'
-								className='form-control'
-								required
-								value={post.phoneNumber}
-							/>
+							<input name='fname' type='text' id='defaultFormRegisterNameEx' className='form-control' required value={post.movingPhone} />
 							<label htmlFor='defaultFormRegisterNameEx'>이사 희망 날짜</label>
-							<input
-								name='fname'
-								type='text'
-								id='defaultFormRegisterNameEx'
-								className='form-control'
-								required
-								value={post.movingDate}
-							/>
+							<input name='fname' type='text' id='defaultFormRegisterNameEx' className='form-control' required value={post.movingDate} />
 							<label htmlFor='defaultFormRegisterNameEx'>출발지</label>
-							<input
-								name='fname'
-								type='text'
-								id='defaultFormRegisterNameEx'
-								className='form-control'
-								required
-								value={post.movingFrom}
-							/>
+							<input name='fname' type='text' id='defaultFormRegisterNameEx' className='form-control' required value={post.movingFrom} />
 							<label htmlFor='defaultFormRegisterNameEx'>도착지</label>
-							<input
-								name='fname'
-								type='text'
-								id='defaultFormRegisterNameEx'
-								className='form-control'
-								required
-								value={post.movingTo}
-							/>
+							<input name='fname' type='text' id='defaultFormRegisterNameEx' className='form-control' required value={post.movingTo} />
 
 							<br />
 							<br />
-							<h3>두 지점 사이의 거리: {distance.toFixed()} km </h3>
-							<h3>두 거리 간 예상 이사 배달 비용 : {distance.toFixed()*0.2} 만원(km당 천원)</h3>
+							<div>
+								<h3>
+									두 지점 사이의 거리<p style={{color: 'red'}}> {distance.toFixed()} km</p>
+								</h3>
+								<p>(거리는 하버사인 공식을 이용하여 계산하였습니다.)</p>
+								<img src='/haversine.jpg' />
+							</div>
+							<h3>두 거리 간 예상 이사 배달 비용 </h3>
+							<h3>{distance.toFixed() * 0.2} 만원(km당 2천원)</h3>
 
 							<Locate panTo={panTo} />
-							<Search
-								panTo={panTo}
-								setPosition={setSearchSelected}
-								setMarkerShow={setSearchMarker}
-								setSearchedAddr={setSearchedAddr}
-							/>
+							<Search panTo={panTo} setPosition={setSearchSelected} setMarkerShow={setSearchMarker} setSearchedAddr={setSearchedAddr} />
 							<GoogleMap
 								id='map'
 								mapContainerStyle={mapContainerStyle}
@@ -272,11 +224,7 @@ const CustomerInfo = ({match}) => {
 									);
 								})}
 								{initialSelected.location && (
-									<InfoWindow
-										position={initialSelected.location}
-										clickable={true}
-										onCloseClick={() => setInitialSelected({})}
-									>
+									<InfoWindow position={initialSelected.location} clickable={true} onCloseClick={() => setInitialSelected({})}>
 										<h5>
 											{initialSelected.name} : {post.movingFrom}
 										</h5>
@@ -298,11 +246,7 @@ const CustomerInfo = ({match}) => {
 									);
 								})}
 								{destinationSelected.arrival && (
-									<InfoWindow
-										position={destinationSelected.arrival}
-										clickable={true}
-										onCloseClick={() => setDestinationSelected({})}
-									>
+									<InfoWindow position={destinationSelected.arrival} clickable={true} onCloseClick={() => setDestinationSelected({})}>
 										<h5>
 											{destinationSelected.name} : {post.movingTo}
 										</h5>
@@ -348,37 +292,28 @@ const CustomerInfo = ({match}) => {
 									</InfoWindow>
 								) : null}
 								<Polyline
-									path={[movingToCoor,centeredCoor]}
+									path={[movingToCoor, centeredCoor]}
 									visible={true}
 									options={{
-										strokeColor: "#096BF2 ",
+										strokeColor: '#096BF2 ',
 										strokeOpacity: 1,
 										strokeWeight: 3,
-										icons:[
-											{icon: {path:window.google.maps.SymbolPath.DEFAULT},
-												offset: "0",
-												repeat: "40px"},
-										]
+										icons: [{icon: {path: window.google.maps.SymbolPath.DEFAULT}, offset: '0', repeat: '40px'}],
 									}}
-									onClick={()=>{
-										setPolyShow(true)
+									onClick={() => {
+										setPolyShow(true);
 									}}
-								>
-									<InfoWindow position={midPoint}
-												visible={true}
-									>
-										<p>두 지점 사이의 거리: {distance.toFixed()} km</p>
-									</InfoWindow>
-								</Polyline>
+								/>
 								{polyShow ? (
-									<InfoWindow position={midPoint}
-												onCloseClick={() => {
-													setPolyShow(false);
-												}}
+									<InfoWindow
+										position={midPoint}
+										onCloseClick={() => {
+											setPolyShow(false);
+										}}
 									>
-										<p>두 지점 사이의 거리: {distance.toFixed()} km</p>
+										<h2>두 지점 사이의 거리: {distance.toFixed()} km</h2>
 									</InfoWindow>
-								):null}
+								) : null}
 							</GoogleMap>
 						</MDBCol>
 					</MDBRow>
@@ -453,19 +388,9 @@ function Search({panTo, setPosition, setMarkerShow, setSearchedAddr}) {
 	return (
 		<div className='search'>
 			<Combobox onSelect={handleSelect}>
-				<ComboboxInput
-					value={value}
-					onChange={handleInput}
-					disabled={!ready}
-					placeholder='Search your location'
-				/>
+				<ComboboxInput value={value} onChange={handleInput} disabled={!ready} placeholder='Search your location' />
 				<ComboboxPopover>
-					<ComboboxList>
-						{status === 'OK' &&
-						data.map(({id, description}) => (
-							<ComboboxOption key={id} value={description} />
-						))}
-					</ComboboxList>
+					<ComboboxList>{status === 'OK' && data.map(({id, description}) => <ComboboxOption key={id} value={description} />)}</ComboboxList>
 				</ComboboxPopover>
 			</Combobox>
 		</div>

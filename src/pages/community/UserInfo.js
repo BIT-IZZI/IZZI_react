@@ -12,7 +12,7 @@ import '@reach/combobox/styles.css';
 
 import mapStyles from '../CompanyPage/Map/mapStyles';
 import {SideBar} from '../../commons';
-import {MDBBtn, MDBCardBody} from "mdbreact";
+import FittedImage from "react-fitted-image";
 
 Geocode.setApiKey('AIzaSyCrQuKKwt0DtPF8vxKPx6dRq3us6me2LO8');
 Geocode.setLanguage('ko');
@@ -43,9 +43,7 @@ const UserInfo = ({match}) => {
 	const [regDate, setRegDate] = useState('');
 	const [userLocation, setUserLocation] = useState({lat: '', lng: ''});
 	const [searchedAddr, setSearchedAddr] = useState('');
-	const [comWriter, setComWriter] = useState(JSON.parse(sessionStorage.userData).userId);
-	const [comContents, setComContents] = useState('');
-	const [comRegDate, setComRegDate] = useState('');
+	
 	const [show, setShow] = useState(false);
 	const handleDelete = e => {
 		e.preventDefault();
@@ -84,6 +82,7 @@ const UserInfo = ({match}) => {
 	const textStyle = {
 		backgroundColor: 'white',
 	};
+	const [imageUrl, setImageUrl] = useState('')
 	useEffect(() => {
 		console.log(`${match.params.articleId}`);
 		axios
@@ -95,6 +94,7 @@ const UserInfo = ({match}) => {
 				setWriter(res.data.writer);
 				setAddress(res.data.address);
 				setRegDate(res.data.regDate);
+				setImageUrl(JSON.parse(sessionStorage.getItem("url")))
 				Geocode.fromAddress(res.data.address)
 					.then(response => {
 						const userAddress = response.results[0].geometry.location;
@@ -111,14 +111,6 @@ const UserInfo = ({match}) => {
 				throw error;
 			});
 	}, []);
-	/*useEffect(()=>{
-		axios.get(`http://localhost:8080/articles/createComment`)
-			.then(r=>{
-				console.log(r.data)
-			}).catch(error=>{
-				throw error
-		})
-	},[])*/
 	const locations = [
 		{
 			name: `${writer}님 중고거래 희망위치`,
@@ -178,6 +170,7 @@ const UserInfo = ({match}) => {
 	};
 
 	const formats = ['bold', 'italic', 'underline', 'strike', 'link', 'image'];
+
 	return (
 		<>
 			<SideBar />
@@ -211,7 +204,11 @@ const UserInfo = ({match}) => {
 											{!show && <textarea readOnly={true} style={textStyle} className='form-control' name='contents' rows={14} value={contents} />}
 											{show && (
 												<textarea className='form-control' name='contents' rows={14} value={contents} onChange={e => setContents(e.target.value)} />
+
 											)}
+											<br/>
+											<h1>{writer}님이 올리신 물건 사진</h1>
+											<FittedImage fit="contain" src={imageUrl} alt="#"/>
 										</tr>
 										​
 										<Locate panTo={panTo} />
@@ -394,7 +391,7 @@ function Search({panTo, setPosition, setMarkerShow, setSearchedAddr}) {
 			console.log('😱 Error: ', error);
 		}
 	};
-	const downloadFile = ()=>{
+	/*const downloadFile = ()=>{
 		axios.get(`http://localhost:8080/file/download/16`,{
 			responseType: 'arraybuffer',
 			headers: {
@@ -409,12 +406,13 @@ function Search({panTo, setPosition, setMarkerShow, setSearchedAddr}) {
 			document.body.appendChild(link);
 			link.click();
 		})
-	}
+	}*/
+
+
 	return (
 		<div className='search'>
 			<Combobox onSelect={handleSelect}>
-				<br />
-				<MDBBtn onClick={downloadFile}>중고거래사진 다운로드</MDBBtn>
+
 		{/*		<ComboboxInput value={value} onChange={handleInput} disabled={!ready} placeholder='위치 검색' />*/}
 				<ComboboxPopover>
 					<ComboboxList>{status === 'OK' && data.map(({id, description}) => <ComboboxOption key={id} value={description} />)}</ComboboxList>

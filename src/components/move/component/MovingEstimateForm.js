@@ -15,7 +15,7 @@ import {GoogleMap, InfoWindow, Marker, Polyline, useLoadScript} from '@react-goo
 import Geocode from 'react-geocode';
 import '@reach/combobox/styles.css';
 import mapStyles from '../../../pages/CompanyPage/Map/mapStyles';
-
+import haversine from '../../../assets/img/haversine.jpg'
 Geocode.setApiKey('AIzaSyCrQuKKwt0DtPF8vxKPx6dRq3us6me2LO8');
 Geocode.setLanguage('ko');
 const libraries = ['places'];
@@ -146,8 +146,6 @@ function MovingEstimateForm() {
     };
     const [state, dispatch] = useReducer(count, initialState);
     const [number, setNumber] = useState(0);
-    const history = useHistory();
-    const [movingPrice, setMovingPrice] = useState(0);
 
     const goodDays = [
         {
@@ -426,19 +424,6 @@ function MovingEstimateForm() {
                         obj.className = 'pbRain60';
                         pBRainDate.push(obj);
                     }
-                    /*else if (one.rainProb <= 80) {
-                        obj.year = 2020;
-                        obj.month = Number(one.precipitationDate.split('-')[0]);
-                        obj.day = Number(one.precipitationDate.split('-')[1]);
-                        obj.className = 'pbRain80';
-                        pBRainDate.push(obj);
-                    } else {
-                        obj.year = 2020;
-                        obj.month = Number(one.precipitationDate.split('-')[0]);
-                        obj.day = Number(one.precipitationDate.split('-')[1]);
-                        obj.className = 'holiDay';
-                        pBRainDate.push(obj);
-                    }*/
                 });
                 setData(pBRainDate);
                 setPbRain(res.data.pbRain);
@@ -596,19 +581,10 @@ function MovingEstimateForm() {
                                                         <Form.Control type='text' placeholder='상세주소' required value={optionalAddrFrom} onChange={e => setOptionalAddrFrom(e.target.value)} />
                                                         <Form.Control.Feedback type='invalid'>입력란이 비었습니다!</Form.Control.Feedback>
                                                     </Form.Group>
-                                                    <Form.Group controlId='exampleForm.ControlSelect1'>
-                                                        <Form.Label>평수 </Form.Label>
-                                                        <Form.Control as='select' required value={square} onChange={e => setSquare(e.target.value)}>
-                                                            <option>선택</option>
-                                                            <option value={'25평이하'}>25평 이하</option>
-                                                            <option value={'35평이하'}>35평 이하</option>
-                                                            <option value={'40평이하'}>40평 이하</option>
-                                                            <option value={'45평이상'}>45평 이상</option>
-                                                        </Form.Control>
-                                                    </Form.Group>
+                                                   
                                                     <Form.Group as={Col} md='10' controlId='validationCustom03'>
                                                         <Form.Label>도착지 정보</Form.Label>
-                                                        <Form.Control type='text'  placeholder='거리 계산을 위해 지도에서 검색해 주세요' required value={movingTo} />
+                                                        <Form.Control type='text'  placeholder='거리 계산을 위해 지도에서 검색해 주세요' required value={movingTo} readOnly />
                                                         <Form.Control.Feedback type='invalid'>입력란이 비었습니다!</Form.Control.Feedback>
                                                         <Form.Group as={Col} md='10' controlId='validationCustom04'>
                                                             <Form.Label>상세주소</Form.Label>
@@ -617,8 +593,10 @@ function MovingEstimateForm() {
                                                         </Form.Group>
                                                         {searchMarker && (
                                                             <div>
-                                                                <h3>두 지점 사이의 거리: {distance.toFixed()} km </h3>
-                                                                <h3>두 거리 간 예상 이사 배달 비용 : {distance.toFixed() * 0.2} 만원(km당 천원)</h3>
+                                                                <h3 style={{color : 'red'}}>(거리는 하버사인 공식을 이용하여 계산하였습니다.)</h3>
+                                                                <img src={haversine} />
+                                                                <h3>두 지점 사이의 거리:</h3><h3 style={{color : 'red'}}> {distance.toFixed()} km </h3>
+                                                                <h3>두 거리 간 예상 이사 배달 비용 :</h3><h3 style={{color : 'red'}}> {distance.toFixed() * 0.2} 만원(km당 2000원)</h3>
                                                             </div>
                                                         )}
 
@@ -745,9 +723,12 @@ function MovingEstimateForm() {
                                                     <div id='wrapper'>
                                                         <div id='page-wrap'>
                                                             <section className='select'>
-                                                                <Form.Label>이사 날짜</Form.Label>
+                                                                <Form.Label><h3>이사 날짜</h3></Form.Label>
+                                                                <h4>(둘 중 어떠한 달력을 선택해도 똑같이 선택됩니다.)</h4>
                                                                 <div>
-                                                                    <DatePicker value={selectedDay} renderInput={renderCustomInput} inputClassName='my-custom-input-class' shouldHighlightWeekends />
+                                                                    <DatePicker value={selectedDay} renderInput={renderCustomInput}
+                                                                                inputClassName='my-custom-input-class' shouldHighlightWeekends
+                                                                               />
                                                                 </div>
                                                                 <div className='row'>
                                                                     <Calendar
@@ -756,287 +737,50 @@ function MovingEstimateForm() {
                                                                         minimumDate={utils().getToday()}
                                                                         colorPrimary='#00365a'
                                                                         calendarClassName='custom-calendar'
+                                                                        calendarClassName="responsive-calendar"
                                                                         shouldHighlightWeekends
-                                                                        customDaysClassName={
-                                                                            [{
-                                                                            year: 2020,
-                                                                            month: 8,
-                                                                            day: 18,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 8,
-                                                                            day: 27,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 8,
-                                                                            day: 28,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 9,
-                                                                            day: 6,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 9,
-                                                                            day: 7,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 9,
-                                                                            day: 16,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 9,
-                                                                            day: 25,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 9,
-                                                                            day: 26,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 9,
-                                                                            day: 30,
-                                                                            className: 'holiDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 10,
-                                                                            day: 1,
-                                                                            className: 'holiDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 10,
-                                                                            day: 2,
-                                                                            className: 'holiDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 10,
-                                                                            day: 3,
-                                                                            className: 'holiDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 10,
-                                                                            day: 5,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 10,
-                                                                            day: 6,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 10,
-                                                                            day: 9,
-                                                                            className: 'holiDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 10,
-                                                                            day: 15,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 10,
-                                                                            day: 16,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 10,
-                                                                            day: 25,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 10,
-                                                                            day: 26,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 4,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 5,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 9,
-                                                                            className: 'saleDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 10,
-                                                                            className: 'saleDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 11,
-                                                                            className: 'saleDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 12,
-                                                                            className: 'saleDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 13,
-                                                                            className: 'saleDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 16,
-                                                                            className: 'saleDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 17,
-                                                                            className: 'saleDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 18,
-                                                                            className: 'saleDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 19,
-                                                                            className: 'saleDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 20,
-                                                                            className: 'saleDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 14,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 23,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 11,
-                                                                            day: 24,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 12,
-                                                                            day: 3,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 12,
-                                                                            day: 4,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 12,
-                                                                            day: 13,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 12,
-                                                                            day: 14,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 12,
-                                                                            day: 23,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 12,
-                                                                            day: 24,
-                                                                            className: 'handDay',
-                                                                        },
-                                                                        {
-                                                                            year: 2020,
-                                                                            month: 12,
-                                                                            day: 25,
-                                                                            className: 'holiDay',
-                                                                        }]}
+                                                                        customDaysClassName={goodDays}
                                                                         
                                                                     />
+                                                                    <section className='card-body'>
+                                                                    <br />
+                                                                    <br/>
+                                                                    <p className='color-a'>
+                                                                        <h4>＊손 없는 날</h4>
+                                                                        <h5 style={priceStyle}>35% 추가 금액 적용</h5>
+                                                                    </p>
+                                                                    <br />
+                                                                    <p className='color-b'>
+                                                                        <h4>＊공휴일</h4>
+                                                                        <h5 style={priceStyle}>15% 추가 금액 적용</h5>
+                                                                    </p>
+                                                                    <br />
+                                                                    <p className='color-c'>
+                                                                        <h4>＊특가 기간</h4>
+                                                                        <h5 style={priceStyle}>20% 할인 금액 적용</h5>
+                                                                    </p>
+
+                                                                    </section>
                                                                     <Calendar
                                                                         value={selectedDay}
                                                                         onChange={setSelectedDay}
                                                                         minimumDate={utils().getToday()}
                                                                         colorPrimary='#00365a'
                                                                         calendarClassName='custom-calendar'
+                                                                        calendarClassName="responsive-calendar"
                                                                         shouldHighlightWeekends
                                                                         customDaysClassName={data}
-
                                                                     />
                                                                     <section className='card-body'>
-                                                                        <br />
-                                                                        <p className='color-a'>
-                                                                            <h4>＊손 없는 날</h4>
-                                                                            <h5 style={priceStyle}>35% 추가 금액 적용</h5>
-                                                                        </p>
-                                                                        <br />
-                                                                        <p className='color-b'>
-                                                                            <h4>＊공휴일</h4>
-                                                                            <h5 style={priceStyle}>15% 추가 금액 적용</h5>
-                                                                        </p>
-                                                                        <br />
-                                                                        <p className='color-c'>
-                                                                            <h4>＊특가 기간</h4>
-                                                                            <h5 style={priceStyle}>20% 할인 금액 적용</h5>
-                                                                        </p>
-                                                                        <br />
+
                                                                         <p className='color-d'>
                                                                             <h4>＊강수 확률</h4>
-                                                                            <h5 style={priceStyle}>30% 이하  &#128153; 50% 이상 &#128155; 70% 이상 &#128163;</h5>
-                                                                            <h6>*기상청(기상개방포털) 2000년 1월 1일~ 2020년 8월 16일 강수자료를 기준으로 했습니다.</h6>
+                                                                            <h5 style={priceStyle}>30% 이하  &#128153;</h5>
+                                                                            <h5 style={priceStyle}> 50% 이상 &#128155; </h5>
+                                                                            <h5 style={priceStyle}>70% 이상 &#128163;</h5>
+                                                                            <h5>*기상청(기상개방포털) </h5><br/>
+                                                                              <h5 style={{color : 'red'}}>  2000년 1월 1일~ 2020년 8월 16일 </h5><br/>
+                                                                              <h5>강수자료를 기준으로 했습니다.</h5>
                                                                         </p>
                                                                     </section>
 
@@ -1046,13 +790,23 @@ function MovingEstimateForm() {
                                                     </div>
                                                 </Form.Group>
                                                 <Form.Group controlId='exampleForm.ControlSelect1'>
-                                                    <Form.Label>이사 유형</Form.Label>
+                                                    <Form.Label><h3>이사 유형</h3></Form.Label>
                                                     <Form.Control as='select' required value={movingType} onChange={e => setMovingType(e.target.value)}>
                                                         <option>선택</option>
                                                         <option value={'집이사'}>집이사</option>
                                                         <option value={'사무실이사'}>사무실이사</option>
                                                         <option value={'보관이사'}>보관이사</option>
                                                         <option value={'소형이사'}>소형이사</option>
+                                                    </Form.Control>
+                                                </Form.Group>
+                                                <Form.Group controlId='exampleForm.ControlSelect1'>
+                                                    <Form.Label><h3>평수</h3> </Form.Label>
+                                                    <Form.Control as='select' required value={square} onChange={e => setSquare(e.target.value)}>
+                                                        <option>선택</option>
+                                                        <option value={'25평이하'}>25평 이하</option>
+                                                        <option value={'35평이하'}>35평 이하</option>
+                                                        <option value={'40평이하'}>40평 이하</option>
+                                                        <option value={'45평이상'}>45평 이상</option>
                                                     </Form.Control>
                                                 </Form.Group>
                                                 <div id='wrapper'>
@@ -1367,7 +1121,7 @@ function Search({panTo, setPosition, setMarkerShow, setMovingTo}) {
     return (
         <div className='estisearch'>
             <Combobox onSelect={handleSelect}>
-                <ComboboxInput value={value} onChange={handleInput} disabled={!ready} placeholder='도착지를 검색해주세요' />
+                <ComboboxInput style={{padding : '10px'}} size="40" value={value} onChange={handleInput} disabled={!ready} placeholder='도착지를 검색해주세요'   font-size='90%' />
                 <ComboboxPopover>
                     <ComboboxList>{status === 'OK' && data.map(({id, description}) => <ComboboxOption key={id} value={description} />)}</ComboboxList>
                 </ComboboxPopover>

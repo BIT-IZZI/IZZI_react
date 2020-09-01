@@ -39,8 +39,10 @@
     "react-dnd-html5-backend": "^11.1.3",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.2",
+    "react-fitted-image": "^1.0.1",
     "react-geocode": "^0.2.1",
     "react-icons": "^3.10.0",
+    "react-images-upload": "^1.2.8",
     "react-modern-calendar-datepicker": "^3.1.6",
     "react-player": "^2.6.0",
     "react-qrcode": "^0.2.5",
@@ -68,7 +70,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "aws s3 sync ./build s3://vlpt-sample-deploy --profile=sample-deploy-s3"
   },
   "eslintConfig": {
     "extends": "react-app"

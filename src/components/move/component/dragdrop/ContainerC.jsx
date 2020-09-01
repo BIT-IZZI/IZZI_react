@@ -5,23 +5,23 @@ import { Box } from './Box'
 import update from 'immutability-helper'
 import tv from '../../../../assets/img/tv.png'
 import ji from '../../../../assets//img/ji.png'
-import ex58 from '../../../../assets/img/ex58.png'
+import ex13 from '../../../../assets/img/ex13.jpg'
 import couch from '../../../../assets/img/couch.png'
 import table from '../../../../assets/img/table.png'
 
 
 const styles = {
-    width: 1630,
+    width: 1650,
     height: 720,
     border: '1px solid black',
     position: 'relative',
 }
-export const Container = ({ hideSourceOnDrag }) => {
+export const ContainerC = ({ hideSourceOnDrag }) => {
     const [boxes, setBoxes] = useState([
-        { id:'a',top: 450, left: 20, title: '냉장고', image:ji,width:'200px',height:'200px'},
-        {id:'b', top: 450, left:120, title: '쇼파' ,image: couch,width:'200px',height:'250px'},
-        {id:'c', top: 450, left: 220, title: 'TV' ,image: tv,width:'200px',height:'250px'},
-        {id:'d', top: 530, left:20, title: '식탁' ,image: table,width:'200px',height:'200px'},
+        { id:'a',top: 450, left: 20, title: '냉장고', image:ji,width:'100px',height:'100px'},
+        {id:'b', top: 450, left:120, title: '쇼파' ,image: couch,width:'100px',height:'150px'},
+        {id:'c', top: 450, left: 220, title: 'TV' ,image: tv,width:'100px',height:'150px'},
+        {id:'d', top: 530, left:20, title: '식탁' ,image: table,width:'100px',height:'100px'},
     ])
     const [, drop] = useDrop({
         accept: ItemTypes.BOX,
@@ -60,7 +60,7 @@ export const Container = ({ hideSourceOnDrag }) => {
                     </Box>
                 )
             })}
-            <img src={ex58} width={'1000px'}height={'700px'}/>
+            <img src={ex13} width={'800px'}height={'700px'}/>
         </div>
     )
 }

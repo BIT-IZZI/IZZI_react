@@ -1,7 +1,7 @@
 import React, { Fragment, useCallback, useRef } from 'react'
 import styled from 'styled-components'
 import { useCapture } from './capture/index'
-import {Capture} from './capture/Capture'
+import {CaptureA} from './capture/CaptureA'
 
 const Wrapper = styled.div`
   text-align: center;
@@ -24,7 +24,7 @@ const ComponentWrapper = styled.div`
   
 `
 const Button = styled.input.attrs({ type: 'button' })``
-const SquareLg=()=> {
+const SquareA=()=> {
     const { snap } = useCapture()
     const element = useRef(null)
     const onClick = useCallback(() => {
@@ -35,17 +35,17 @@ const SquareLg=()=> {
             <Fragment>
                 <Wrapper>
                     <Headline>캡쳐</Headline>
-                    <ComponentWrapper ref={element}>
-                        <Capture/>
-                    </ComponentWrapper>
-                    <br/>
-                    <br/>
-                    <Button onClick={onClick} value="캡쳐하고 다운받기" />
-                </Wrapper>
-            </Fragment>
+            <ComponentWrapper ref={element}>
+    <CaptureA/>
+    </ComponentWrapper>
+    <br/>
+    <br/>
+    <Button onClick={onClick} value="캡쳐하고 다운받기" />
+        </Wrapper>
+        </Fragment>
 
         </div>
-    )
+)
 }
 
-export default SquareLg;
+export default SquareA;

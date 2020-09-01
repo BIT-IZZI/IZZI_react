@@ -3,8 +3,8 @@ import { useDrag } from 'react-dnd'
 import { ItemTypes } from './ItemTypes'
 
 const style: React.CSSProperties = {
-    color: 'yellow',
-    fontSize: '20px',
+    color: 'red',
+    fontSize: '27px',
     fontWeight: "bold",
     position: 'absolute',
     border: 'none',

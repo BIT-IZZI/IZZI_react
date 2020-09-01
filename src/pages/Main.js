@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import '../assets/css/main.css'
 import ReactPlayer from "react-player";
-import img from '../assets/img/1.jpeg'
+
 import {CardDeck,Card} from 'react-bootstrap'
 import {Weather} from './index'
 import {MDBBtn, MDBCardBody} from 'mdbreact'
 import {Link, useHistory} from 'react-router-dom'
 import axios from "axios";
+import {Image} from '../components/videoUpload/index'
 const Main = () => {
     const [articlesList, setArticlesList] = useState([]);
     const history =useHistory()
@@ -22,14 +23,13 @@ const Main = () => {
             });
     }, []);
     console.log(articlesList)
-    const obj=require(`C:\\Users\\user\\Documents\\Team_ProjectMaster\\src\\pages\\2.jpg`)
+    const [img, setImg] =useState('')
     return (
         <>
             <main className="masthead">
                 <div className="intro-text">
                     <div className="intro-lead-in">이사 견적,</div>
                     <div className="intro-lead-in">내 방에서 알아보세요!</div>
-
                 </div>
                 <Weather/>
             </main>
@@ -44,9 +44,6 @@ const Main = () => {
             <main className="masthead">
                 <div className="intro-text">
                     <div className="intro-heading text-uppercase">방문 없이 견적짜는</div><br/>
-                 {/*   <img src={ require('./2.jpg') } />
-                    <img src={obj}/>*/}
-              {/*    //  <img src={ require(`file:\\C:\\Users\\user\\Documents\\IzzI_backend\\src\\main\\resources\\static\\images\\izzi\\download%20(26).png`) } />*/}
                     <MDBBtn color="amber" className="btn btn-primary btn-xl text-uppercase js-scroll-trigger" ><Link to={"/type"}>이사하러 가기</Link>
                     </MDBBtn>
                 </div>
