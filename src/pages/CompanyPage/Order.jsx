@@ -10,7 +10,6 @@ const Order = () => {
 			.get('http://localhost:8080/orders/list')
 			.then(({data}) => {
 				setMyData(data.list);
-				console.log(data.list);
 			})
 			.catch(error => {
 				throw error;
@@ -46,10 +45,11 @@ const Order = () => {
 						</a>
 					</li>
 					<li className="nav-item">
-						<a className="nav-link" href="/">
-							<span className="menu-title">프로모션</span>
+						<a className="nav-link" href="/charts">
+							<span className="menu-title">인구통계</span>
 						</a>
 					</li>
+
 				</ul>
 			</nav>
 			<div id="wrapper">

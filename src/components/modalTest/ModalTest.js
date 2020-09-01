@@ -1,10 +1,7 @@
 import React, {useState, useReducer} from 'react';
 import {Modal, Button} from 'react-bootstrap';
-import {ThemeProvider} from "styled-components";
-import {DatePicker, theme} from "react-trip-date";
-import {Link, Route, Switch} from "react-router-dom";
+import { Switch} from "react-router-dom";
 import {MCalendar} from "../../pages";
-import MovingFloor from "../move/component/movingPoint/MovingFloor";
 import {
     MDBCardBody,
     MDBContainer,
@@ -12,7 +9,6 @@ import {
     MDBMask, MDBRow, MDBView, MDBBtn, MDBCol
 } from "mdbreact";
 import {Table} from "react-bootstrap";
-import axios from 'axios';
 import {useHistory} from "react-router";
 import '../../assets/css/sb-admin-2.css'
 
@@ -58,7 +54,7 @@ const ModalTest = ({modalPage, show, handleClose, handlePage}) => {
         const result = {
             movingPrice: (state.number * 20)
         }
-        console.log(result)
+        .log(result)
 
     }
 
@@ -67,25 +63,13 @@ const ModalTest = ({modalPage, show, handleClose, handlePage}) => {
         const result = {
             movingPrice: (state.number * 20)
         }
-        console.log(result)
+        .log(result)
 
-
-       /* axios
-            .post(`http://localhost:8080/orders/calculator`, result)
-            .then(response => {
-
-                alert('성공');
-                history.push('/home');
-            })
-            .catch(error => {
-                alert('실패!');
-                throw error;
-            });*/
     }
 
     return (
         <div>
-            <Modal size={"lg"} show={show} onHide={handleClose}>
+            <Modal dialogClassName='custom-dialog'show={show} onHide={handleClose}>
                 {(modalPage === 1) &&
                 <div className="modalImg">
                     <Modal.Header closeButton>

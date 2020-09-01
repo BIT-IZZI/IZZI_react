@@ -14,7 +14,6 @@ const FindId = () => {
 	const [userId, setUserId] = useState('');
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
 	const [show, setShow] = useState(false);
 	const [joinDate, setJoinDate] = useState('');
 
@@ -30,7 +29,6 @@ const FindId = () => {
 			.then(response => {
 				setUserId(response.data.userId);
 				setJoinDate(response.data.joinDate);
-				console.log(response);
 				setShow(!show);
 			})
 			.catch(error => {
@@ -123,49 +121,3 @@ const FindId = () => {
 };
 
 export default FindId;
-
-/*<div>
-					<p>이름</p>
-					<input
-						type='text'
-						value={name}
-						onChange={e => setName(e.target.value)}
-					/>
-				</div>
-				<div>
-					<p className='inline-block-label'>이메일</p>
-					<input
-						type='email'
-						value={email}
-						onChange={e => setEmail(e.target.value)}
-					/>
-				</div>
-				<button
-					className='btn btn-primary btn-block'
-					type='submit'
-					onClick={handleFindId}
-				>
-					확인
-				</button>
-			</div>
-			<Modal show={show} onHide={handleClose}>
-				<Modal.Header closeButton>
-					<Modal.Title>아이디 찾기 결과</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<div>
-						<div>
-							<p>아이디</p>
-							<p>{userId}</p>
-							<p>가입일</p>
-							<p>{joinDate}</p>
-						</div>
-						<button
-							className='btn btn-primary btn-block mb-2 mt-2'
-							onClick={handleCheck}
-						>
-							확인
-						</button>
-					</div>
-				</Modal.Body>
-			</Modal>*/

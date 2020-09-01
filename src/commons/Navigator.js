@@ -68,7 +68,7 @@ export const Navigator = () => {
                             <Navbar.Brand onClick={handleLogout}>로그아웃</Navbar.Brand>
                             {userId === 'emp01' && (
                                 <Link to='/adminMyPage'>
-                                    <Navbar.Brand> MyPage</Navbar.Brand>
+                                    <Navbar.Brand>관리자Page</Navbar.Brand>
                                 </Link>
                             )}
                             {userId !== 'emp01' && (

@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import Geocode from 'react-geocode';
 import {GoogleMap, useLoadScript, Marker, InfoWindow} from '@react-google-maps/api';
 import usePlacesAutocomplete, {getGeocode, getLatLng} from 'use-places-autocomplete';
-import {Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption} from '@reach/combobox';
+import {Combobox,ComboboxPopover, ComboboxList, ComboboxOption} from '@reach/combobox';
 import axios from 'axios';
 
 import '../CompanyPage/Map/Search.css';
@@ -24,10 +24,7 @@ const mapContainerStyle = {
 const options = {
 	styles: mapStyles,
 };
-const center = {
-	lat: 37.42466,
-	lng: 126.64249,
-};
+
 
 const UserInfo = ({match}) => {
 	const [searchMarker, setSearchMarker] = useState(false);
@@ -43,7 +40,7 @@ const UserInfo = ({match}) => {
 	const [regDate, setRegDate] = useState('');
 	const [userLocation, setUserLocation] = useState({lat: '', lng: ''});
 	const [searchedAddr, setSearchedAddr] = useState('');
-	
+
 	const [show, setShow] = useState(false);
 	const handleDelete = e => {
 		e.preventDefault();
@@ -70,7 +67,6 @@ const UserInfo = ({match}) => {
 		axios
 			.patch(`http://localhost:8080/articles/update/${match.params.articleId}`, userJson)
 			.then(response => {
-				console.log(response.data);
 				alert('수정 완료');
 				window.location.href = `/userInfo/${match.params.articleId}`;
 			})
@@ -84,11 +80,9 @@ const UserInfo = ({match}) => {
 	};
 	const [imageUrl, setImageUrl] = useState('')
 	useEffect(() => {
-		console.log(`${match.params.articleId}`);
 		axios
 			.get(`http://localhost:8080/articles/findUser/${match.params.articleId}`)
 			.then(res => {
-				console.log(res.data);
 				sessionStorage.setItem('ArticleData', JSON.stringify(res.data));
 				setTitle(res.data.title);
 				setWriter(res.data.writer);
@@ -98,7 +92,6 @@ const UserInfo = ({match}) => {
 				Geocode.fromAddress(res.data.address)
 					.then(response => {
 						const userAddress = response.results[0].geometry.location;
-						console.log(userAddress);
 						setUserLocation(userAddress);
 					})
 					.catch(error => {
@@ -125,7 +118,6 @@ const UserInfo = ({match}) => {
 		response => {
 			const address = response.results[0].formatted_address;
 			setSelectedAddr(address);
-			console.log(address);
 		},
 		error => {
 			console.error(error);
@@ -165,12 +157,6 @@ const UserInfo = ({match}) => {
 	}, []);
 	if (loadError) return 'Error';
 	if (!isLoaded) return 'Loading...';
-	const modules = {
-		toolbar: [['bold', 'italic', 'underline', 'strike', 'link', 'image']],
-	};
-
-	const formats = ['bold', 'italic', 'underline', 'strike', 'link', 'image'];
-
 	return (
 		<>
 			<SideBar />
@@ -212,7 +198,6 @@ const UserInfo = ({match}) => {
 										</tr>
 										​
 										<Locate panTo={panTo} />
-										<Search panTo={panTo} setPosition={setSearchSelected} setMarkerShow={setSearchMarker} setSearchedAddr={setSearchedAddr} />
 										​
 										<GoogleMap
 											id='map'
@@ -351,74 +336,5 @@ function Locate({panTo}) {
 		</button>
 	);
 }
-function Search({panTo, setPosition, setMarkerShow, setSearchedAddr}) {
-	const {
-		ready,
-		value,
-		suggestions: {status, data},
-		setValue,
-		clearSuggestions,
-	} = usePlacesAutocomplete({
-		requestOptions: {
-			location: {lat: () => 43.6532, lng: () => -79.3832}, // 검색할때의 이 지점에서부터 찾는?
-			radius: 100 * 1000,
-		},
-	});
-	// https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
 
-	const handleInput = e => {
-		// Update the keyword of the input element
-		setValue(e.target.value);
-	};
-
-	const handleSelect = async address => {
-		// When user selects a place, we can replace the keyword without request data from API
-		// by setting the second parameter as "false"
-		setValue(address, false);
-		clearSuggestions();
-
-		try {
-			const results = await getGeocode({address});
-			// console.log(results[0]) formatted address, compo 전부 가져옴
-			const {lat, lng} = await getLatLng(results[0]);
-			console.log(address);
-			console.log(lat, lng);
-			panTo({lat, lng});
-			setPosition({lat, lng});
-			setMarkerShow(true);
-			setSearchedAddr(address);
-		} catch (error) {
-			console.log('😱 Error: ', error);
-		}
-	};
-	/*const downloadFile = ()=>{
-		axios.get(`http://localhost:8080/file/download/16`,{
-			responseType: 'arraybuffer',
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/pdf'
-			}
-		}).then(res =>{
-			const url = window.URL.createObjectURL(new Blob([res.data]));
-			const link = document.createElement('a');
-			link.href = url;
-			link.setAttribute('download', 'download.png');
-			document.body.appendChild(link);
-			link.click();
-		})
-	}*/
-
-
-	return (
-		<div className='search'>
-			<Combobox onSelect={handleSelect}>
-
-		{/*		<ComboboxInput value={value} onChange={handleInput} disabled={!ready} placeholder='위치 검색' />*/}
-				<ComboboxPopover>
-					<ComboboxList>{status === 'OK' && data.map(({id, description}) => <ComboboxOption key={id} value={description} />)}</ComboboxList>
-				</ComboboxPopover>
-			</Combobox>
-		</div>
-	);
-}
 export default UserInfo;

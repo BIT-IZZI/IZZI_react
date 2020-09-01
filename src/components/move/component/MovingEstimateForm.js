@@ -1,9 +1,8 @@
 import React, {useEffect, useState, useReducer} from 'react';
 import {Table, Form, Modal, Button, Col} from 'react-bootstrap';
-import {MDBBtn, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBContainer, MDBRow, MDBJumbotron, MDBCardTitle} from 'mdbreact';
+import {MDBBtn, MDBCol, MDBCardBody, MDBInput, MDBContainer, MDBRow, MDBJumbotron, MDBCardTitle} from 'mdbreact';
 import {Postcode} from '../../../pages/account';
 import axios from 'axios';
-import {useHistory} from 'react-router';
 import QRcode from '../../../assets/img/QRcode.png';
 import DatePicker, {Calendar, utils} from 'react-modern-calendar-datepicker';
 import '../../../assets/css/calendar.css';
@@ -46,7 +45,6 @@ function MovingEstimateForm() {
     const [pbRain, setPbRain] = useState([]);
     const [data, setData] = useState([]);
     const [check, setCheck] = useState(false);
-    //   const [selectedDay, setSelectedDay] = useState(null);
     const [strSelectedDay, setStrSelectedDay] = useState('');
     const [selectedDay, setSelectedDay] = useState(utils().getToday());
     const [searchMarker, setSearchMarker] = useState(false);
@@ -56,10 +54,6 @@ function MovingEstimateForm() {
     const [selected, setSelected] = useState({lat: '', lng: ''});
     const [centeredCoor, setCenteredCoor] = useState({lat: '', lng: ''});
     const [polyShow, setPolyShow] = useState(false);
-    const [mPrice,setMPrice]=useState('');
-    const [prices]=useState( '');
-    const [calDate, setCalDate] = useState(0);
-    console.log(JSON.parse(sessionStorage.getItem('userData')));
 
     useEffect(() => {
         if (!accountInfo) {
@@ -71,7 +65,6 @@ function MovingEstimateForm() {
             Geocode.fromAddress(accountInfo.address).then(
                 response => {
                     const movingFrom = response.results[0].geometry.location;
-                    console.log(movingFrom); //
                     setCenteredCoor(movingFrom);
                 },
                 error => {
@@ -97,7 +90,6 @@ function MovingEstimateForm() {
     };
     const handleSubmit = () => {
 
-        console.log(strSelectedDay);
         const estiJsnon = {
             movingName: movingName,
             movingPhone: movingPhone,
@@ -468,8 +460,6 @@ function MovingEstimateForm() {
         response => {
             const address = response.results[0].formatted_address;
             setSelectedAddr(address);
-            console.log(response);
-            console.log(address);
         },
         error => {
             console.error(error);
@@ -1106,8 +1096,6 @@ function Search({panTo, setPosition, setMarkerShow, setMovingTo}) {
             const results = await getGeocode({address});
             console.log(results[0]); // formatted address, compo 전부 가져옴
             const {lat, lng} = await getLatLng(results[0]);
-            console.log(address);
-            console.log(lat, lng);
             panTo({lat, lng});
 
             setPosition({lat, lng});

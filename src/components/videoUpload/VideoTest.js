@@ -66,11 +66,6 @@ const VideoTest = () => {
         }
     }, [accountInfo])
 
-     // useEffect(({movingDate, movingPrice})=>{
-     //     if(movingDate && movingPrice){calTotalPrice({movingDate, movingPrice})}
-     //
-     // }, [movingDate], [movingPrice])
-
     const ref = player => {
         setPlayer(player)
     }
@@ -88,7 +83,6 @@ const VideoTest = () => {
         handleSubmit();
     }
     const handleSubmit = () => {
-        console.log(strSelectedDay);
         const estiJsnon = {
             movingName: movingName,
             movingPhone: movingPhone,
@@ -114,7 +108,6 @@ const VideoTest = () => {
                     alert('성공');
                     localStorage.setItem('estiDate', JSON.stringify(response.data));
                     setAccountInfo(JSON.parse(localStorage.getItem('estiDate') || '{}'));
-                    console.log(response.data);
                     alert('견적서가 변경되었습니다.');
                     window.location.href = '/videotest';
                     /*      history.push('/videotest');*/
@@ -439,8 +432,6 @@ const VideoTest = () => {
             .get(`http://localhost:8080/file/getfilename/${JSON.parse(localStorage.getItem("estiDate")).orderId}`)
             .then(({data}) => {
                 setImageList(data);
-                console.log("data :" + data);
-                console.log("setImageList :" + imageList);
                 setImageUrl(JSON.parse(sessionStorage.getItem("url")))
                 calTotalPrice(movingDate)
             })
@@ -495,18 +486,13 @@ const VideoTest = () => {
                                                      playbackRate={playbackRate}
                                                      volume={volume}
                                                      muted={muted}
-                                                     onReady={() => console.log('onReady')}
-                                                     onStart={() => console.log('onStart')}
                                                      onPlay={() => {
                                                          setPlaying(playing)
                                                      }}
                                                      onEnablePIP={() => setPip(true)}
                                                      onDisablePIP={() => setPip(!pip)}
                                                      onPause={() => setPlaying(false)}
-                                                     onBuffer={() => console.log('onBuffer')}
-                                                     onSeek={e => console.log('onSeek', e)}
                                                      onEnded={() => setPlaying(loop)}
-                                                     onError={e => console.log('onError', e)}
                                                      onProgress={handleProgress}
                                                      onDuration={(duration) => setDuration(duration)}/>
                                         <MDBCardBody>

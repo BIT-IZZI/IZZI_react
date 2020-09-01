@@ -11,13 +11,11 @@ const AdminMypage = () => {
 			.get(`http://localhost:8080/statistics/list`)
 			.then(({data}) => {
 				setProfitList(data.list.slice(0,1));
-				console.log(data.list);
 			})
 			.catch(error => {
 				throw error;
 			});
 	}, []);
-	console.log(profitList)
 	return (
 		<>
 			<nav className="sidebar sidebar-offcanvas">
@@ -44,11 +42,6 @@ const AdminMypage = () => {
 						</a>
 					</li>
 
-					<li className="nav-item">
-						<a className="nav-link" href="/">
-							<span className="menu-title">프로모션</span>
-						</a>
-					</li>
 
 
 				</ul>
@@ -62,13 +55,11 @@ const AdminMypage = () => {
 									<h2 className="page-header">주문 관리</h2>
 								</div>
 							</div>
-							{/*{profitList.map((item,i) => (*/}
 							<div className='col-lg-12 text-center'>
 								<h3 className='section-heading'>
 									최근 주문 입금 건은</h3>   <h3>원입니다.
 							</h3>
 							</div>
-							{/*))}*/}
 						</div>
 						<div className='row text-center'>
 							<div className='col-md-7'>
@@ -106,9 +97,7 @@ const AdminMypage = () => {
 										<i className='fa fa-circle fa-stack-2x text-primary'></i>
 										<i className='fa fa-envelope-open fa-stack-1x fa-inverse'></i>
 									</span>
-								<Link to='/order'>
-									<h2 className='service-heading'>프로모션</h2>
-								</Link>
+
 							</div>
 						</div>
 					</section>

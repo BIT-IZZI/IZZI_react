@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBInput} from 'mdbreact';
 import axios from 'axios';
-import {Link, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 const UserMypage = () => {
 	const [accountInfo] = useState(JSON.parse(sessionStorage.userData));
@@ -44,7 +44,6 @@ const UserMypage = () => {
 			.then(response => {
 				sessionStorage.setItem('userData', JSON.stringify(response.data));
 				setUserData(JSON.parse(sessionStorage.getItem('userData') || '{}'));
-				console.log(response.data);
 				alert('회원 정보가 변경되었습니다.');
 				history.push('/');
 			})

@@ -8,7 +8,6 @@ import calendar from '../../assets/img/calendar.png'
 import phone from '../../assets/img/phone.png'
 import contactUs from '../../assets/img/contact-us.png'
 import visit from '../../assets/img/visit.png'
-
 import '../../assets/css/main.css'
 import '../../assets/css/sb-admin-2.css'
 import {Navbar} from "react-bootstrap";

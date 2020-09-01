@@ -14,7 +14,6 @@ const VideoCommunity = () => {
                 .get('http://localhost:8080/orders/list')
                 .then(({data}) => {
                     setMyData(data.list);
-                    console.log(data.list);
                 })
                 .catch(error => {
                     throw error;

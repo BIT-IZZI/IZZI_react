@@ -7,7 +7,7 @@ import {useHistory} from 'react-router-dom';
 import {MDBCard, MDBCardBody, MDBCol} from "mdbreact";
 import {Image} from "../../components/videoUpload";
 
-const Write = () => {
+const MarketWrite = () => {
 	const [title, setTitle] = useState('');
 	const [writer, setWriter] = useState(
 		JSON.parse(sessionStorage.userData).userId,
@@ -31,34 +31,14 @@ const Write = () => {
 				.post(`http://localhost:8080/articles/createUsed`, used)
 				.then(response => {
 					alert('성공');
-					console.log(response);
 					history.push('/market');
-					// window.location.href = "/market";
 				})
 				.catch(error => {
 					throw error;
 				});
 		}
 	};
-/*	const [upload, setUpload] = useState(null);
-	const postApis = (payload) => {
 
-		const orderId = JSON.parse(localStorage.estiDate).orderId
-		axios.post(`http://localhost:8080/file/upload/${orderId}/null`, payload, {
-			authorization: 'JWT fefege..',
-			Accept: 'application/json',
-			'Content-Type': 'multipart/form-data'
-		})
-			.then(res => {
-				alert("이미지 업로드 완료")
-
-			})
-	}
-	const handlePost = () => {
-		const formData = new FormData()
-		formData.append('file', upload)
-		postApis(formData)
-	}*/
 	const [img, setImg] =useState('')
 	return (
 		<>
@@ -75,10 +55,6 @@ const Write = () => {
 					<div className='row'>
 						<div className='col-lg-12'>
 							<div className='panel panel-default'>
-								{/*<div className="panel-heading">
-                                        <h3>후기</h3>
-                                    </div>*/}
-								{/* /.panel-heading */}
 								<form method='post'>
 									<div className='form-group'>
 										<label>제목</label>
@@ -154,4 +130,4 @@ const Write = () => {
 		</>
 	);
 };
-export default Write;
+export default MarketWrite;

@@ -1,6 +1,5 @@
 import React from 'react';
 import '../assets/css/main.css'
-import {MDBInput} from 'mdbreact'
 
 const SideBar = () => {
     return (
@@ -19,11 +18,6 @@ const SideBar = () => {
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="#">
-                        <span className="menu-title">이사 정보</span>
-                    </a>
-                </li>
-                <li className="nav-item">
                     <a className="nav-link" href="/videocommunity">
                         <span className="menu-title">내방 견적 의뢰</span>
                     </a>
@@ -32,9 +26,6 @@ const SideBar = () => {
                     <a className="nav-link" href="/application">
                         <span className="menu-title">App</span>
                     </a>
-                </li>
-                <li>
-                    <MDBInput label="Search" size="sm" />
                 </li>
             </ul>
         </nav>

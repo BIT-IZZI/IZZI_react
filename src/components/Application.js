@@ -1,10 +1,8 @@
 import React,{useState,useRef}from 'react';
-import {Link} from 'react-router-dom'
 import {SideBar} from "../commons";
 import app from '../assets/img/app.png'
 import {OverlayTrigger, Tooltip, Button, Modal} from 'react-bootstrap'
 import '../assets/css/sb-admin-2.css'
-import {MDBCol, MDBMask, MDBView} from "mdbreact";
 import QRcode from "../assets/img/QRcode.png";
 
 const Application = () => {
@@ -44,7 +42,6 @@ const Application = () => {
 
                 </div>
                 </div>
-                {/* /#page-wrapper */}
             </div>
         </>
     );

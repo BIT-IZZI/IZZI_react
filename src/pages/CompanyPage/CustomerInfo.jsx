@@ -4,7 +4,7 @@ import Geocode from 'react-geocode';
 import {GoogleMap, useLoadScript, Marker, InfoWindow, Polyline} from '@react-google-maps/api';
 import usePlacesAutocomplete, {getGeocode, getLatLng} from 'use-places-autocomplete';
 import {Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption} from '@reach/combobox';
-
+import haversine from '../../assets/img/haversine.jpg'
 import './Map/Search.css';
 import '@reach/combobox/styles.css';
 import mapStyles from './Map/mapStyles';
@@ -33,17 +33,12 @@ const CustomerInfo = ({match}) => {
 	const [movingToCoor, setMovingToCoor] = useState({lat: '', lng: ''});
 	const [polyShow, setPolyShow] = useState(false);
 	useEffect(() => {
-		console.log(`${match.params.orderId}`);
 		axios
 			.get(`http://localhost:8080/orders/findUser/${match.params.orderId}`)
 			.then(res => {
-				console.log(`axios`);
-				console.log(res.data);
-				console.log(res.data.movingFrom);
 				Geocode.fromAddress(res.data.movingFrom).then(
 					response => {
 						const movingFrom = response.results[0].geometry.location;
-						console.log(movingFrom); // undefined뜸
 						setCenteredCoor(movingFrom);
 					},
 					error => {
@@ -53,7 +48,6 @@ const CustomerInfo = ({match}) => {
 				Geocode.fromAddress(res.data.movingTo).then(
 					response => {
 						const movingTo = response.results[0].geometry.location;
-						console.log(movingTo);
 						setMovingToCoor(movingTo);
 					},
 					error => {
@@ -88,8 +82,6 @@ const CustomerInfo = ({match}) => {
 		response => {
 			const address = response.results[0].formatted_address;
 			setSelectedAddr(address);
-			console.log(response);
-			console.log(address);
 		},
 		error => {
 			console.error(error);
@@ -150,7 +142,6 @@ const CustomerInfo = ({match}) => {
 	}
 	const distance = haversine_distance();
 	const midPoint = {lat: (centeredCoor.lat + movingToCoor.lat) / 2, lng: (centeredCoor.lng + movingToCoor.lng) / 2};
-	console.log(midPoint);
 	return (
 		<>
 			<div>
@@ -176,10 +167,10 @@ const CustomerInfo = ({match}) => {
 									두 지점 사이의 거리<p style={{color: 'red'}}> {distance.toFixed()} km</p>
 								</h3>
 								<p>(거리는 하버사인 공식을 이용하여 계산하였습니다.)</p>
-								<img src='/haversine.jpg' />
+								<img src={haversine} />
 							</div>
 							<h3>두 거리 간 예상 이사 배달 비용 </h3>
-							<h3>{distance.toFixed() * 0.2} 만원(km당 2천원)</h3>
+							<h3 style={{color: 'red'}}>{distance.toFixed() * 0.2} 만원(km당 2천원)</h3>
 
 							<Locate panTo={panTo} />
 							<Search panTo={panTo} setPosition={setSearchSelected} setMarkerShow={setSearchMarker} setSearchedAddr={setSearchedAddr} />
@@ -311,7 +302,7 @@ const CustomerInfo = ({match}) => {
 											setPolyShow(false);
 										}}
 									>
-										<h2>두 지점 사이의 거리: {distance.toFixed()} km</h2>
+										<h2>두 지점 사이의 거리<p style={{color: 'red'}}> {distance.toFixed()} km</p></h2>
 									</InfoWindow>
 								) : null}
 							</GoogleMap>
@@ -371,10 +362,7 @@ function Search({panTo, setPosition, setMarkerShow, setSearchedAddr}) {
 
 		try {
 			const results = await getGeocode({address});
-			console.log(results[0]); // formatted address, compo 전부 가져옴
 			const {lat, lng} = await getLatLng(results[0]);
-			console.log(address);
-			console.log(lat, lng);
 			panTo({lat, lng});
 
 			setPosition({lat, lng});

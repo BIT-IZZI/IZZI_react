@@ -4,25 +4,21 @@ import ReactPlayer from "react-player";
 
 import {CardDeck,Card} from 'react-bootstrap'
 import {Weather} from './index'
-import {MDBBtn, MDBCardBody} from 'mdbreact'
-import {Link, useHistory} from 'react-router-dom'
+import {MDBBtn} from 'mdbreact'
+import {Link} from 'react-router-dom'
 import axios from "axios";
-import {Image} from '../components/videoUpload/index'
 const Main = () => {
     const [articlesList, setArticlesList] = useState([]);
-    const history =useHistory()
     useEffect(() => {
         axios
             .get(`http://localhost:8080/articles/list`)
             .then(({data}) => {
                 setArticlesList(data.list.slice(0,3));
-                console.log(data.list);
             })
             .catch(error => {
                 throw error;
             });
     }, []);
-    console.log(articlesList)
     const [img, setImg] =useState('')
     return (
         <>
@@ -44,8 +40,8 @@ const Main = () => {
             <main className="masthead">
                 <div className="intro-text">
                     <div className="intro-heading text-uppercase">방문 없이 견적짜는</div><br/>
-                    <MDBBtn color="amber" className="btn btn-primary btn-xl text-uppercase js-scroll-trigger" ><Link to={"/type"}>이사하러 가기</Link>
-                    </MDBBtn>
+                    <Link to={"/type"}> <MDBBtn color="amber" className="btn btn-primary btn-xl text-uppercase js-scroll-trigger" >이사하러 가기
+                    </MDBBtn></Link>
                 </div>
             </main>
             <main className="masthead">

@@ -25,7 +25,6 @@ const FindPassword = () => {
 			)
 			.then(response => {
 				setId(response.data.id);
-				console.log(response.data.id);
 				setShow(true);
 			})
 			.catch(error => {

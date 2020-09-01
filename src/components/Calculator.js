@@ -5,10 +5,7 @@ import {
     MDBCol,
     MDBContainer,
     MDBJumbotron,
-    MDBModal,
-    MDBModalBody, MDBModalFooter,
-    MDBModalHeader, MDBPopover, MDBPopoverBody, MDBPopoverHeader,
-    MDBRow, MDBTooltip
+    MDBRow
 } from "mdbreact";
 import {Table} from "react-bootstrap";
 import axios from 'axios';

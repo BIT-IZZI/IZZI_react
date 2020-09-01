@@ -23,6 +23,10 @@ const MovingType = () => {
 	return (
 		<>
 			<MDBContainer className="modalImg">
+				<br/>
+				<br/>
+				<h1> &#128512; 비회원 무료 견적 보기 </h1>
+				<h4> (이사 예상 금액을 알아보세요!)</h4>
 				<ModalTest
 					modalPage={modalPage}
 					show={showw}
@@ -87,11 +91,7 @@ const MovingType = () => {
 				</MDBRow>
 			</MDBContainer>
 			<br/><br/>
-			<MDBBtn className="submitBtn"
-					color='amber'
-					onClick={handlePage}>
-				무료 견적 신청하기
-			</MDBBtn>
+
 			{/*이사종류를 눌렀을때*/}
 			<br/><br/><br/>
 		</>

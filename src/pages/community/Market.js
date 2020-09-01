@@ -14,7 +14,6 @@ const Market = () => {
 			.get(`http://localhost:8080/articles/list`)
 			.then(({data}) => {
 				setArticlesList(data.list);
-				console.log(data.list);
 			})
 			.catch(error => {
 				throw error;

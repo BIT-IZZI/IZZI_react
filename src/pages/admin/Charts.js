@@ -1,169 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Bar, Line} from 'react-chartjs-2';
-import {UserSideBar} from '../../commons/index'
+import { Line} from 'react-chartjs-2';
 import axios from 'axios';
 import '../../assets/css/sb-admin-2.css'
 const Charts = () => {
     const [dataList, setDataList] = useState('')
-    const barData = {
-        labels: ['January', 'February', 'March',
-            'April', 'May', 'June','July','August',
-            'September', 'October','November','December'],
-        datasets: [
-            {
-                label: '서울',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [129031,143367,137242,122867,    117209,    97933, 118365,    110592,    345802,    128067,    113012,    382630
-                ]
-            },
-            {
-                label: '부산',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '대구',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '인천',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '광주',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '대전',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '울산',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '세종',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '경기',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '강원',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '충북',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '충남',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '전북',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '전남',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '경북',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '경남',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            },
-            {
-                label: '제주',
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [667227, 702329, 641449, 587293,
-                    569020, 484468, 563622, 565607,
-                    1647014, 594081, 565735, 1805598]
-            }
-        ]
-    }
     const lineData = {
         labels: ['1월', '2월', '3월', '4월',
             '5월', '6월','7월','8월',
@@ -199,7 +39,6 @@ const Charts = () => {
             .get(`http://localhost:8080/statistics/list`)
             .then(({data}) => {
                 setDataList(data.list);
-                console.log(data.list);
             })
             .catch(err => {
                 throw err;
@@ -230,11 +69,7 @@ const Charts = () => {
                             <span className="menu-title">인구통계</span>
                         </a>
                     </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/">
-                            <span className="menu-title">프로모션</span>
-                        </a>
-                    </li>
+
                 </ul>
             </nav>
             <div id="wrapper">
@@ -249,7 +84,6 @@ const Charts = () => {
                         <Line data={lineData} />
                     </div>
                 </div>
-                {/* /#page-wrapper */}
             </div>
         </>
     );

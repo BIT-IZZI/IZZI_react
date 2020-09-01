@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import http from "./http";
+import {http} from './index'
 import FittedImage from "react-fitted-image";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";

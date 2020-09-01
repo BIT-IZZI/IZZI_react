@@ -11,10 +11,6 @@ const Headline = styled.h1`
   font-weight: 700;
 `
 
-const Subline = styled.p`
-  font-family: 'Rubik', sans-serif;
-  font-weight: 300;
-`
 
 const ComponentWrapper = styled.div`
   width: 100%;
